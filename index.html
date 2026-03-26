@@ -574,7 +574,6 @@ render();
 
 <script>
 // ── Refresh System ──────────────────────────────────────────────────────────
-const GITHUB_TOKEN = ['ghp_ZpYUghcI7','1uEPrhKld2Yhj','0BseSSnh3zcY4V'].join('');
 const GITHUB_REPO  = 'BHB-David/boathouse-blooms';
 const GITHUB_FILE  = 'index.html';
 let refreshCancelled = false;
@@ -700,32 +699,34 @@ function patchHtml(html, freshData){
 }
 
 async function commitToGithub(htmlContent){
-  // Get current file SHA (required for updates)
-  const shaResp = await fetch(
-    'https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE,
-    { headers: { 'Authorization': 'token ' + GITHUB_TOKEN, 'Accept': 'application/vnd.github.v3+json' } }
-  );
+  const WORKER = 'https://boathouse-proxy.david-9bd.workers.dev';
+
+  // Step 1: Get current file SHA via Worker
+  const shaResp = await fetch(WORKER, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Action': 'github-sha' },
+    body: JSON.stringify({ repo: GITHUB_REPO, file: GITHUB_FILE })
+  });
   if(!shaResp.ok) throw new Error('GitHub: could not get file SHA (' + shaResp.status + ')');
   const shaData = await shaResp.json();
   const sha = shaData.sha;
 
-  // Encode content as base64
+  // Step 2: Encode content as base64
   const encoded = btoa(unescape(encodeURIComponent(htmlContent)));
 
-  // Commit
+  // Step 3: Commit via Worker
   const now = new Date().toLocaleString('en-US',{timeZone:'America/New_York',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
-  const commitResp = await fetch(
-    'https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE,
-    {
-      method: 'PUT',
-      headers: { 'Authorization': 'token ' + GITHUB_TOKEN, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: 'Auto-refresh ' + now,
-        content: encoded,
-        sha: sha
-      })
-    }
-  );
+  const commitResp = await fetch(WORKER, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Action': 'github-commit' },
+    body: JSON.stringify({
+      repo: GITHUB_REPO,
+      file: GITHUB_FILE,
+      message: 'Auto-refresh ' + now,
+      content: encoded,
+      sha: sha
+    })
+  });
   if(!commitResp.ok){
     const err = await commitResp.json();
     throw new Error('GitHub commit failed: ' + (err.message || commitResp.status));
