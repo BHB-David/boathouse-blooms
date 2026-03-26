@@ -152,7 +152,7 @@ function checkPw(){
   <div class="refresh-inner">
     <div class="refresh-icon">🌸</div>
     <div class="refresh-text" style="flex:1">
-      <p>Pipeline: <span style="color:var(--text)">42 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">19 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
+      <p>Pipeline: <span style="color:var(--text)">42 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">20 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
     </div>
   </div>
 </div>
@@ -167,8 +167,8 @@ function checkPw(){
   <button class="filter-btn" id="f-gmail" onclick="setFilter('gmail',this)">📧 Gmail Only</button>
   <button class="filter-btn" id="f-hb" onclick="setFilter('hb',this)">HoneyBook</button>
   <button class="filter-btn" id="f-all" onclick="setFilter('all',this)">All</button>
-  <button onclick="startRefresh()" style="margin-left:auto;background:transparent;border:1px solid var(--border-bright);border-radius:24px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer;flex-shrink:0;">🔄 Refresh</button>
-  <a href="https://claude.ai/chat/8ebf0c74-9554-48a5-8e0f-0951dc52ce10" target="_blank" style="background:transparent;border:1px solid var(--border-bright);border-radius:24px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer;flex-shrink:0;text-decoration:none;">💬 Claude</a>
+  <button onclick="startRefresh()" style="margin-left:auto;background:transparent;border:1px solid var(--border-bright);border-radius:24px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer;flex-shrink:0;">🔄 Redeploy</button>
+  <button onclick="copyAndOpenClaude()" style="background:transparent;border:1px solid var(--border-bright);border-radius:24px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer;flex-shrink:0;">💬 Refresh Data</button>
 </div>
 
 <div id="refresh-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9998;align-items:center;justify-content:center;">
@@ -562,7 +562,7 @@ render();
 <script>
 (function(){
   // Set the data timestamp in Boston (Eastern) time
-  const built = new Date('2026-03-26T19:53:16.197Z');
+  const built = new Date('2026-03-26T06:04:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   const formatted = built.toLocaleString('en-US', opts).replace(',','').replace(' at ','');
   // Format: "Mar 25, 2026 · 8:03 PM"
@@ -583,6 +583,12 @@ function setRefreshUI(icon, title, msg, pct){
   document.getElementById('refresh-title').textContent = title;
   document.getElementById('refresh-msg').textContent = msg;
   document.getElementById('refresh-bar').style.width = pct + '%';
+}
+
+function copyAndOpenClaude(){
+  navigator.clipboard.writeText('refresh the reconciliation table')
+    .catch(()=>{});
+  window.open('https://claude.ai/chat/8ebf0c74-9554-48a5-8e0f-0951dc52ce10','_blank');
 }
 
 function cancelRefresh(){
