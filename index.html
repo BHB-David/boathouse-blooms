@@ -153,7 +153,7 @@ function checkPw(){
   <div class="refresh-inner">
     <div class="refresh-icon">🌸</div>
     <div class="refresh-text" style="flex:1">
-      <p>Pipeline: <span style="color:var(--text)">42 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">19 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)">Mar 25, 2026</span></p>
+      <p>Pipeline: <span style="color:var(--text)">42 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">18 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)">Mar 25, 2026</span></p>
     </div>
   </div>
 </div>
@@ -230,8 +230,6 @@ const ACCEPTED_NO_HB = [];
 // Gmail-only proposals — sent but no HB pipeline project
 const GMAIL_ONLY = [
   // Active / multiple proposals sent — likely serious
-  {client:"Emma Foster & Johnny",email:"efoster732@gmail.com",gmailDate:"2026-03-20",eventDate:null,
-   hbCal:false,notes:"Preliminary proposal sent Mar 20. Status unknown. Not in HB pipeline."},
   {client:"Allison Thomas",email:"allisonmariel13@gmail.com",gmailDate:"2026-03-11",eventDate:null,
    hbCal:false,notes:"Two proposals sent (Feb 16 + Mar 11). Active back-and-forth. Not in HB pipeline."},
   {client:"Jack & Paige Soucy",email:"jackpaigesoucy@gmail.com",gmailDate:"2026-03-08",eventDate:"2026-10-03",
@@ -332,7 +330,6 @@ const GMAIL_THREADS = {
   "Caroline & Dylan Chase": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c6d74c2768ad5c",
   "Christina Maheras": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d1d083393c234c",
   "Dan Varrichio": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19b8f62c78a4d6c9",
-  "Emma Foster & Johnny": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d0ccdac7b90f63",
   "Erin Daly": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c7cf17a95d97a8",
   "Gabby Majenski": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/67eb2bb8ba47330007d84727",
   "Grace and Michael": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19ce778ec9d39ad1",
@@ -482,24 +479,6 @@ function flag(r){
 }
 function stageTag(s){const st=STAGE_STYLE[s]||{color:'#8899aa',bg:'#1a2030'};return`<span class="tag tag-stage" style="color:${st.color};background:${st.bg};border-color:${st.color}44">${s}</span>`;}
 
-
-// Detect iOS and use Gmail app URL scheme
-function isIOS(){
-  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-}
-function gmailLink(webUrl){
-  if(!isIOS()) return webUrl;
-  // Gemini's solution: use Gmail search scheme with thread: operator
-  // This is the most reliable way to open a specific thread in the Gmail iOS app
-  const match = webUrl.match(/#all\/([a-f0-9]+)/);
-  if(match){
-    const threadId = match[1];
-    const searchQuery = encodeURIComponent('thread:' + threadId);
-    return 'googlegmail:///search?query=' + searchQuery;
-  }
-  return webUrl;
-}
-
 function render(){
   const yearRows=filterByYear(ALL_ROWS);
   const urgentCount=yearRows.filter(r=>r.type==='accepted'||r.type==='urgent'||r.type==='cal').length;
@@ -554,7 +533,7 @@ function render(){
         ${r.gmailEmail?`<div>Email: <span style="font-family:'DM Mono',monospace;font-size:11px">${r.gmailEmail}</span></div>`:''}
         ${r.date?`<div>Event date: <span>${fmtDate(r.date)}${p?' (past)':s?' (soon!)':''}</span></div>`:''}
         ${r.hbCal?`<div>HB calendar: <span>Inquiry on calendar — no pipeline project</span></div>`:''}
-        ${(HB_LINKS[r.client]||GMAIL_THREADS[r.client]||CAL_LINKS[r.client])?`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px">${HB_LINKS[r.client]?'<a href="'+HB_LINKS[r.client]+'" target="_blank" style="color:var(--blue);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ HoneyBook</a>':''}${GMAIL_THREADS[r.client]?' <a href="'+gmailLink(GMAIL_THREADS[r.client])+'" target="_blank" style="color:var(--gold);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Gmail</a>':''}${CAL_LINKS[r.client]?' <a href="'+CAL_LINKS[r.client]+'" target="_blank" style="color:var(--green);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Calendar</a>':''}</div>`:''}
+        ${(HB_LINKS[r.client]||GMAIL_THREADS[r.client]||CAL_LINKS[r.client])?`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px">${HB_LINKS[r.client]?'<a href="'+HB_LINKS[r.client]+'" target="_blank" style="color:var(--blue);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ HoneyBook</a>':''}${GMAIL_THREADS[r.client]?' <a href="'+GMAIL_THREADS[r.client]+'" target="_blank" style="color:var(--gold);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Gmail</a>':''}${CAL_LINKS[r.client]?' <a href="'+CAL_LINKS[r.client]+'" target="_blank" style="color:var(--green);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Calendar</a>':''}</div>`:''}
         <div>Source: <span>${r.type==='accepted'?'Gmail — accepted, not in HB':r.type==='gmail-only'?'Gmail only — not in HB pipeline':r.type==='cal'?'Calendar only':'HoneyBook pipeline'}</span></div>
       </div>
     </div>`;
