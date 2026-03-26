@@ -606,9 +606,10 @@ async function startRefresh(){
     await new Promise(r => setTimeout(r, 500));
     if(refreshCancelled) return;
 
-    // Step 2: Patch the current page HTML with fresh data
+    // Step 2: Fetch clean HTML from GitHub, then patch it
     setRefreshUI('✏️','Updating Page','Writing fresh data to page...',65);
-    const updatedHtml = patchHtml(document.documentElement.outerHTML, freshData);
+    const cleanHtml = await fetchCleanHtml();
+    const updatedHtml = patchHtml(cleanHtml, freshData);
     if(refreshCancelled) return;
 
     // Step 3: Commit to GitHub
@@ -696,6 +697,20 @@ function patchHtml(html, freshData){
     'Gmail proposals: <span style="color:var(--text)">' + freshData.gmailCount + ' flagged</span>'
   );
   return patched;
+}
+
+async function fetchCleanHtml(){
+  const WORKER = 'https://boathouse-proxy.david-9bd.workers.dev';
+  const shaResp = await fetch(WORKER, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Action': 'github-sha' },
+    body: JSON.stringify({ repo: GITHUB_REPO, file: GITHUB_FILE })
+  });
+  if(!shaResp.ok) throw new Error('Could not fetch clean HTML from GitHub');
+  const shaData = await shaResp.json();
+  // Decode base64 content from GitHub
+  const decoded = decodeURIComponent(escape(atob(shaData.content.replace(/\n/g,''))));
+  return decoded;
 }
 
 async function commitToGithub(htmlContent){
