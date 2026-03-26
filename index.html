@@ -665,7 +665,7 @@ Based on the current data, return ONLY a JSON object with this exact structure (
 
 The timestamp should be the current date/time in Boston time. Keep gmailCount the same as current (${GMAIL_ONLY.length}) unless you have new information. Return ONLY valid JSON.`;
 
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+  const resp = await fetch('https://boathouse-proxy.david-9bd.workers.dev', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
