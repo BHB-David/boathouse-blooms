@@ -530,7 +530,7 @@ function render(){
       <div class="card-detail" id="d${i}">
         ${r.notes?`<span class="note ${noteClass}">${r.notes}</span>`:''}
         ${r.gmailDate?`<div>Last Gmail: <span>${fmtDate(r.gmailDate)}</span></div>`:''}
-        ${r.gmailEmail?`<div>Email: <span style="font-family:'DM Mono',monospace;font-size:11px">${r.gmailEmail}</span></div>`:''}
+        ${r.gmailEmail?`<div>Email: <a href="https://mail.google.com/mail/u/0/?authuser=boathouseblooms%40gmail.com#search/from%3A${encodeURIComponent(r.gmailEmail)}+OR+to%3A${encodeURIComponent(r.gmailEmail)}" target="_blank" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);text-decoration:none;">${r.gmailEmail} ↗</a></div>`:''}
         ${r.date?`<div>Event date: <span>${fmtDate(r.date)}${p?' (past)':s?' (soon!)':''}</span></div>`:''}
         ${r.hbCal?`<div>HB calendar: <span>Inquiry on calendar — no pipeline project</span></div>`:''}
         ${(HB_LINKS[r.client]||GMAIL_THREADS[r.client]||CAL_LINKS[r.client])?`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px">${HB_LINKS[r.client]?'<a href="'+HB_LINKS[r.client]+'" target="_blank" style="color:var(--blue);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ HoneyBook</a>':''}${GMAIL_THREADS[r.client]?' <a href="'+GMAIL_THREADS[r.client]+'" target="_blank" style="color:var(--gold);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Gmail</a>':''}${CAL_LINKS[r.client]?' <a href="'+CAL_LINKS[r.client]+'" target="_blank" style="color:var(--green);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Calendar</a>':''}</div>`:''}
