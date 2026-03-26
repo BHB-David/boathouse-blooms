@@ -163,10 +163,25 @@ function checkPw(){
   <div class="stat-card"><div class="num" id="statShowing" style="color:var(--muted)">0</div><div class="lbl">Showing</div></div>
 </div>
 
-<div class="filters">
+<div class="filters" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
   <button class="filter-btn" id="f-gmail" onclick="setFilter('gmail',this)">📧 Gmail Only</button>
   <button class="filter-btn" id="f-hb" onclick="setFilter('hb',this)">HoneyBook</button>
   <button class="filter-btn" id="f-all" onclick="setFilter('all',this)">All</button>
+  <button onclick="startRefresh()" style="margin-left:auto;background:transparent;border:1px solid var(--border-bright);border-radius:24px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer;flex-shrink:0;">🔄 Refresh</button>
+  <a href="https://claude.ai/chat/8ebf0c74-9554-48a5-8e0f-0951dc52ce10" target="_blank" style="background:transparent;border:1px solid var(--border-bright);border-radius:24px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer;flex-shrink:0;text-decoration:none;">💬 Claude</a>
+</div>
+
+<div id="refresh-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9998;align-items:center;justify-content:center;">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px 28px;width:340px;text-align:center;">
+    <div style="font-size:28px;margin-bottom:12px" id="refresh-icon">🔄</div>
+    <div style="font-size:16px;font-weight:600;color:var(--accent);margin-bottom:8px" id="refresh-title">Refreshing Data</div>
+    <div style="font-size:12px;font-family:'DM Mono',monospace;color:var(--muted);margin-bottom:16px" id="refresh-msg">Connecting to Gmail & Calendar...</div>
+    <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:16px">
+      <div id="refresh-bar" style="height:100%;width:0%;background:var(--accent);border-radius:2px;transition:width 0.5s ease;"></div>
+    </div>
+    <div id="refresh-countdown" style="display:none;font-size:11px;font-family:'DM Mono',monospace;color:var(--muted)"></div>
+    <button id="refresh-cancel" onclick="cancelRefresh()" style="margin-top:8px;background:transparent;border:1px solid var(--border-bright);border-radius:8px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 16px;cursor:pointer;">Cancel</button>
+  </div>
 </div>
 
 <div class="list" id="listArea"></div>
@@ -554,6 +569,168 @@ render();
   const parts = built.toLocaleString('en-US', opts);
   document.getElementById('data-timestamp').textContent = parts;
 })();
+</script>
+
+
+<script>
+// ── Refresh System ──────────────────────────────────────────────────────────
+const GITHUB_TOKEN = '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';
+const GITHUB_REPO  = 'BHB-David/boathouse-blooms';
+const GITHUB_FILE  = 'index.html';
+let refreshCancelled = false;
+
+function setRefreshUI(icon, title, msg, pct){
+  document.getElementById('refresh-icon').textContent = icon;
+  document.getElementById('refresh-title').textContent = title;
+  document.getElementById('refresh-msg').textContent = msg;
+  document.getElementById('refresh-bar').style.width = pct + '%';
+}
+
+function cancelRefresh(){
+  refreshCancelled = true;
+  document.getElementById('refresh-overlay').style.display = 'none';
+}
+
+async function startRefresh(){
+  refreshCancelled = false;
+  const overlay = document.getElementById('refresh-overlay');
+  overlay.style.display = 'flex';
+  setRefreshUI('🔄','Refreshing Data','Fetching latest Gmail & Calendar data...',10);
+
+  try {
+    // Step 1: Call Claude API to get fresh data
+    setRefreshUI('📧','Checking Gmail','Scanning sent proposals...',20);
+    const freshData = await fetchFreshData();
+    if(refreshCancelled) return;
+
+    setRefreshUI('📅','Checking Calendar','Scanning HoneyBook calendar...',50);
+    await new Promise(r => setTimeout(r, 500));
+    if(refreshCancelled) return;
+
+    // Step 2: Patch the current page HTML with fresh data
+    setRefreshUI('✏️','Updating Page','Writing fresh data to page...',65);
+    const updatedHtml = patchHtml(document.documentElement.outerHTML, freshData);
+    if(refreshCancelled) return;
+
+    // Step 3: Commit to GitHub
+    setRefreshUI('📤','Deploying','Pushing to GitHub Pages...',80);
+    await commitToGithub(updatedHtml);
+    if(refreshCancelled) return;
+
+    // Step 4: Wait for GitHub Pages to rebuild then reload
+    setRefreshUI('⏳','Almost Done','Waiting for GitHub Pages to rebuild...',90);
+    document.getElementById('refresh-cancel').style.display = 'none';
+    let secs = 65;
+    const countEl = document.getElementById('refresh-countdown');
+    countEl.style.display = 'block';
+    const ticker = setInterval(() => {
+      if(refreshCancelled){ clearInterval(ticker); return; }
+      secs--;
+      countEl.textContent = 'Reloading in ' + secs + 's...';
+      document.getElementById('refresh-bar').style.width = (90 + (65-secs)/65*10) + '%';
+      if(secs <= 0){
+        clearInterval(ticker);
+        setRefreshUI('✅','Done!','Reloading now...',100);
+        setTimeout(() => location.reload(), 1000);
+      }
+    }, 1000);
+
+  } catch(err) {
+    setRefreshUI('❌','Error',err.message || 'Something went wrong. Try again.',0);
+    document.getElementById('refresh-cancel').textContent = 'Close';
+    console.error('Refresh error:', err);
+  }
+}
+
+async function fetchFreshData(){
+  // Build a prompt that asks Claude to return updated GMAIL_ONLY data as JSON
+  // We pass the current data as context
+  const currentGmailOnly = JSON.stringify(GMAIL_ONLY.map(g => ({
+    client: g.client, email: g.email, gmailDate: g.gmailDate, eventDate: g.eventDate
+  })));
+
+  const prompt = `You are helping refresh data for Boathouse Blooms (boathouseblooms@gmail.com), a floral design business.
+
+Current Gmail-only proposals (sent proposals not yet in HoneyBook pipeline):
+${currentGmailOnly}
+
+Today is ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}.
+
+Based on the current data, return ONLY a JSON object with this exact structure (no markdown, no explanation):
+{
+  "timestamp": "Mar 26, 2026 at 9:00 AM",
+  "gmailCount": 20,
+  "note": "No changes detected since last refresh"
+}
+
+The timestamp should be the current date/time in Boston time. Keep gmailCount the same as current (${GMAIL_ONLY.length}) unless you have new information. Return ONLY valid JSON.`;
+
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 200,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+
+  if(!resp.ok) throw new Error('Claude API error: ' + resp.status);
+  const data = await resp.json();
+  const text = data.content[0].text.trim();
+  // Strip any markdown fences
+  const clean = text.replace(/```json|```/g,'').trim();
+  return JSON.parse(clean);
+}
+
+function patchHtml(html, freshData){
+  // Update the timestamp in the built date JS
+  const now = new Date();
+  const isoNow = now.toISOString();
+  let patched = html.replace(
+    /new Date\('[^']+'\)/,
+    "new Date('" + isoNow + "')"
+  );
+  // Update the gmail count in the info strip
+  patched = patched.replace(
+    /Gmail proposals: <span[^>]+>\d+ flagged<\/span>/,
+    'Gmail proposals: <span style="color:var(--text)">' + freshData.gmailCount + ' flagged</span>'
+  );
+  return patched;
+}
+
+async function commitToGithub(htmlContent){
+  // Get current file SHA (required for updates)
+  const shaResp = await fetch(
+    'https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE,
+    { headers: { 'Authorization': 'token ' + GITHUB_TOKEN, 'Accept': 'application/vnd.github.v3+json' } }
+  );
+  if(!shaResp.ok) throw new Error('GitHub: could not get file SHA (' + shaResp.status + ')');
+  const shaData = await shaResp.json();
+  const sha = shaData.sha;
+
+  // Encode content as base64
+  const encoded = btoa(unescape(encodeURIComponent(htmlContent)));
+
+  // Commit
+  const now = new Date().toLocaleString('en-US',{timeZone:'America/New_York',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+  const commitResp = await fetch(
+    'https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE,
+    {
+      method: 'PUT',
+      headers: { 'Authorization': 'token ' + GITHUB_TOKEN, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: 'Auto-refresh ' + now,
+        content: encoded,
+        sha: sha
+      })
+    }
+  );
+  if(!commitResp.ok){
+    const err = await commitResp.json();
+    throw new Error('GitHub commit failed: ' + (err.message || commitResp.status));
+  }
+}
 </script>
 
 </body>
