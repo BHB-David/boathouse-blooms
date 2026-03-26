@@ -153,7 +153,7 @@ function checkPw(){
   <div class="refresh-inner">
     <div class="refresh-icon">🌸</div>
     <div class="refresh-text" style="flex:1">
-      <p>Pipeline: <span style="color:var(--text)">42 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">18 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)">Mar 25, 2026</span></p>
+      <p>Pipeline: <span style="color:var(--text)">42 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">18 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp">Mar 26, 2026 at 1:03 AM</span></p>
     </div>
   </div>
 </div>
@@ -541,7 +541,7 @@ function render(){
 }
 
 function toggleCard(i){
-  if(openCard!==null&&openCard!==i)document.getElementById(`d${openCard}`)?.classList.remove('open');
+  if(openCard!==null&&openCard!==i){const prev=document.getElementById('d'+openCard);if(prev)prev.classList.remove('open');}
   const d=document.getElementById(`d${i}`);
   if(d){d.classList.toggle('open');openCard=d.classList.contains('open')?i:null;}
 }
