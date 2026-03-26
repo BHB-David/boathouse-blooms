@@ -562,7 +562,7 @@ render();
 <script>
 (function(){
   // Set the data timestamp in Boston (Eastern) time
-  const built = new Date('2026-03-26T01:28:00Z');
+  const built = new Date('2026-03-26T06:04:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   const formatted = built.toLocaleString('en-US', opts).replace(',','').replace(' at ','');
   // Format: "Mar 25, 2026 · 8:03 PM"
@@ -658,7 +658,7 @@ Today is ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',ye
 
 Based on the current data, return ONLY a JSON object with this exact structure (no markdown, no explanation):
 {
-  "timestamp": "Mar 26, 2026 at 9:00 AM",
+  "timestamp": "Mar 26, 2026 at 2:04 AM",
   "gmailCount": 20,
   "note": "No changes detected since last refresh"
 }
@@ -684,7 +684,7 @@ The timestamp should be the current date/time in Boston time. Keep gmailCount th
 }
 
 function patchHtml(html, freshData){
-  // Update the timestamp in the built date JS
+  // Update the timestamp to current time
   const now = new Date();
   const isoNow = now.toISOString();
   let patched = html.replace(
