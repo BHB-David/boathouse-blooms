@@ -40,9 +40,16 @@
   .stat-card .num{font-size:20px;font-weight:600;}
   .stat-card .lbl{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
 
-  .filters{width:100%;max-width:700px;padding:0 20px 12px;display:flex;gap:7px;overflow-x:auto;}
+  .filters{width:100%;max-width:700px;padding:0 20px 6px;display:flex;gap:7px;overflow-x:auto;}
   .filter-btn{flex-shrink:0;padding:6px 14px;border-radius:24px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
   .filter-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent);}
+
+  /* Stage sub-filter row */
+  .stage-filters{width:100%;max-width:700px;padding:0 20px 10px;display:none;gap:6px;overflow-x:auto;align-items:center;}
+  .stage-filters.visible{display:flex;}
+  .stage-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;padding-right:2px;}
+  .stage-btn{flex-shrink:0;padding:4px 11px;border-radius:20px;border:1px solid;background:transparent;font-family:'DM Mono',monospace;font-size:9px;cursor:pointer;transition:all .15s;white-space:nowrap;}
+  .stage-btn:not(.active){color:var(--muted);border-color:var(--border);background:transparent;}
 
   .list{width:100%;max-width:700px;padding:0 12px 80px;flex:1;}
 
@@ -111,15 +118,12 @@
 
 <script>
 (function(){
-  // Check if already authenticated this session
   if(sessionStorage.getItem('bbauth')==='1'){
     document.getElementById('pw-gate').classList.add('hidden');
   }
 })();
 function checkPw(){
   const val = document.getElementById('pw-input').value;
-  // Simple hash check — password is stored as a hash, not plaintext
-  // Password: blooms2026
   const hash = val.split('').reduce((a,c)=>(Math.imul(31,a)+c.charCodeAt(0))|0,0);
   if(hash === -874608686){
     sessionStorage.setItem('bbauth','1');
@@ -172,6 +176,20 @@ function checkPw(){
   <button onclick="copyAndOpenClaude()" style="background:transparent;border:1px solid var(--border-bright);border-radius:24px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer;flex-shrink:0;">💬 Refresh Data</button>
 </div>
 
+<!-- Stage sub-filters (only visible when HoneyBook filter is active) -->
+<div class="stage-filters" id="stage-filter-row">
+  <span class="stage-lbl">Stage:</span>
+  <button class="stage-btn active" id="sf-all" onclick="setStage('all',this)">All</button>
+  <button class="stage-btn" id="sf-Inquiry" onclick="setStage('Inquiry',this)">Inquiry</button>
+  <button class="stage-btn" id="sf-Questionnaire" onclick="setStage('Questionnaire',this)">Questionnaire</button>
+  <button class="stage-btn" id="sf-Follow-up" onclick="setStage('Follow-up',this)">Follow-up</button>
+  <button class="stage-btn" id="sf-Proposal Sent" onclick="setStage('Proposal Sent',this)">Proposal Sent</button>
+  <button class="stage-btn" id="sf-Proposal Signed" onclick="setStage('Proposal Signed',this)">Proposal Signed</button>
+  <button class="stage-btn" id="sf-Retainer Paid" onclick="setStage('Retainer Paid',this)">Retainer Paid</button>
+  <button class="stage-btn" id="sf-Planning" onclick="setStage('Planning',this)">Planning</button>
+  <button class="stage-btn" id="sf-Completed" onclick="setStage('Completed',this)">Completed</button>
+</div>
+
 <div id="refresh-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9998;align-items:center;justify-content:center;">
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px 28px;width:340px;text-align:center;">
     <div style="font-size:28px;margin-bottom:12px" id="refresh-icon">🔄</div>
@@ -193,6 +211,14 @@ const STAGE_STYLE={
   "Follow-up":{color:"#b45309",bg:"#fef3c7"},"Proposal Sent":{color:"#7c3aed",bg:"#ede9fe"},
   "Proposal Signed":{color:"#059669",bg:"#d1fae5"},"Retainer Paid":{color:"#047857",bg:"#a7f3d0"},
   "Planning":{color:"#0284c7",bg:"#e0f2fe"},"Completed":{color:"#64748b",bg:"#f1f5f9"},
+};
+
+// Stage button styling — matches STAGE_STYLE colors
+const STAGE_BTN_STYLE={
+  "Inquiry":{color:"#5a7a9a",bg:"#eef4fa",border:"#b8cfe0"},"Questionnaire":{color:"#2563eb",bg:"#dbeafe",border:"#93c5fd"},
+  "Follow-up":{color:"#b45309",bg:"#fef3c7",border:"#fcd34d"},"Proposal Sent":{color:"#7c3aed",bg:"#ede9fe",border:"#c4b5fd"},
+  "Proposal Signed":{color:"#059669",bg:"#d1fae5",border:"#6ee7b7"},"Retainer Paid":{color:"#047857",bg:"#a7f3d0",border:"#34d399"},
+  "Planning":{color:"#0284c7",bg:"#e0f2fe",border:"#7dd3fc"},"Completed":{color:"#64748b",bg:"#f1f5f9",border:"#cbd5e1"},
 };
 
 const HB_PIPELINE=[
@@ -238,12 +264,9 @@ const HB_PIPELINE=[
   {name:"Union Club Valentines Day Floral",stage:"Completed",date:null},
 ];
 
-// Confirmed accepted / needs HB project
 const ACCEPTED_NO_HB = [];
 
-// Gmail-only proposals — sent but no HB pipeline project
 const GMAIL_ONLY = [
-  // Active / multiple proposals sent — likely serious
   {client:"Arianna",email:"jacob.arianna2027@gmail.com",gmailDate:"2026-03-25",eventDate:null,
    hbCal:false,notes:"Preliminary proposal sent Mar 25. Not yet in HB pipeline."},
   {client:"Allison Thomas",email:"allisonmariel13@gmail.com",gmailDate:"2026-03-11",eventDate:null,
@@ -260,7 +283,6 @@ const GMAIL_ONLY = [
    hbCal:false,notes:"Preliminary outline Feb 15. Not in HB pipeline."},
   {client:"CJ McCartin",email:"mccartinjuroswedding@gmail.com",gmailDate:"2026-02-09",eventDate:"2026-10-24",
    hbCal:true,notes:"Preliminary Feb 9. Oct 24, 2026 (Pelham House). In HB calendar as Inquiry."},
-  // In HB calendar as Inquiry, proposal sent outside HB
   {client:"Isabella Sinibaldi",email:"izzysinibaldi10@gmail.com",gmailDate:"2026-03-12",eventDate:"2027-06-18",
    hbCal:true,notes:"Preliminary Mar 12. Jun 18, 2027 Wychmere. In HB calendar as Inquiry."},
   {client:"Amanda Papavasiliou",email:"amandapappas14@gmail.com",gmailDate:"2026-03-11",eventDate:"2027-02-06",
@@ -285,9 +307,7 @@ const GMAIL_ONLY = [
    hbCal:true,notes:"Preliminary Jan 5. Apr 17, 2027 Chatham Bars Inn. In HB calendar as Inquiry."},
 ];
 
-// Cal-only (booked, no HB pipeline)
-const CAL_ONLY=[
-];
+const CAL_ONLY=[];
 
 const HB_BY_NAME=Object.fromEntries(HB_PIPELINE.map(h=>[h.name,h]));
 const STAGE_ORDER=["Completed","Planning","Retainer Paid","Proposal Signed","Proposal Sent","Follow-up","Questionnaire","Inquiry"];
@@ -411,61 +431,36 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Mar 27, 2026",label:"Refresh #6",changes:["HoneyBook filter expanded with per-stage sub-filters (Inquiry, Questionnaire, Follow-up, Proposal Sent, Proposal Signed, Retainer Paid, Planning, Completed)"]},
   {date:"Mar 27, 2026",label:"Refresh #5",changes:["Added Kellie Cronin to pipeline at Retainer Paid — Oct 3, 2026, Boston Harbor Hotel Wharf Room, deposit paid Oct 2025, studio visit scheduled May 28 at 4:30 PM","Switched app to light theme"]},
   {date:"Mar 26, 2026 · 4:00 PM",label:"Refresh #4",changes:["Moved to HoneyBook pipeline (no longer Gmail-only): Melissa Gaffey, Amanda Papavasiliou, Molly Doherty, Dan Varrichio, CJ McCartin, Samantha Zaino, Julia Stell, Jack & Paige Soucy","Gmail-only flagged count: 20 → 12","HoneyBook calendar now shows 60+ projects with new 2026–2027 inquiries","Cara Goudy (Langham) — wedding Saturday March 28","Erin Goldberg (Union Club) — invoice sent Mar 26, delivery March 28"]},
   {date:"Mar 26, 2026 · 2:04 AM",label:"Refresh #3",changes:["No changes to pipeline or Gmail-only list","Timestamp updated only"]},
   {date:"Mar 25, 2026 · 9:28 PM",label:"Refresh #2",changes:["Added: Arianna (jacob.arianna2027@gmail.com) — preliminary proposal sent Mar 25","Gmail-only flagged count: 19 → 20"]},
   {date:"Mar 25, 2026 · 7:41 PM",label:"Refresh #1 (initial build)",changes:["Initial pipeline built: 36 active HoneyBook projects, 19 Gmail-only flagged","Removed from pipeline (completed/stale): Deirdre and John, Jessica DeRosa, Erica Iacozzi, Taylor Johnson, Victoria Clancy, Madison Gabel","Joe & James Carrara — replied Mar 24 requesting studio visit","Tessa Bednarz — call scheduled April 1st at 12:30","Christina Maheras — sent final table count (18 round + 2 rectangle), April 26 wedding","Bryant University Healthcare Summit (May 1) and Heavy Hitters Evening — new proposals sent Mar 24"]}
 ];
+
 function openCL(){var el=document.getElementById('cl-entries');if(!el.children.length){el.innerHTML=CHANGELOG.map(function(e){return '<div class="cl-entry"><div class="cl-label">'+e.label+'</div><div class="cl-date">'+e.date+'</div><ul>'+e.changes.map(function(c){return '<li>'+c+'</li>';}).join('')+'</ul></div>';}).join('');}document.getElementById('cl-modal').classList.add('open');}
 function closeCL(){document.getElementById('cl-modal').classList.remove('open');}
 
 function buildAllRows(){
   const rows=[];
-
-  // 1. Accepted, no HB project — highest priority
   ACCEPTED_NO_HB.forEach(r=>{
-    rows.push({
-      priority:1,type:"accepted",client:r.client,
-      date:r.eventDate||null,hbStage:null,
-      gmailDate:r.gmailDate,gmailEmail:r.email,
-      notes:r.notes,hbCal:false,
-    });
+    rows.push({priority:1,type:"accepted",client:r.client,date:r.eventDate||null,hbStage:null,gmailDate:r.gmailDate,gmailEmail:r.email,notes:r.notes,hbCal:false});
   });
-
-  // 2. Gmail-only proposals
   GMAIL_ONLY.forEach((g,i)=>{
-    rows.push({
-      priority:2+i*0.01,type:"gmail-only",client:g.client,
-      date:g.eventDate||null,hbStage:null,
-      gmailDate:g.gmailDate,gmailEmail:g.email,
-      notes:g.notes,hbCal:g.hbCal,
-    });
+    rows.push({priority:2+i*0.01,type:"gmail-only",client:g.client,date:g.eventDate||null,hbStage:null,gmailDate:g.gmailDate,gmailEmail:g.email,notes:g.notes,hbCal:g.hbCal});
   });
-
-  // 3. Cal-only booked events
   CAL_ONLY.forEach(c=>{
-    rows.push({
-      priority:5,type:"cal",client:c.name,date:c.date,
-      hbStage:null,gmailDate:null,gmailEmail:c.email,
-      notes:`On HB calendar — ${c.location}. No pipeline project.`,hbCal:false,
-    });
+    rows.push({priority:5,type:"cal",client:c.name,date:c.date,hbStage:null,gmailDate:null,gmailEmail:c.email,notes:`On HB calendar — ${c.location}. No pipeline project.`,hbCal:false});
   });
-
-  // 4. HB pipeline
   HB_PIPELINE.forEach(h=>{
-    rows.push({
-      priority:10+STAGE_ORDER.indexOf(h.stage),type:"hb",
-      client:h.name,date:h.date,hbStage:h.stage,
-      gmailDate:null,gmailEmail:null,notes:null,hbCal:false,
-    });
+    rows.push({priority:10+STAGE_ORDER.indexOf(h.stage),type:"hb",client:h.name,date:h.date,hbStage:h.stage,gmailDate:null,gmailEmail:null,notes:h.notes||null,hbCal:false});
   });
-
   return rows.sort((a,b)=>a.priority-b.priority);
 }
 
 const ALL_ROWS=buildAllRows();
-let currentFilter='gmail-only',currentYear=2026,openCard=null;
+let currentFilter='gmail',currentYear=2026,currentStage='all',openCard=null;
 
 function filterByYear(rows){
   if(currentYear==='all') return rows.filter(r=>!r.date||isFuture(r.date));
@@ -474,10 +469,12 @@ function filterByYear(rows){
 
 function getDisplayRows(){
   let rows=filterByYear(ALL_ROWS);
-
-  if(currentFilter==='gmail-only') rows=rows.filter(r=>r.type==='accepted'||r.type==='gmail-only');
+  if(currentFilter==='gmail') rows=rows.filter(r=>r.type==='accepted'||r.type==='gmail-only');
   else if(currentFilter==='cal') rows=rows.filter(r=>r.type==='cal');
-  else if(currentFilter==='hb') rows=rows.filter(r=>r.hbStage);
+  else if(currentFilter==='hb'){
+    rows=rows.filter(r=>r.hbStage);
+    if(currentStage!=='all') rows=rows.filter(r=>r.hbStage===currentStage);
+  }
   return rows;
 }
 
@@ -491,10 +488,48 @@ function setYear(y,btn){
 
 function setFilter(f,btn){
   currentFilter=f;
+  currentStage='all';
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  // Show/hide stage sub-filters
+  const sfRow=document.getElementById('stage-filter-row');
+  if(f==='hb'){
+    sfRow.classList.add('visible');
+    // Reset stage buttons
+    document.querySelectorAll('.stage-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('sf-all').classList.add('active');
+    applyStageButtonStyles();
+  } else {
+    sfRow.classList.remove('visible');
+  }
   openCard=null;
   render();
+}
+
+function setStage(s,btn){
+  currentStage=s;
+  document.querySelectorAll('.stage-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  applyStageButtonStyles();
+  openCard=null;
+  render();
+}
+
+function applyStageButtonStyles(){
+  document.querySelectorAll('.stage-btn').forEach(btn=>{
+    const stage=btn.id.replace('sf-','');
+    const style=STAGE_BTN_STYLE[stage];
+    if(!style) return; // "All" button — leave as CSS default
+    if(btn.classList.contains('active')){
+      btn.style.background=style.bg;
+      btn.style.color=style.color;
+      btn.style.borderColor=style.border;
+    } else {
+      btn.style.background='';
+      btn.style.color='';
+      btn.style.borderColor='';
+    }
+  });
 }
 
 function flag(r){
@@ -504,7 +539,7 @@ function flag(r){
   if(r.priority<=4) return '🟡';
   return '✅';
 }
-function stageTag(s){const st=STAGE_STYLE[s]||{color:'#8899aa',bg:'#1a2030'};return`<span class="tag tag-stage" style="color:${st.color};background:${st.bg};border-color:${st.color}44">${s}</span>`;}
+function stageTag(s){const st=STAGE_STYLE[s]||{color:'#8899aa',bg:'#eef4fa'};return`<span class="tag tag-stage" style="color:${st.color};background:${st.bg};border-color:${st.color}44">${s}</span>`;}
 
 function render(){
   const yearRows=filterByYear(ALL_ROWS);
@@ -519,6 +554,21 @@ function render(){
   document.getElementById('f-gmail').textContent=`📧 Gmail Only (${gmailOnlyCount})`;
   document.getElementById('f-hb').textContent=`HoneyBook (${hbCount})`;
   document.getElementById('f-all').textContent=`All (${yearRows.length})`;
+
+  // Update stage button counts when HB filter active
+  if(currentFilter==='hb'){
+    const hbYearRows=yearRows.filter(r=>r.hbStage);
+    const allBtn=document.getElementById('sf-all');
+    allBtn.textContent=`All (${hbYearRows.length})`;
+    ['Inquiry','Questionnaire','Follow-up','Proposal Sent','Proposal Signed','Retainer Paid','Planning','Completed'].forEach(s=>{
+      const btn=document.getElementById('sf-'+s);
+      if(btn){
+        const cnt=hbYearRows.filter(r=>r.hbStage===s).length;
+        btn.textContent=`${s} (${cnt})`;
+      }
+    });
+    applyStageButtonStyles();
+  }
 
   const list=document.getElementById('listArea');
   if(!displayed.length){
@@ -574,19 +624,14 @@ render();
 
 <script>
 (function(){
-  // Set the data timestamp in Boston (Eastern) time
   const built = new Date('2026-03-27T12:00:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
-  const formatted = built.toLocaleString('en-US', opts).replace(',','').replace(' at ','');
-  // Format: "Mar 25, 2026 · 8:03 PM"
   const parts = built.toLocaleString('en-US', opts);
   document.getElementById('data-timestamp').textContent = parts;
 })();
 </script>
 
-
 <script>
-// ── Refresh System ──────────────────────────────────────────────────────────
 const GITHUB_REPO  = 'BHB-David/boathouse-blooms';
 const GITHUB_FILE  = 'index.html';
 let refreshCancelled = false;
@@ -599,8 +644,7 @@ function setRefreshUI(icon, title, msg, pct){
 }
 
 function copyAndOpenClaude(){
-  navigator.clipboard.writeText('refresh the reconciliation table')
-    .catch(()=>{});
+  navigator.clipboard.writeText('refresh the reconciliation table').catch(()=>{});
   window.open('https://claude.ai/chat/8ebf0c74-9554-48a5-8e0f-0951dc52ce10','_blank');
 }
 
@@ -616,7 +660,6 @@ async function startRefresh(){
   setRefreshUI('🔄','Refreshing Data','Fetching latest Gmail & Calendar data...',10);
 
   try {
-    // Step 1: Call Claude API to get fresh data
     setRefreshUI('📧','Checking Gmail','Scanning sent proposals...',20);
     const freshData = await fetchFreshData();
     if(refreshCancelled) return;
@@ -625,18 +668,15 @@ async function startRefresh(){
     await new Promise(r => setTimeout(r, 500));
     if(refreshCancelled) return;
 
-    // Step 2: Fetch clean HTML from GitHub, then patch it
     setRefreshUI('✏️','Updating Page','Writing fresh data to page...',65);
     const cleanHtml = await fetchCleanHtml();
     const updatedHtml = patchHtml(cleanHtml, freshData);
     if(refreshCancelled) return;
 
-    // Step 3: Commit to GitHub
     setRefreshUI('📤','Deploying','Pushing to GitHub Pages...',80);
     await commitToGithub(updatedHtml);
     if(refreshCancelled) return;
 
-    // Step 4: Wait for GitHub Pages to rebuild then reload
     setRefreshUI('⏳','Almost Done','Waiting for GitHub Pages to rebuild...',90);
     document.getElementById('refresh-cancel').style.display = 'none';
     let secs = 65;
@@ -662,8 +702,6 @@ async function startRefresh(){
 }
 
 async function fetchFreshData(){
-  // Build a prompt that asks Claude to return updated GMAIL_ONLY data as JSON
-  // We pass the current data as context
   const currentGmailOnly = JSON.stringify(GMAIL_ONLY.map(g => ({
     client: g.client, email: g.email, gmailDate: g.gmailDate, eventDate: g.eventDate
   })));
@@ -697,20 +735,15 @@ The timestamp should be the current date/time in Boston time. Keep gmailCount th
   if(!resp.ok) throw new Error('Claude API error: ' + resp.status);
   const data = await resp.json();
   const text = data.content[0].text.trim();
-  // Strip any markdown fences
   const clean = text.replace(/```json|```/g,'').trim();
   return JSON.parse(clean);
 }
 
 function patchHtml(html, freshData){
-  // Update the timestamp to current time
-  const now = new Date();
-  const isoNow = now.toISOString();
   let patched = html.replace(
     /new Date\('[^']+'\)/,
     "new Date('2026-03-27T12:00:00Z')"
   );
-  // Update the gmail count in the info strip
   patched = patched.replace(
     /Gmail proposals: <span[^>]+>\d+ flagged<\/span>/,
     'Gmail proposals: <span style="color:var(--text)">' + freshData.gmailCount + ' flagged</span>'
@@ -728,9 +761,7 @@ async function fetchCleanHtml(){
   if(!shaResp.ok) throw new Error('Could not fetch file from GitHub (' + shaResp.status + ')');
   const shaData = await shaResp.json();
   if(!shaData.content) throw new Error('GitHub returned no content');
-  // GitHub returns base64 with newlines — strip them before decoding
   const b64 = shaData.content.replace(/[\r\n\s]/g, '');
-  // Decode base64 to UTF-8 string
   const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
   const decoded = new TextDecoder('utf-8').decode(bytes);
   if(!decoded || decoded.length < 1000) throw new Error('Decoded HTML too short: ' + decoded.length);
@@ -740,7 +771,6 @@ async function fetchCleanHtml(){
 async function commitToGithub(htmlContent){
   const WORKER = 'https://boathouse-proxy.david-9bd.workers.dev';
 
-  // Step 1: Get current file SHA via Worker
   const shaResp = await fetch(WORKER, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Action': 'github-sha' },
@@ -750,10 +780,8 @@ async function commitToGithub(htmlContent){
   const shaData = await shaResp.json();
   const sha = shaData.sha;
 
-  // Step 2: Encode content as base64
   const encoded = btoa(unescape(encodeURIComponent(htmlContent)));
 
-  // Step 3: Commit via Worker
   const now = new Date().toLocaleString('en-US',{timeZone:'America/New_York',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
   const commitResp = await fetch(WORKER, {
     method: 'POST',
