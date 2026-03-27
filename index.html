@@ -28,11 +28,11 @@
   .year-btn.all-future.active{background:rgba(62,207,142,0.15);color:var(--green);border-color:var(--green);}
 
   .refresh-box{width:100%;max-width:700px;padding:10px 20px 0;}
-  .refresh-inner{background:#0a1020;border:1px solid #1e3050;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;}
+  .refresh-inner{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;}
   .refresh-icon{font-size:18px;flex-shrink:0;}
   .refresh-text h3{font-size:11px;color:var(--accent);font-weight:600;margin-bottom:2px;}
   .refresh-text p{font-size:10px;color:var(--muted);line-height:1.5;font-family:'DM Mono',monospace;}
-  .refresh-text code{color:var(--blue);background:#080d14;padding:1px 5px;border-radius:4px;}
+  .refresh-text code{color:var(--blue);background:#eef2ff;padding:1px 5px;border-radius:4px;}
   .data-date{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);white-space:nowrap;flex-shrink:0;}
 
   .stats{width:100%;max-width:700px;padding:10px 20px 10px;display:flex;gap:8px;}
@@ -48,9 +48,9 @@
 
   .card{border-radius:12px;padding:11px 13px;margin-bottom:7px;cursor:pointer;transition:opacity .1s;border-left-width:3px;border-left-style:solid;border-top:1px solid;border-right:1px solid;border-bottom:1px solid;}
   .card:hover{opacity:.88;}
-  .card.type-accepted{background:#120808;border-color:#3a1010;border-left-color:var(--red);}
-  .card.type-gmail-only{background:#120a04;border-color:#2a1a08;border-left-color:var(--orange);}
-  .card.type-cal{background:var(--purple-dim);border-color:#1a1230;border-left-color:var(--purple);}
+  .card.type-accepted{background:#fff5f5;border-color:#fcd5d5;border-left-color:var(--red);}
+  .card.type-gmail-only{background:#fff8f0;border-color:#fde8cc;border-left-color:var(--orange);}
+  .card.type-cal{background:var(--purple-dim);border-color:#e0d8f5;border-left-color:var(--purple);}
   .card.type-hb{background:var(--surface);border-color:var(--border);border-left-color:var(--border-bright);}
 
   .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px;}
@@ -58,23 +58,23 @@
   .card-flag{font-size:15px;flex-shrink:0;}
   .card-tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
   .tag{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;padding:2px 8px;border-radius:20px;border:1px solid;white-space:nowrap;}
-  .tag-noHB{background:#1a0606;color:var(--red);border-color:#3a1515;}
-  .tag-accepted{background:#1a0606;color:#ff9999;border-color:#4a2020;font-weight:700;}
-  .tag-gmail-only{background:#1a0c04;color:var(--orange);border-color:#3a2010;}
-  .tag-past{background:#1a0606;color:var(--red);border-color:#3a1515;}
-  .tag-soon{background:#1a1206;color:var(--gold);border-color:#3a2a10;}
+  .tag-noHB{background:#fff0f0;color:var(--red);border-color:#fcc;}
+  .tag-accepted{background:#fff0f0;color:var(--red);border-color:#f5aaaa;font-weight:700;}
+  .tag-gmail-only{background:#fff4e8;color:var(--orange);border-color:#f5d0a0;}
+  .tag-past{background:#fff0f0;color:var(--red);border-color:#fcc;}
+  .tag-soon{background:#fffbea;color:var(--gold);border-color:#f0d878;}
   .tag-date{background:var(--surface);color:var(--muted);border-color:var(--border);}
-  .tag-gmail{background:#1a1206;color:var(--gold);border-color:#2a2010;}
+  .tag-gmail{background:#fffbea;color:var(--gold);border-color:#ede0b0;}
   .tag-email{background:var(--surface);color:#3a5070;border-color:var(--border);font-size:8px;}
   .tag-stage{border:1px solid;}
-  .tag-hb-cal{background:#0a1828;color:#4a9adf;border-color:#1a3050;font-size:8px;}
+  .tag-hb-cal{background:#e8f4ff;color:#2563eb;border-color:#bfdbfe;font-size:8px;}
 
   .card-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:12px;line-height:2;color:var(--muted);}
   .card-detail.open{display:block;}
   .card-detail span{color:var(--text);}
   .card-detail .note{margin-bottom:6px;display:block;}
-  .card-detail .note.red{color:#cc8888;}
-  .card-detail .note.orange{color:#cc9966;}
+  .card-detail .note.red{color:#c0392b;}
+  .card-detail .note.orange{color:#c2560c;}
   .card-detail .note.warn{color:var(--gold);}
   .card-detail .note.ok{color:var(--muted);}
 
@@ -189,10 +189,10 @@ function checkPw(){
 
 <script>
 const STAGE_STYLE={
-  "Inquiry":{color:"#8899aa",bg:"#1a2030"},"Questionnaire":{color:"#60a5fa",bg:"#1a2540"},
-  "Follow-up":{color:"#f59e0b",bg:"#251a08"},"Proposal Sent":{color:"#a78bfa",bg:"#1e1830"},
-  "Proposal Signed":{color:"#34d399",bg:"#0a2018"},"Retainer Paid":{color:"#10b981",bg:"#081a10"},
-  "Planning":{color:"#38bdf8",bg:"#081828"},"Completed":{color:"#94a3b8",bg:"#181818"},
+  "Inquiry":{color:"#5a7a9a",bg:"#eef4fa"},"Questionnaire":{color:"#2563eb",bg:"#dbeafe"},
+  "Follow-up":{color:"#b45309",bg:"#fef3c7"},"Proposal Sent":{color:"#7c3aed",bg:"#ede9fe"},
+  "Proposal Signed":{color:"#059669",bg:"#d1fae5"},"Retainer Paid":{color:"#047857",bg:"#a7f3d0"},
+  "Planning":{color:"#0284c7",bg:"#e0f2fe"},"Completed":{color:"#64748b",bg:"#f1f5f9"},
 };
 
 const HB_PIPELINE=[
