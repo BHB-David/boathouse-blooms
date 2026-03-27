@@ -168,6 +168,7 @@ function checkPw(){
   <button class="filter-btn" id="f-hb" onclick="setFilter('hb',this)">HoneyBook</button>
   <button class="filter-btn" id="f-all" onclick="setFilter('all',this)">All</button>
   <button onclick="startRefresh()" style="margin-left:auto;background:transparent;border:1px solid var(--border-bright);border-radius:24px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer;flex-shrink:0;">🔄 Redeploy</button>
+  <button onclick="openCL()" style="background:rgba(190,170,220,0.12);border:1px solid rgba(190,170,220,0.45);border-radius:24px;color:#c8b0e8;font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer;flex-shrink:0;">&#x1F4CB; Changelog</button>
   <button onclick="copyAndOpenClaude()" style="background:transparent;border:1px solid var(--border-bright);border-radius:24px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer;flex-shrink:0;">💬 Refresh Data</button>
 </div>
 
@@ -406,6 +407,15 @@ const CAL_LINKS = {
   "Shelby and Timothy": "https://calendar.google.com/calendar/event?eid=NjhhMzYyNTVjZmE4ZGMwMDIxYTZiMDc2IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Tessa Bednarz": "https://calendar.google.com/calendar/event?eid=NjliOTM2MWU5YmIyMzgwMDA3ZDllNjZkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
 };
+
+const CHANGELOG = [
+  {date:"Mar 26, 2026 · 4:00 PM",label:"Refresh #4",changes:["Moved to HoneyBook pipeline (no longer Gmail-only): Melissa Gaffey, Amanda Papavasiliou, Molly Doherty, Dan Varrichio, CJ McCartin, Samantha Zaino, Julia Stell, Jack & Paige Soucy","Gmail-only flagged count: 20 → 12","HoneyBook calendar now shows 60+ projects with a wave of new 2026-2027 inquiries","Cara Goudy (Langham) — wedding this Saturday March 28!","Erin Goldberg (Union Club) — invoice sent Mar 26, delivery March 28"]},
+  {date:"Mar 26, 2026 · 2:04 AM",label:"Refresh #3",changes:["No changes to pipeline or Gmail-only list","Timestamp updated only"]},
+  {date:"Mar 25, 2026 · 9:28 PM",label:"Refresh #2",changes:["Added: Arianna (jacob.arianna2027@gmail.com) — preliminary proposal sent Mar 25","Gmail-only flagged count: 19 → 20"]},
+  {date:"Mar 25, 2026 · 7:41 PM",label:"Refresh #1 (initial build)",changes:["Initial pipeline built: 36 active HoneyBook projects, 19 Gmail-only flagged","Removed from pipeline (completed/stale): Deirdre and John, Jessica DeRosa, Erica Iacozzi, Taylor Johnson, Victoria Clancy, Madison Gabel","Joe & James Carrara — replied Mar 24 requesting studio visit","Tessa Bednarz — call scheduled April 1st at 12:30","Christina Maheras — sent final table count (18 round + 2 rectangle), April 26 wedding","Bryant University Healthcare Summit (May 1) and Heavy Hitters Evening — new proposals sent Mar 24"]}
+];
+function openCL(){var el=document.getElementById('cl-entries');if(!el.children.length){el.innerHTML=CHANGELOG.map(function(e){return '<div class="cl-entry"><div class="cl-label">'+e.label+'</div><div class="cl-date">'+e.date+'</div><ul>'+e.changes.map(function(c){return '<li>'+c+'</li>';}).join('')+'</ul></div>';}).join('');}document.getElementById('cl-modal').classList.add('open');}
+function closeCL(){document.getElementById('cl-modal').classList.remove('open');}
 
 function buildAllRows(){
   const rows=[];
@@ -760,5 +770,24 @@ async function commitToGithub(htmlContent){
 }
 </script>
 
+<style>
+#cl-modal{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:9000;opacity:0;pointer-events:none;transition:opacity .2s;}
+#cl-modal.open{opacity:1;pointer-events:all;}
+#cl-box{background:var(--surface);border:1px solid var(--border-bright);border-radius:18px;padding:28px 24px 24px;width:min(560px,93vw);max-height:75vh;overflow-y:auto;position:relative;}
+#cl-box h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--accent);margin:0 0 18px 0;}
+.cl-entry{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border);}
+.cl-entry:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.cl-label{font-size:11px;font-family:'DM Mono',monospace;color:var(--accent);font-weight:600;margin-bottom:2px;}
+.cl-date{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);margin-bottom:8px;}
+.cl-entry ul{margin:0;padding-left:16px;}
+.cl-entry li{font-size:12px;color:var(--text);line-height:1.65;margin-bottom:3px;}
+#cl-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:4px;}
+#cl-close:hover{color:var(--text);}
+</style>
+<div id="cl-modal" onclick="if(event.target===this)closeCL()">
+  <div id="cl-box"><button id="cl-close" onclick="closeCL()">&#x2715;</button>
+  <h3>&#x1F4CB; Refresh Changelog</h3>
+  <div id="cl-entries"></div></div>
+</div>
 </body>
 </html>
