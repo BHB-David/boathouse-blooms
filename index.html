@@ -222,6 +222,7 @@ const HB_PIPELINE=[
   {name:"Caitlin Ferreira",email:"caitlinstefens@gmail.com",stage:"Retainer Paid",date:"2026-07-10"},
   {name:"Cara Goudy",email:"hcgrigorian@gmail.com",stage:"Retainer Paid",date:"2026-03-28"},
   {name:"Molly Murphy",email:"mollymm10@gmail.com",stage:"Retainer Paid",date:"2026-04-04"},
+  {name:"Kellie Cronin",email:"kelliecronin10@gmail.com",stage:"Retainer Paid",date:"2026-10-03",notes:"Boston Harbor Hotel Wharf Room · deposit paid Oct 2025 · studio visit May 28 4:30 PM"},
   {name:"Caleigh's Baby Shower",stage:"Retainer Paid",date:null},
   {name:"Meaghan and Matthew",email:"meaganjkeefe@gmail.com",stage:"Retainer Paid",date:"2026-06-13"},
   {name:"Samantha Barmore",email:"sbarmore26@gmail.com",stage:"Retainer Paid",date:"2027-08-20"},
@@ -309,6 +310,7 @@ const HB_LINKS = {
   "Catherine Welch": "https://www.honeybook.com/app/event/695f2fcfffaaf000078f5218",
   "Christine Cocce": "https://www.honeybook.com/app/event/69bdf3ba80a97d0007fc739b",
   "Dan Varrichio": "https://www.honeybook.com/app/event/694e0d52e8a4140007e83b3d",
+  "Kellie Cronin": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms%40gmail.com#all/199e0584c27ad6db",
   "Gabby Majenski": "https://www.honeybook.com/app/event/67eb2bb8ba47330007d84727",
   "Grace and Michael": "https://www.honeybook.com/app/event/685d57c713266900232dbaa5",
   "Isabella Sinibaldi": "https://www.honeybook.com/app/event/69a72dc1f81c230007154659",
@@ -409,7 +411,8 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
-  {date:"Mar 26, 2026 · 4:00 PM",label:"Refresh #4",changes:["Moved to HoneyBook pipeline (no longer Gmail-only): Melissa Gaffey, Amanda Papavasiliou, Molly Doherty, Dan Varrichio, CJ McCartin, Samantha Zaino, Julia Stell, Jack & Paige Soucy","Gmail-only flagged count: 20 → 12","HoneyBook calendar now shows 60+ projects with a wave of new 2026-2027 inquiries","Cara Goudy (Langham) — wedding this Saturday March 28!","Erin Goldberg (Union Club) — invoice sent Mar 26, delivery March 28"]},
+  {date:"Mar 27, 2026",label:"Refresh #5",changes:["Added Kellie Cronin to pipeline at Retainer Paid — Oct 3, 2026, Boston Harbor Hotel Wharf Room, deposit paid Oct 2025, studio visit May 28 at 4:30 PM"]},
+  {date:"Mar 26, 2026 · 4:00 PM",label:"Refresh #4",changes:["Moved to HoneyBook pipeline (no longer Gmail-only): Melissa Gaffey, Amanda Papavasiliou, Molly Doherty, Dan Varrichio, CJ McCartin, Samantha Zaino, Julia Stell, Jack & Paige Soucy","Gmail-only flagged count: 20 → 12","HoneyBook calendar now shows 60+ projects with new 2026–2027 inquiries","Cara Goudy (Langham) — wedding Saturday March 28","Erin Goldberg (Union Club) — invoice sent Mar 26, delivery March 28"]},
   {date:"Mar 26, 2026 · 2:04 AM",label:"Refresh #3",changes:["No changes to pipeline or Gmail-only list","Timestamp updated only"]},
   {date:"Mar 25, 2026 · 9:28 PM",label:"Refresh #2",changes:["Added: Arianna (jacob.arianna2027@gmail.com) — preliminary proposal sent Mar 25","Gmail-only flagged count: 19 → 20"]},
   {date:"Mar 25, 2026 · 7:41 PM",label:"Refresh #1 (initial build)",changes:["Initial pipeline built: 36 active HoneyBook projects, 19 Gmail-only flagged","Removed from pipeline (completed/stale): Deirdre and John, Jessica DeRosa, Erica Iacozzi, Taylor Johnson, Victoria Clancy, Madison Gabel","Joe & James Carrara — replied Mar 24 requesting studio visit","Tessa Bednarz — call scheduled April 1st at 12:30","Christina Maheras — sent final table count (18 round + 2 rectangle), April 26 wedding","Bryant University Healthcare Summit (May 1) and Heavy Hitters Evening — new proposals sent Mar 24"]}
@@ -572,7 +575,7 @@ render();
 <script>
 (function(){
   // Set the data timestamp in Boston (Eastern) time
-  const built = new Date('2026-03-26T20:00:00Z');
+  const built = new Date('2026-03-27T12:00:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   const formatted = built.toLocaleString('en-US', opts).replace(',','').replace(' at ','');
   // Format: "Mar 25, 2026 · 8:03 PM"
@@ -674,7 +677,7 @@ Today is ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',ye
 
 Based on the current data, return ONLY a JSON object with this exact structure (no markdown, no explanation):
 {
-  "timestamp": "Mar 26, 2026 at 4:00 PM",
+  "timestamp": "Mar 27, 2026 at 8:00 AM",
   "gmailCount": 20,
   "note": "No changes detected since last refresh"
 }
@@ -705,7 +708,7 @@ function patchHtml(html, freshData){
   const isoNow = now.toISOString();
   let patched = html.replace(
     /new Date\('[^']+'\)/,
-    "new Date('2026-03-26T20:00:00Z')"
+    "new Date('2026-03-27T12:00:00Z')"
   );
   // Update the gmail count in the info strip
   patched = patched.replace(
