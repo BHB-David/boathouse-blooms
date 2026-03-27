@@ -26,14 +26,16 @@
   .year-btn:hover{border-color:var(--accent);color:var(--accent);}
   .year-btn.active{background:rgba(96,165,250,0.15);color:var(--blue);border-color:var(--blue);}
   .year-btn.all-future.active{background:rgba(62,207,142,0.15);color:var(--green);border-color:var(--green);}
+  .year-bar-spacer{flex:1;}
+  .year-bar-action{flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid var(--border-bright);background:transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;transition:all .15s;}
+  .year-bar-action:hover{border-color:var(--accent);color:var(--accent);}
+  .year-bar-action.cl{background:var(--accent-dim);border-color:var(--accent);color:var(--accent);}
+  .year-bar-action.cl:hover{background:rgba(200,98,106,0.18);}
 
   .refresh-box{width:100%;max-width:700px;padding:10px 20px 0;}
   .refresh-inner{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;}
   .refresh-icon{font-size:18px;flex-shrink:0;}
-  .refresh-text h3{font-size:11px;color:var(--accent);font-weight:600;margin-bottom:2px;}
   .refresh-text p{font-size:10px;color:var(--muted);line-height:1.5;font-family:'DM Mono',monospace;}
-  .refresh-text code{color:var(--blue);background:#eef2ff;padding:1px 5px;border-radius:4px;}
-  .data-date{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);white-space:nowrap;flex-shrink:0;}
 
   .stats{width:100%;max-width:700px;padding:10px 20px 10px;display:flex;gap:8px;}
   .stat-card{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:8px 10px;}
@@ -44,7 +46,6 @@
   .filter-btn{flex-shrink:0;padding:6px 14px;border-radius:24px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
   .filter-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent);}
 
-  /* Stage sub-filter row */
   .stage-filters{width:100%;max-width:700px;padding:0 20px 10px;display:none;gap:6px;overflow-x:auto;align-items:center;}
   .stage-filters.visible{display:flex;}
   .stage-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;padding-right:2px;}
@@ -68,6 +69,7 @@
   .tag-noHB{background:#fff0f0;color:var(--red);border-color:#fcc;}
   .tag-accepted{background:#fff0f0;color:var(--red);border-color:#f5aaaa;font-weight:700;}
   .tag-gmail-only{background:#fff4e8;color:var(--orange);border-color:#f5d0a0;}
+  .tag-cal-only{background:#f2f0f9;color:var(--purple);border-color:#c4b5fd;}
   .tag-past{background:#fff0f0;color:var(--red);border-color:#fcc;}
   .tag-soon{background:#fffbea;color:var(--gold);border-color:#f0d878;}
   .tag-date{background:var(--surface);color:var(--muted);border-color:var(--border);}
@@ -82,6 +84,7 @@
   .card-detail .note{margin-bottom:6px;display:block;}
   .card-detail .note.red{color:#c0392b;}
   .card-detail .note.orange{color:#c2560c;}
+  .card-detail .note.purple{color:var(--purple);}
   .card-detail .note.warn{color:var(--gold);}
   .card-detail .note.ok{color:var(--muted);}
 
@@ -136,7 +139,6 @@ function checkPw(){
 }
 </script>
 
-
 <div class="nav">
   <div style="font-size:22px">🌸</div>
   <div class="nav-title" style="flex:1">
@@ -150,6 +152,9 @@ function checkPw(){
   <button class="year-btn active" id="y-2026" onclick="setYear(2026,this)">2026</button>
   <button class="year-btn" id="y-2027" onclick="setYear(2027,this)">2027</button>
   <button class="year-btn all-future" id="y-all" onclick="setYear('all',this)">All Future</button>
+  <div class="year-bar-spacer"></div>
+  <button class="year-bar-action cl" onclick="openCL()">&#x1F4CB; Changelog</button>
+  <button class="year-bar-action" onclick="copyAndOpenClaude()">💬 Refresh Data</button>
 </div>
 
 <div class="refresh-box">
@@ -164,19 +169,17 @@ function checkPw(){
 <div class="stats">
   <div class="stat-card"><div class="num" id="statHB" style="color:var(--blue)">0</div><div class="lbl">HoneyBook</div></div>
   <div class="stat-card"><div class="num" id="statGmail" style="color:var(--orange)">0</div><div class="lbl">Gmail Only</div></div>
+  <div class="stat-card"><div class="num" id="statCal" style="color:var(--purple)">0</div><div class="lbl">Cal Only</div></div>
   <div class="stat-card"><div class="num" id="statShowing" style="color:var(--muted)">0</div><div class="lbl">Showing</div></div>
 </div>
 
-<div class="filters" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+<div class="filters">
   <button class="filter-btn" id="f-gmail" onclick="setFilter('gmail',this)">📧 Gmail Only</button>
+  <button class="filter-btn" id="f-cal" onclick="setFilter('cal',this)">📅 Cal Only</button>
   <button class="filter-btn" id="f-hb" onclick="setFilter('hb',this)">HoneyBook</button>
   <button class="filter-btn" id="f-all" onclick="setFilter('all',this)">All</button>
-  <button onclick="startRefresh()" style="margin-left:auto;background:transparent;border:1px solid var(--border-bright);border-radius:24px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer;flex-shrink:0;">🔄 Redeploy</button>
-  <button onclick="openCL()" style="background:var(--accent-dim);border:1px solid var(--border-bright);border-radius:24px;color:var(--accent);font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer;flex-shrink:0;">&#x1F4CB; Changelog</button>
-  <button onclick="copyAndOpenClaude()" style="background:transparent;border:1px solid var(--border-bright);border-radius:24px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer;flex-shrink:0;">💬 Refresh Data</button>
 </div>
 
-<!-- Stage sub-filters (only visible when HoneyBook filter is active) -->
 <div class="stage-filters" id="stage-filter-row">
   <span class="stage-lbl">Stage:</span>
   <button class="stage-btn active" id="sf-all" onclick="setStage('all',this)">All</button>
@@ -212,8 +215,6 @@ const STAGE_STYLE={
   "Proposal Signed":{color:"#059669",bg:"#d1fae5"},"Retainer Paid":{color:"#047857",bg:"#a7f3d0"},
   "Planning":{color:"#0284c7",bg:"#e0f2fe"},"Completed":{color:"#64748b",bg:"#f1f5f9"},
 };
-
-// Stage button styling — matches STAGE_STYLE colors
 const STAGE_BTN_STYLE={
   "Inquiry":{color:"#5a7a9a",bg:"#eef4fa",border:"#b8cfe0"},"Questionnaire":{color:"#2563eb",bg:"#dbeafe",border:"#93c5fd"},
   "Follow-up":{color:"#b45309",bg:"#fef3c7",border:"#fcd34d"},"Proposal Sent":{color:"#7c3aed",bg:"#ede9fe",border:"#c4b5fd"},
@@ -267,49 +268,88 @@ const HB_PIPELINE=[
 const ACCEPTED_NO_HB = [];
 
 const GMAIL_ONLY = [
-  {client:"Arianna",email:"jacob.arianna2027@gmail.com",gmailDate:"2026-03-25",eventDate:null,
-   hbCal:false,notes:"Preliminary proposal sent Mar 25. Not yet in HB pipeline."},
-  {client:"Allison Thomas",email:"allisonmariel13@gmail.com",gmailDate:"2026-03-11",eventDate:null,
-   hbCal:false,notes:"Two proposals sent (Feb 16 + Mar 11). Active back-and-forth. Not in HB pipeline."},
-  {client:"Jack & Paige Soucy",email:"jackpaigesoucy@gmail.com",gmailDate:"2026-03-08",eventDate:"2026-10-03",
-   hbCal:true,notes:"Revised proposal Mar 8. Oct 3, 2026 wedding (Wiano Club). In HB calendar as Inquiry only."},
-  {client:"Erin Daly",email:"erindaly814@gmail.com",gmailDate:"2026-02-20",eventDate:null,
-   hbCal:false,notes:"Updated proposal Feb 20. Not in HB pipeline or calendar."},
-  {client:"Caroline & Dylan Chase",email:"cdchase27@gmail.com",gmailDate:"2026-02-17",eventDate:null,
-   hbCal:false,notes:"Updated proposal Feb 17. Not in HB pipeline."},
-  {client:"Joe & James Carrara",email:"joecarrara2@gmail.com",gmailDate:"2026-02-17",eventDate:null,
-   hbCal:false,notes:"Two proposals sent (Feb 9 + Feb 17). Not in HB pipeline."},
-  {client:"Jan Koss & Kenzie",email:"jankoss@comcast.net",gmailDate:"2026-02-15",eventDate:null,
-   hbCal:false,notes:"Preliminary outline Feb 15. Not in HB pipeline."},
-  {client:"CJ McCartin",email:"mccartinjuroswedding@gmail.com",gmailDate:"2026-02-09",eventDate:"2026-10-24",
-   hbCal:true,notes:"Preliminary Feb 9. Oct 24, 2026 (Pelham House). In HB calendar as Inquiry."},
-  {client:"Isabella Sinibaldi",email:"izzysinibaldi10@gmail.com",gmailDate:"2026-03-12",eventDate:"2027-06-18",
-   hbCal:true,notes:"Preliminary Mar 12. Jun 18, 2027 Wychmere. In HB calendar as Inquiry."},
-  {client:"Amanda Papavasiliou",email:"amandapappas14@gmail.com",gmailDate:"2026-03-11",eventDate:"2027-02-06",
-   hbCal:true,notes:"Preliminary Mar 11. Feb 6, 2027 Four Seasons. In HB calendar as Inquiry."},
-  {client:"Samantha Gomes",email:"sgomes5310@gmail.com",gmailDate:"2026-02-19",eventDate:"2027-06-06",
-   hbCal:true,notes:"Preliminary Feb 19. Jun 6, 2027 Wychmere. In HB calendar as Inquiry."},
-  {client:"Melissa Gaffey",email:"melissagaffey@yahoo.com",gmailDate:"2026-02-17",eventDate:"2026-10-11",
-   hbCal:true,notes:"Proposal Feb 17. Oct 11, 2026. In HB calendar as Inquiry."},
-  {client:"Brittany Naples",email:"bmnaples@outlook.com",gmailDate:"2026-02-09",eventDate:"2027-06-19",
-   hbCal:true,notes:"Preliminary Feb 9. Jun 19, 2027 Granite Links. In HB calendar as Inquiry."},
-  {client:"Samantha Zaino",email:"sdmarks7525@gmail.com",gmailDate:"2026-02-09",eventDate:"2027-05-22",
-   hbCal:true,notes:"Updated Feb 9. May 22, 2027 Wychmere. In HB calendar as Inquiry."},
-  {client:"Nicole Carroll",email:"nicolecarroll4@yahoo.com",gmailDate:"2026-01-26",eventDate:"2027-06-26",
-   hbCal:true,notes:"Preliminary Jan 26. Jun 26, 2027 Granite Links (300 guests). In HB calendar as Inquiry."},
-  {client:"Molly Doherty",email:"diiorio52127@gmail.com",gmailDate:"2026-01-26",eventDate:"2027-05-21",
-   hbCal:true,notes:"Preliminary Jan 26. May 21, 2027 Wychmere. In HB calendar as Inquiry."},
-  {client:"Julia Stell",email:"juliaastell4@gmail.com",gmailDate:"2026-01-26",eventDate:"2026-09-26",
-   hbCal:true,notes:"Updated Jan 26. Sep 26, 2026 Hyannis beach. In HB calendar as Inquiry."},
-  {client:"Alicia Herlihy",email:"amherlihy@yahoo.com",gmailDate:"2026-01-15",eventDate:"2026-06-27",
-   hbCal:true,notes:"Proposal Jan 15. Jun 27, 2026 Cape Cod. In HB calendar as Inquiry."},
-  {client:"Dan Varrichio",email:"danvarrichio@gmail.com",gmailDate:"2026-01-05",eventDate:"2027-04-17",
-   hbCal:true,notes:"Preliminary Jan 5. Apr 17, 2027 Chatham Bars Inn. In HB calendar as Inquiry."},
+  {client:"Arianna",email:"jacob.arianna2027@gmail.com",gmailDate:"2026-03-25",eventDate:null,hbCal:false,notes:"Preliminary proposal sent Mar 25. Not yet in HB pipeline."},
+  {client:"Allison Thomas",email:"allisonmariel13@gmail.com",gmailDate:"2026-03-11",eventDate:null,hbCal:false,notes:"Two proposals sent (Feb 16 + Mar 11). Active back-and-forth. Not in HB pipeline."},
+  {client:"Jack & Paige Soucy",email:"jackpaigesoucy@gmail.com",gmailDate:"2026-03-08",eventDate:"2026-10-03",hbCal:true,notes:"Revised proposal Mar 8. Oct 3, 2026 wedding (Wiano Club). In HB calendar as Inquiry only."},
+  {client:"Erin Daly",email:"erindaly814@gmail.com",gmailDate:"2026-02-20",eventDate:null,hbCal:false,notes:"Updated proposal Feb 20. Not in HB pipeline or calendar."},
+  {client:"Caroline & Dylan Chase",email:"cdchase27@gmail.com",gmailDate:"2026-02-17",eventDate:null,hbCal:false,notes:"Updated proposal Feb 17. Not in HB pipeline."},
+  {client:"Joe & James Carrara",email:"joecarrara2@gmail.com",gmailDate:"2026-02-17",eventDate:null,hbCal:false,notes:"Two proposals sent (Feb 9 + Feb 17). Not in HB pipeline."},
+  {client:"Jan Koss & Kenzie",email:"jankoss@comcast.net",gmailDate:"2026-02-15",eventDate:null,hbCal:false,notes:"Preliminary outline Feb 15. Not in HB pipeline."},
+  {client:"CJ McCartin",email:"mccartinjuroswedding@gmail.com",gmailDate:"2026-02-09",eventDate:"2026-10-24",hbCal:true,notes:"Preliminary Feb 9. Oct 24, 2026 (Pelham House). In HB calendar as Inquiry."},
+  {client:"Isabella Sinibaldi",email:"izzysinibaldi10@gmail.com",gmailDate:"2026-03-12",eventDate:"2027-06-18",hbCal:true,notes:"Preliminary Mar 12. Jun 18, 2027 Wychmere. In HB calendar as Inquiry."},
+  {client:"Amanda Papavasiliou",email:"amandapappas14@gmail.com",gmailDate:"2026-03-11",eventDate:"2027-02-06",hbCal:true,notes:"Preliminary Mar 11. Feb 6, 2027 Four Seasons. In HB calendar as Inquiry."},
+  {client:"Samantha Gomes",email:"sgomes5310@gmail.com",gmailDate:"2026-02-19",eventDate:"2027-06-06",hbCal:true,notes:"Preliminary Feb 19. Jun 6, 2027 Wychmere. In HB calendar as Inquiry."},
+  {client:"Melissa Gaffey",email:"melissagaffey@yahoo.com",gmailDate:"2026-02-17",eventDate:"2026-10-11",hbCal:true,notes:"Proposal Feb 17. Oct 11, 2026. In HB calendar as Inquiry."},
+  {client:"Brittany Naples",email:"bmnaples@outlook.com",gmailDate:"2026-02-09",eventDate:"2027-06-19",hbCal:true,notes:"Preliminary Feb 9. Jun 19, 2027 Granite Links. In HB calendar as Inquiry."},
+  {client:"Samantha Zaino",email:"sdmarks7525@gmail.com",gmailDate:"2026-02-09",eventDate:"2027-05-22",hbCal:true,notes:"Updated Feb 9. May 22, 2027 Wychmere. In HB calendar as Inquiry."},
+  {client:"Nicole Carroll",email:"nicolecarroll4@yahoo.com",gmailDate:"2026-01-26",eventDate:"2027-06-26",hbCal:true,notes:"Preliminary Jan 26. Jun 26, 2027 Granite Links (300 guests). In HB calendar as Inquiry."},
+  {client:"Molly Doherty",email:"diiorio52127@gmail.com",gmailDate:"2026-01-26",eventDate:"2027-05-21",hbCal:true,notes:"Preliminary Jan 26. May 21, 2027 Wychmere. In HB calendar as Inquiry."},
+  {client:"Julia Stell",email:"juliaastell4@gmail.com",gmailDate:"2026-01-26",eventDate:"2026-09-26",hbCal:true,notes:"Updated Jan 26. Sep 26, 2026 Hyannis beach. In HB calendar as Inquiry."},
+  {client:"Alicia Herlihy",email:"amherlihy@yahoo.com",gmailDate:"2026-01-15",eventDate:"2026-06-27",hbCal:true,notes:"Proposal Jan 15. Jun 27, 2026 Cape Cod. In HB calendar as Inquiry."},
+  {client:"Dan Varrichio",email:"danvarrichio@gmail.com",gmailDate:"2026-01-05",eventDate:"2027-04-17",hbCal:true,notes:"Preliminary Jan 5. Apr 17, 2027 Chatham Bars Inn. In HB calendar as Inquiry."},
 ];
 
-const CAL_ONLY=[];
+// HB calendar Inquiries with no pipeline project — review & resolve via HoneyBook link
+const CAL_ONLY = [
+  {name:"Vanessa Acosta",date:"2026-03-14",hbEventId:"686e295e2fe11e00076e81a9"},
+  {name:"Jamie Menn",date:"2026-04-04",hbEventId:"68c068ac6d670700075fc956"},
+  {name:"Christina Maheras",date:"2026-04-26",hbEventId:"68c8a087f9fae4000775a23e"},
+  {name:"Liz Polin",date:"2026-05-02",hbEventId:"69c68153ffd42c0007697a79"},
+  {name:"Mia Angeli",date:"2026-05-02",hbEventId:"6740a7ebeea0ad0007255eb4"},
+  {name:"Brianna Consigli",date:"2026-05-08",hbEventId:"68b9c34f0b02a70007edaf3f"},
+  {name:"Alyssa Rao",date:"2026-05-09",hbEventId:"688c09b84ed22c0007d9acbb"},
+  {name:"Sydney Dazzo",date:"2026-05-10",hbEventId:"6910dfd3f4bb8b0007db9a6f"},
+  {name:"Kelly Hannon",date:"2026-05-16",hbEventId:"6845ba72f4295c00071ab94c"},
+  {name:"Katelyn Cronin",date:"2026-05-23",hbEventId:"6706b0164293a90007bbede2"},
+  {name:"Samantha Sieger",date:"2026-05-23",hbEventId:"67e95fdfb2fc29000720ba84"},
+  {name:"Katelyn E Flaherty",date:"2026-05-24",hbEventId:"67e8a4496ba8cd00078cc4d9"},
+  {name:"Lucy Yu",date:"2026-05-25",hbEventId:"681ba0a82fed440007867c1c"},
+  {name:"Nicole Derosier",date:"2026-05-30",hbEventId:"68b360f8b350f10007c44fc2"},
+  {name:"Ashley Gresian",date:"2026-05-31",hbEventId:"688e2e7f929b5600079e89d3"},
+  {name:"Melissa Guller",date:"2026-06-07",hbEventId:"6840b3033d59df0007d053de"},
+  {name:"Sarah Vita",date:"2026-06-12",hbEventId:"67f65812d9a2fd0007892633"},
+  {name:"Liz Quill",date:"2026-06-20",hbEventId:"68cbeb484003ac0006d15971"},
+  {name:"Sophia Lynch",date:"2026-06-20",hbEventId:"68d1448e362ebb0007ec89b5"},
+  {name:"Rachel Cohen",date:"2026-07-03",hbEventId:"687e523be9e4f300079e660c"},
+  {name:"Tori Carson",date:"2026-07-11",hbEventId:"682893b33c560b00081a2297"},
+  {name:"Paige Sheldon",date:"2026-07-24",hbEventId:"699d06159c240500076470f8"},
+  {name:"Suzy Malone",date:"2026-07-31",hbEventId:"68acc54d2634a900076f3eb4"},
+  {name:"Diann Crugnale",date:"2026-08-07",hbEventId:"687809c88470460007901e2c"},
+  {name:"Alexandra Roat",date:"2026-08-09",hbEventId:"68deac155935b20007c3cae6"},
+  {name:"Lauren Katz",date:"2026-08-09",hbEventId:"682135005d626900077d2af8"},
+  {name:"Sara Hagopian",date:"2026-08-14",hbEventId:"67ab75535b189b0008cd6309"},
+  {name:"Sarah Checkosky",date:"2026-08-14",hbEventId:"6865e11914fbcb0007e67957"},
+  {name:"Nicole Tammaro",date:"2026-08-21",hbEventId:"68fa445f0266cf0007f90fde"},
+  {name:"Tyra Cameron",date:"2026-08-28",hbEventId:"6784138c97141e00077f5cc5"},
+  {name:"Kaitlyn Dabenigno",date:"2026-09-05",hbEventId:"6963f934cd303500074bd1d5"},
+  {name:"Alessandra Gallo",date:"2026-09-05",hbEventId:"69931817a6b84200082fd9cd"},
+  {name:"Erin Walsh",date:"2026-09-06",hbEventId:"697e2bd80da547000726912d"},
+  {name:"Samantha Cardinal",date:"2026-09-11",hbEventId:"67643e8d0e669600072a958a"},
+  {name:"Louis Morgan",date:"2026-09-12",hbEventId:"68ba0684106e8f0007ce6db4"},
+  {name:"Mikayla Ferguson",date:"2026-09-13",hbEventId:"68b0bf0ef4fecd0007285b77"},
+  {name:"Dianne Rodenbush",date:"2026-09-19",hbEventId:"6810e15b20c3c800073a9320"},
+  {name:"Julia Frisch",date:"2026-09-25",hbEventId:"6897a70420e9c80007678c2b"},
+  {name:"Kaitlynn Dotts",date:"2026-09-25",hbEventId:"68ff0d18a50bf10007fd912f"},
+  {name:"Samantha Chieffalo",date:"2026-10-02",hbEventId:"68efd1a6b462c200075c9389"},
+  {name:"Sara DiCenso",date:"2026-10-03",hbEventId:"6856977294542600073ca0ea"},
+  {name:"Allison Bernhardt",date:"2026-10-03",hbEventId:"6797c0a4472d95000799293f"},
+  {name:"Rebecca Grassia",date:"2026-10-16",hbEventId:"68d2cb04a3b6a20007b3809e"},
+  {name:"Kate Slowe",date:"2026-10-17",hbEventId:"691c9d5cf8bfd10007ac0dd8"},
+  {name:"Brenna McEachern",date:"2026-10-23",hbEventId:"68dc3e5484c3630007fd472c"},
+  {name:"Connor Kennedy",date:"2026-10-23",hbEventId:"68f5610e7b9e0f0007873acf"},
+  {name:"Kathryn Pedi",date:"2026-10-24",hbEventId:"681a222152f6aa000784dac8"},
+  {name:"Elizabeth Pino",date:"2026-10-30",hbEventId:"68f66610fd813a0007489ecd"},
+  {name:"Olivia Truenow",date:"2026-11-08",hbEventId:"67cf0a1db435e800076e3db4"},
+  {name:"Mary",date:"2026-11-14",hbEventId:"693749ebe46417000727e605"},
+  {name:"Julianne Sheehan",date:"2026-11-21",hbEventId:"68c860b5bc4a950008945b9f"},
+  {name:"Damiana LoRusso",date:"2026-12-12",hbEventId:"67abe2bc7105b6000718038f"},
+  {name:"Christina McGinnis",date:"2027-04-24",hbEventId:"6933a192afb35c0007ccb7d7"},
+  {name:"Ani Hackett",date:"2027-06-05",hbEventId:"692dbd5a0ed9650008dd620a"},
+  {name:"Emma (2027)",date:"2027-06-11",hbEventId:"699b976cb6331700075fe863"},
+  {name:"Kate Davignon",date:"2027-06-20",hbEventId:"69757fc8ff9d380007d8824a"},
+  {name:"Kara Mahoney",date:"2027-06-25",hbEventId:"696f858489753800079a29b0"},
+];
 
-const HB_BY_NAME=Object.fromEntries(HB_PIPELINE.map(h=>[h.name,h]));
 const STAGE_ORDER=["Completed","Planning","Retainer Paid","Proposal Signed","Proposal Sent","Follow-up","Questionnaire","Inquiry"];
 const TODAY=new Date();
 function isPast(d){return d&&new Date(d)<TODAY;}
@@ -319,118 +359,119 @@ function getYear(d){return d?parseInt(d.split("-")[0]):null;}
 function isFuture(d){return d&&new Date(d)>=TODAY;}
 
 const HB_LINKS = {
-  "Alexa Paiva": "https://www.honeybook.com/app/event/69377c72f560280037780d04",
-  "Amanda Papavasiliou": "https://www.honeybook.com/app/event/69a6303aa7b56000079f6493",
-  "Becca Wysocki": "https://www.honeybook.com/app/event/69b898ab6452f40007f12618",
-  "Brittany Naples": "https://www.honeybook.com/app/event/697905d09528a60007226b13",
-  "Brooke Kazanovicz": "https://www.honeybook.com/app/event/6978f3d8ad47540007883b54",
-  "CJ McCartin": "https://www.honeybook.com/app/event/697e634c2eeacc000704d4aa",
-  "Caitlin Ferreira": "https://www.honeybook.com/app/event/683f76d4866ca9001f457284",
-  "Cara Goudy": "https://www.honeybook.com/app/event/67efd38703af720007ffbd68",
-  "Catherine Welch": "https://www.honeybook.com/app/event/695f2fcfffaaf000078f5218",
-  "Christine Cocce": "https://www.honeybook.com/app/event/69bdf3ba80a97d0007fc739b",
-  "Dan Varrichio": "https://www.honeybook.com/app/event/694e0d52e8a4140007e83b3d",
-  "Kellie Cronin": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms%40gmail.com#all/199e0584c27ad6db",
-  "Gabby Majenski": "https://www.honeybook.com/app/event/67eb2bb8ba47330007d84727",
-  "Grace and Michael": "https://www.honeybook.com/app/event/685d57c713266900232dbaa5",
-  "Isabella Sinibaldi": "https://www.honeybook.com/app/event/69a72dc1f81c230007154659",
-  "Julia Stell": "https://www.honeybook.com/app/event/6961313b60de340007a45ad0",
-  "Kate Dwyer": "https://www.honeybook.com/app/event/679f7cc84aa87800089713ab",
-  "Kristin Kelly": "https://www.honeybook.com/app/event/69acd01c7dafef0007beba11",
-  "Leigh A Keefe": "https://www.honeybook.com/app/event/6930e1884c38200007d319cc",
-  "Lindsey DeRensis": "https://www.honeybook.com/app/event/66b51338297cba00253aec32",
-  "Maeve Bake": "https://www.honeybook.com/app/event/69b8ad594a40130007b68910",
-  "Meaghan and Matthew": "https://www.honeybook.com/app/event/69713c66124b2100274d1e7c",
-  "Meg & Alex Mattie": "https://www.honeybook.com/app/event/69ba10c60e69d6002009ad8f",
-  "Melissa Gaffey": "https://www.honeybook.com/app/event/698a7055be5c3c00073a3d7d",
-  "Molly & Mike": "https://www.honeybook.com/app/event/68fe79546e76f6002e62baad",
-  "Molly Doherty": "https://www.honeybook.com/app/event/69596ffc1fe2e100064989a2",
-  "Molly Murphy": "https://www.honeybook.com/app/event/68ab892b67e5d200078ebf2f",
-  "Natalie Leone": "https://www.honeybook.com/app/event/698b9f3460c183000706e9f6",
-  "Nicole Carroll": "https://www.honeybook.com/app/event/695555e7f3437c0007c119b3",
-  "Samantha Barmore": "https://www.honeybook.com/app/event/6914ee55e9192c00077c5f3a",
-  "Samantha Gomes": "https://www.honeybook.com/app/event/6989ffc0b85cf3000737432c",
-  "Shelby and Timothy": "https://www.honeybook.com/app/event/68a36255cfa8dc0021a6b076",
-  "Tessa Bednarz": "https://www.honeybook.com/app/event/69b9361e9bb2380007d9e66d",
+  "Alexa Paiva":"https://www.honeybook.com/app/event/69377c72f560280037780d04",
+  "Amanda Papavasiliou":"https://www.honeybook.com/app/event/69a6303aa7b56000079f6493",
+  "Becca Wysocki":"https://www.honeybook.com/app/event/69b898ab6452f40007f12618",
+  "Brittany Naples":"https://www.honeybook.com/app/event/697905d09528a60007226b13",
+  "Brooke Kazanovicz":"https://www.honeybook.com/app/event/6978f3d8ad47540007883b54",
+  "CJ McCartin":"https://www.honeybook.com/app/event/697e634c2eeacc000704d4aa",
+  "Caitlin Ferreira":"https://www.honeybook.com/app/event/683f76d4866ca9001f457284",
+  "Cara Goudy":"https://www.honeybook.com/app/event/67efd38703af720007ffbd68",
+  "Catherine Welch":"https://www.honeybook.com/app/event/695f2fcfffaaf000078f5218",
+  "Christine Cocce":"https://www.honeybook.com/app/event/69bdf3ba80a97d0007fc739b",
+  "Dan Varrichio":"https://www.honeybook.com/app/event/694e0d52e8a4140007e83b3d",
+  "Kellie Cronin":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms%40gmail.com#all/199e0584c27ad6db",
+  "Gabby Majenski":"https://www.honeybook.com/app/event/67eb2bb8ba47330007d84727",
+  "Grace and Michael":"https://www.honeybook.com/app/event/685d57c713266900232dbaa5",
+  "Isabella Sinibaldi":"https://www.honeybook.com/app/event/69a72dc1f81c230007154659",
+  "Julia Stell":"https://www.honeybook.com/app/event/6961313b60de340007a45ad0",
+  "Kate Dwyer":"https://www.honeybook.com/app/event/679f7cc84aa87800089713ab",
+  "Kristin Kelly":"https://www.honeybook.com/app/event/69acd01c7dafef0007beba11",
+  "Leigh A Keefe":"https://www.honeybook.com/app/event/6930e1884c38200007d319cc",
+  "Lindsey DeRensis":"https://www.honeybook.com/app/event/66b51338297cba00253aec32",
+  "Maeve Bake":"https://www.honeybook.com/app/event/69b8ad594a40130007b68910",
+  "Meaghan and Matthew":"https://www.honeybook.com/app/event/69713c66124b2100274d1e7c",
+  "Meg & Alex Mattie":"https://www.honeybook.com/app/event/69ba10c60e69d6002009ad8f",
+  "Melissa Gaffey":"https://www.honeybook.com/app/event/698a7055be5c3c00073a3d7d",
+  "Molly & Mike":"https://www.honeybook.com/app/event/68fe79546e76f6002e62baad",
+  "Molly Doherty":"https://www.honeybook.com/app/event/69596ffc1fe2e100064989a2",
+  "Molly Murphy":"https://www.honeybook.com/app/event/68ab892b67e5d200078ebf2f",
+  "Natalie Leone":"https://www.honeybook.com/app/event/698b9f3460c183000706e9f6",
+  "Nicole Carroll":"https://www.honeybook.com/app/event/695555e7f3437c0007c119b3",
+  "Samantha Barmore":"https://www.honeybook.com/app/event/6914ee55e9192c00077c5f3a",
+  "Samantha Gomes":"https://www.honeybook.com/app/event/6989ffc0b85cf3000737432c",
+  "Shelby and Timothy":"https://www.honeybook.com/app/event/68a36255cfa8dc0021a6b076",
+  "Tessa Bednarz":"https://www.honeybook.com/app/event/69b9361e9bb2380007d9e66d",
 };
 
 const GMAIL_THREADS = {
-  "Alexa Paiva": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19adccf1ac7949cb",
-  "Alicia Herlihy": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19bc4c7a3a8b5ba7",
-  "Allison Thomas": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19cdec8d061abb21",
-  "Amanda Papavasiliou": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19cdf993bad26e35",
-  "Becca Wysocki": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d066678280146d",
-  "Brittany Naples": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c44deba81ef126",
-  "CJ McCartin": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c4581937fbae2f",
-  "Caitlin Ferreira": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/197126ebd34d323f",
-  "Cara Goudy": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d1c8c36be04374",
-  "Caroline & Dylan Chase": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c6d74c2768ad5c",
-  "Christina Maheras": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d1d083393c234c",
-  "Dan Varrichio": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19b8f62c78a4d6c9",
-  "Erin Daly": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c7cf17a95d97a8",
-  "Gabby Majenski": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/67eb2bb8ba47330007d84727",
-  "Grace and Michael": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19ce778ec9d39ad1",
-  "Isabella Sinibaldi": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19ce32960b3fc767",
-  "Jack & Paige Soucy": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19ccdab9366ae69b",
-  "Jan Koss & Kenzie": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c62ce5f84e75a6",
-  "Joe & James Carrara": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c6d65555e2039f",
-  "Julia Stell": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19bfc06cc5501350",
-  "Kate Dwyer": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/679f7cc84aa87800089713ab",
-  "Laura Nicholson": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c4422bab373148",
-  "Lindsey DeRensis": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/197126ebd34d323f",
-  "Meaghan Keefe": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19b9a9857b96b53f",
-  "Meaghan and Matthew": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19b9a9857b96b53f",
-  "Melanie Walsh": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19ad5702ae4ecdec",
-  "Melissa Gaffey": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c6ce29c37b6c31",
-  "Molly Doherty": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19bfc63b66963b16",
-  "Molly Murphy": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d06b76a385f903",
-  "Nicole Carroll": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19bfcb381be306dd",
-  "Samantha Barmore": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19b8f14379000b29",
-  "Samantha Gomes": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c7c73d8c6caa38",
-  "Samantha Zaino": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c443e107edf83d",
-  "Shelby and Timothy": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/68a36255cfa8dc0021a6b076",
-  "Tessa Bednarz": "https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19cfeca98418739c",
+  "Alexa Paiva":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19adccf1ac7949cb",
+  "Alicia Herlihy":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19bc4c7a3a8b5ba7",
+  "Allison Thomas":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19cdec8d061abb21",
+  "Amanda Papavasiliou":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19cdf993bad26e35",
+  "Becca Wysocki":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d066678280146d",
+  "Brittany Naples":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c44deba81ef126",
+  "CJ McCartin":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c4581937fbae2f",
+  "Caitlin Ferreira":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/197126ebd34d323f",
+  "Cara Goudy":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d1c8c36be04374",
+  "Caroline & Dylan Chase":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c6d74c2768ad5c",
+  "Christina Maheras":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d1d083393c234c",
+  "Dan Varrichio":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19b8f62c78a4d6c9",
+  "Erin Daly":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c7cf17a95d97a8",
+  "Gabby Majenski":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/67eb2bb8ba47330007d84727",
+  "Grace and Michael":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19ce778ec9d39ad1",
+  "Isabella Sinibaldi":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19ce32960b3fc767",
+  "Jack & Paige Soucy":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19ccdab9366ae69b",
+  "Jan Koss & Kenzie":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c62ce5f84e75a6",
+  "Joe & James Carrara":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c6d65555e2039f",
+  "Julia Stell":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19bfc06cc5501350",
+  "Kate Dwyer":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/679f7cc84aa87800089713ab",
+  "Laura Nicholson":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c4422bab373148",
+  "Lindsey DeRensis":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/197126ebd34d323f",
+  "Meaghan Keefe":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19b9a9857b96b53f",
+  "Meaghan and Matthew":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19b9a9857b96b53f",
+  "Melanie Walsh":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19ad5702ae4ecdec",
+  "Melissa Gaffey":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c6ce29c37b6c31",
+  "Molly Doherty":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19bfc63b66963b16",
+  "Molly Murphy":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d06b76a385f903",
+  "Nicole Carroll":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19bfcb381be306dd",
+  "Samantha Barmore":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19b8f14379000b29",
+  "Samantha Gomes":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c7c73d8c6caa38",
+  "Samantha Zaino":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c443e107edf83d",
+  "Shelby and Timothy":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/68a36255cfa8dc0021a6b076",
+  "Tessa Bednarz":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19cfeca98418739c",
 };
 
 const CAL_LINKS = {
-  "Alexa Paiva": "https://calendar.google.com/calendar/event?eid=NjkzNzdjNzJmNTYwMjgwMDM3NzgwZDA0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Alicia Herlihy": "https://calendar.google.com/calendar/event?eid=Njk1YWY1MGMwYzVlNTgwMDA4NTk2OTYxIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Amanda Papavasiliou": "https://calendar.google.com/calendar/event?eid=NjlhNjMwM2FhN2I1NjAwMDA3OWY2NDkzIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Becca Wysocki": "https://calendar.google.com/calendar/event?eid=NjliODk4YWI2NDUyZjQwMDA3ZjEyNjE4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Brittany Naples": "https://calendar.google.com/calendar/event?eid=Njk3OTA1ZDA5NTI4YTYwMDA3MjI2YjEzIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Brooke Kazanovicz": "https://calendar.google.com/calendar/event?eid=Njk3OGYzZDhhZDQ3NTQwMDA3ODgzYjU0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "CJ McCartin": "https://calendar.google.com/calendar/event?eid=Njk3ZTYzNGMyZWVhY2MwMDA3MDRkNGFhIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Caitlin Ferreira": "https://calendar.google.com/calendar/event?eid=NjgzZjc2ZDQ4NjZjYTkwMDFmNDU3Mjg0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Cara Goudy": "https://calendar.google.com/calendar/event?eid=NjdlZmQzODcwM2FmNzIwMDA3ZmZiZDY4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Catherine Welch": "https://calendar.google.com/calendar/event?eid=Njk1ZjJmY2ZmZmFhZjAwMDA3OGY1MjE4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Christine Cocce": "https://calendar.google.com/calendar/event?eid=NjliZGYzYmE4MGE5N2QwMDA3ZmM3MzliIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Dan Varrichio": "https://calendar.google.com/calendar/event?eid=Njk0ZTBkNTJlOGE0MTQwMDA3ZTgzYjNkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Erin Daly": "https://calendar.google.com/calendar/event?eid=Njg2NWUxMTkxNGZiY2IwMDA3ZTY3OTU3IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Gabby Majenski": "https://calendar.google.com/calendar/event?eid=NjdlYjJiYjhiYTQ3MzMwMDA3ZDg0NzI3IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Grace and Michael": "https://calendar.google.com/calendar/event?eid=Njg1ZDU3YzcxMzI2NjkwMDIzMmRiYWE1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Isabella Sinibaldi": "https://calendar.google.com/calendar/event?eid=NjlhNzJkYzFmODFjMjMwMDA3MTU0NjU5IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Jack & Paige Soucy": "https://calendar.google.com/calendar/event?eid=Njc5N2MwYTQ0NzJkOTUwMDA3OTkyOTNmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Julia Stell": "https://calendar.google.com/calendar/event?eid=Njk2MTMxM2I2MGRlMzQwMDA3YTQ1YWQwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Kate Dwyer": "https://calendar.google.com/calendar/event?eid=Njc5ZjdjYzg0YWE4NzgwMDA4OTcxM2FiIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Kristin Kelly": "https://calendar.google.com/calendar/event?eid=NjlhY2QwMWM3ZGFmZWYwMDA3YmViYTExIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Leigh A Keefe": "https://calendar.google.com/calendar/event?eid=NjkzMGUxODg0YzM4MjAwMDA3ZDMxOWNjIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Lindsey DeRensis": "https://calendar.google.com/calendar/event?eid=NjZiNTEzMzgyOTdjYmEwMDI1M2FlYzMyIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Maeve Bake": "https://calendar.google.com/calendar/event?eid=NjliOGFkNTk0YTQwMTMwMDA3YjY4OTEwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Meaghan and Matthew": "https://calendar.google.com/calendar/event?eid=Njk3MTNjNjYxMjRiMjEwMDI3NGQxZTdjIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Meg & Alex Mattie": "https://calendar.google.com/calendar/event?eid=NjliYTEwYzYwZTY5ZDYwMDIwMDlhZDhmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Melissa Gaffey": "https://calendar.google.com/calendar/event?eid=Njk4YTcwNTViZTVjM2MwMDA3M2EzZDdkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Molly & Mike": "https://calendar.google.com/calendar/event?eid=NjhmZTc5NTQ2ZTc2ZjYwMDJlNjJiYWFkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Molly Doherty": "https://calendar.google.com/calendar/event?eid=Njk1OTZmZmMxZmUyZTEwMDA2NDk4OWEyIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Molly Murphy": "https://calendar.google.com/calendar/event?eid=NjhhYjg5MmI2N2U1ZDIwMDA3OGViZjJmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Natalie Leone": "https://calendar.google.com/calendar/event?eid=Njk4YjlmMzQ2MGMxODMwMDA3MDZlOWY2IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Nicole Carroll": "https://calendar.google.com/calendar/event?eid=Njk1NTU1ZTdmMzQzN2MwMDA3YzExOWIzIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Samantha Barmore": "https://calendar.google.com/calendar/event?eid=NjkxNGVlNTVlOTE5MmMwMDA3N2M1ZjNhIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Samantha Gomes": "https://calendar.google.com/calendar/event?eid=Njk4OWZmYzBiODVjZjMwMDA3Mzc0MzJjIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Shelby and Timothy": "https://calendar.google.com/calendar/event?eid=NjhhMzYyNTVjZmE4ZGMwMDIxYTZiMDc2IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Tessa Bednarz": "https://calendar.google.com/calendar/event?eid=NjliOTM2MWU5YmIyMzgwMDA3ZDllNjZkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Alexa Paiva":"https://calendar.google.com/calendar/event?eid=NjkzNzdjNzJmNTYwMjgwMDM3NzgwZDA0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Alicia Herlihy":"https://calendar.google.com/calendar/event?eid=Njk1YWY1MGMwYzVlNTgwMDA4NTk2OTYxIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Amanda Papavasiliou":"https://calendar.google.com/calendar/event?eid=NjlhNjMwM2FhN2I1NjAwMDA3OWY2NDkzIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Becca Wysocki":"https://calendar.google.com/calendar/event?eid=NjliODk4YWI2NDUyZjQwMDA3ZjEyNjE4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Brittany Naples":"https://calendar.google.com/calendar/event?eid=Njk3OTA1ZDA5NTI4YTYwMDA3MjI2YjEzIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Brooke Kazanovicz":"https://calendar.google.com/calendar/event?eid=Njk3OGYzZDhhZDQ3NTQwMDA3ODgzYjU0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "CJ McCartin":"https://calendar.google.com/calendar/event?eid=Njk3ZTYzNGMyZWVhY2MwMDA3MDRkNGFhIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Caitlin Ferreira":"https://calendar.google.com/calendar/event?eid=NjgzZjc2ZDQ4NjZjYTkwMDFmNDU3Mjg0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Cara Goudy":"https://calendar.google.com/calendar/event?eid=NjdlZmQzODcwM2FmNzIwMDA3ZmZiZDY4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Catherine Welch":"https://calendar.google.com/calendar/event?eid=Njk1ZjJmY2ZmZmFhZjAwMDA3OGY1MjE4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Christine Cocce":"https://calendar.google.com/calendar/event?eid=NjliZGYzYmE4MGE5N2QwMDA3ZmM3MzliIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Dan Varrichio":"https://calendar.google.com/calendar/event?eid=Njk0ZTBkNTJlOGE0MTQwMDA3ZTgzYjNkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Erin Daly":"https://calendar.google.com/calendar/event?eid=Njg2NWUxMTkxNGZiY2IwMDA3ZTY3OTU3IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Gabby Majenski":"https://calendar.google.com/calendar/event?eid=NjdlYjJiYjhiYTQ3MzMwMDA3ZDg0NzI3IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Grace and Michael":"https://calendar.google.com/calendar/event?eid=Njg1ZDU3YzcxMzI2NjkwMDIzMmRiYWE1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Isabella Sinibaldi":"https://calendar.google.com/calendar/event?eid=NjlhNzJkYzFmODFjMjMwMDA3MTU0NjU5IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Jack & Paige Soucy":"https://calendar.google.com/calendar/event?eid=Njc5N2MwYTQ0NzJkOTUwMDA3OTkyOTNmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Julia Stell":"https://calendar.google.com/calendar/event?eid=Njk2MTMxM2I2MGRlMzQwMDA3YTQ1YWQwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Kate Dwyer":"https://calendar.google.com/calendar/event?eid=Njc5ZjdjYzg0YWE4NzgwMDA4OTcxM2FiIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Kristin Kelly":"https://calendar.google.com/calendar/event?eid=NjlhY2QwMWM3ZGFmZWYwMDA3YmViYTExIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Leigh A Keefe":"https://calendar.google.com/calendar/event?eid=NjkzMGUxODg0YzM4MjAwMDA3ZDMxOWNjIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Lindsey DeRensis":"https://calendar.google.com/calendar/event?eid=NjZiNTEzMzgyOTdjYmEwMDI1M2FlYzMyIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Maeve Bake":"https://calendar.google.com/calendar/event?eid=NjliOGFkNTk0YTQwMTMwMDA3YjY4OTEwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Meaghan and Matthew":"https://calendar.google.com/calendar/event?eid=Njk3MTNjNjYxMjRiMjEwMDI3NGQxZTdjIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Meg & Alex Mattie":"https://calendar.google.com/calendar/event?eid=NjliYTEwYzYwZTY5ZDYwMDIwMDlhZDhmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Melissa Gaffey":"https://calendar.google.com/calendar/event?eid=Njk4YTcwNTViZTVjM2MwMDA3M2EzZDdkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Molly & Mike":"https://calendar.google.com/calendar/event?eid=NjhmZTc5NTQ2ZTc2ZjYwMDJlNjJiYWFkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Molly Doherty":"https://calendar.google.com/calendar/event?eid=Njk1OTZmZmMxZmUyZTEwMDA2NDk4OWEyIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Molly Murphy":"https://calendar.google.com/calendar/event?eid=NjhhYjg5MmI2N2U1ZDIwMDA3OGViZjJmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Natalie Leone":"https://calendar.google.com/calendar/event?eid=Njk4YjlmMzQ2MGMxODMwMDA3MDZlOWY2IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Nicole Carroll":"https://calendar.google.com/calendar/event?eid=Njk1NTU1ZTdmMzQzN2MwMDA3YzExOWIzIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Samantha Barmore":"https://calendar.google.com/calendar/event?eid=NjkxNGVlNTVlOTE5MmMwMDA3N2M1ZjNhIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Samantha Gomes":"https://calendar.google.com/calendar/event?eid=Njk4OWZmYzBiODVjZjMwMDA3Mzc0MzJjIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Shelby and Timothy":"https://calendar.google.com/calendar/event?eid=NjhhMzYyNTVjZmE4ZGMwMDIxYTZiMDc2IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Tessa Bednarz":"https://calendar.google.com/calendar/event?eid=NjliOTM2MWU5YmIyMzgwMDA3ZDllNjZkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
 };
 
 const CHANGELOG = [
+  {date:"Mar 27, 2026",label:"Refresh #7",changes:["Added Cal Only category: 57 HB calendar Inquiries surfaced with direct HoneyBook links for review","Moved Changelog + Refresh Data pills to year-filter bar","Deprecated Redeploy button","Stats bar now shows Cal Only count"]},
   {date:"Mar 27, 2026",label:"Refresh #6",changes:["HoneyBook filter expanded with per-stage sub-filters (Inquiry, Questionnaire, Follow-up, Proposal Sent, Proposal Signed, Retainer Paid, Planning, Completed)"]},
   {date:"Mar 27, 2026",label:"Refresh #5",changes:["Added Kellie Cronin to pipeline at Retainer Paid — Oct 3, 2026, Boston Harbor Hotel Wharf Room, deposit paid Oct 2025, studio visit scheduled May 28 at 4:30 PM","Switched app to light theme"]},
   {date:"Mar 26, 2026 · 4:00 PM",label:"Refresh #4",changes:["Moved to HoneyBook pipeline (no longer Gmail-only): Melissa Gaffey, Amanda Papavasiliou, Molly Doherty, Dan Varrichio, CJ McCartin, Samantha Zaino, Julia Stell, Jack & Paige Soucy","Gmail-only flagged count: 20 → 12","HoneyBook calendar now shows 60+ projects with new 2026–2027 inquiries","Cara Goudy (Langham) — wedding Saturday March 28","Erin Goldberg (Union Club) — invoice sent Mar 26, delivery March 28"]},
@@ -445,16 +486,19 @@ function closeCL(){document.getElementById('cl-modal').classList.remove('open');
 function buildAllRows(){
   const rows=[];
   ACCEPTED_NO_HB.forEach(r=>{
-    rows.push({priority:1,type:"accepted",client:r.client,date:r.eventDate||null,hbStage:null,gmailDate:r.gmailDate,gmailEmail:r.email,notes:r.notes,hbCal:false});
+    rows.push({priority:1,type:"accepted",client:r.client,date:r.eventDate||null,hbStage:null,gmailDate:r.gmailDate,gmailEmail:r.email,notes:r.notes,hbCal:false,hbEventId:null});
   });
   GMAIL_ONLY.forEach((g,i)=>{
-    rows.push({priority:2+i*0.01,type:"gmail-only",client:g.client,date:g.eventDate||null,hbStage:null,gmailDate:g.gmailDate,gmailEmail:g.email,notes:g.notes,hbCal:g.hbCal});
+    rows.push({priority:2+i*0.01,type:"gmail-only",client:g.client,date:g.eventDate||null,hbStage:null,gmailDate:g.gmailDate,gmailEmail:g.email,notes:g.notes,hbCal:g.hbCal,hbEventId:null});
   });
-  CAL_ONLY.forEach(c=>{
-    rows.push({priority:5,type:"cal",client:c.name,date:c.date,hbStage:null,gmailDate:null,gmailEmail:c.email,notes:`On HB calendar — ${c.location}. No pipeline project.`,hbCal:false});
+  CAL_ONLY.forEach((c,i)=>{
+    rows.push({priority:5+i*0.01,type:"cal",client:c.name,date:c.date,hbStage:null,gmailDate:null,gmailEmail:null,
+      notes:"HB calendar Inquiry only — no pipeline project. Review in HoneyBook to update stage or remove.",
+      hbCal:false,hbEventId:c.hbEventId});
   });
   HB_PIPELINE.forEach(h=>{
-    rows.push({priority:10+STAGE_ORDER.indexOf(h.stage),type:"hb",client:h.name,date:h.date,hbStage:h.stage,gmailDate:null,gmailEmail:null,notes:h.notes||null,hbCal:false});
+    rows.push({priority:10+STAGE_ORDER.indexOf(h.stage),type:"hb",client:h.name,date:h.date,hbStage:h.stage,
+      gmailDate:null,gmailEmail:null,notes:h.notes||null,hbCal:false,hbEventId:null});
   });
   return rows.sort((a,b)=>a.priority-b.priority);
 }
@@ -491,11 +535,9 @@ function setFilter(f,btn){
   currentStage='all';
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  // Show/hide stage sub-filters
   const sfRow=document.getElementById('stage-filter-row');
   if(f==='hb'){
     sfRow.classList.add('visible');
-    // Reset stage buttons
     document.querySelectorAll('.stage-btn').forEach(b=>b.classList.remove('active'));
     document.getElementById('sf-all').classList.add('active');
     applyStageButtonStyles();
@@ -519,15 +561,11 @@ function applyStageButtonStyles(){
   document.querySelectorAll('.stage-btn').forEach(btn=>{
     const stage=btn.id.replace('sf-','');
     const style=STAGE_BTN_STYLE[stage];
-    if(!style) return; // "All" button — leave as CSS default
+    if(!style) return;
     if(btn.classList.contains('active')){
-      btn.style.background=style.bg;
-      btn.style.color=style.color;
-      btn.style.borderColor=style.border;
+      btn.style.background=style.bg;btn.style.color=style.color;btn.style.borderColor=style.border;
     } else {
-      btn.style.background='';
-      btn.style.color='';
-      btn.style.borderColor='';
+      btn.style.background='';btn.style.color='';btn.style.borderColor='';
     }
   });
 }
@@ -545,27 +583,25 @@ function render(){
   const yearRows=filterByYear(ALL_ROWS);
   const gmailOnlyCount=yearRows.filter(r=>r.type==='accepted'||r.type==='gmail-only').length;
   const hbCount=yearRows.filter(r=>r.hbStage).length;
+  const calCount=yearRows.filter(r=>r.type==='cal').length;
   const displayed=getDisplayRows();
 
   document.getElementById('statHB').textContent=hbCount;
   document.getElementById('statGmail').textContent=gmailOnlyCount;
+  document.getElementById('statCal').textContent=calCount;
   document.getElementById('statShowing').textContent=displayed.length;
 
   document.getElementById('f-gmail').textContent=`📧 Gmail Only (${gmailOnlyCount})`;
+  document.getElementById('f-cal').textContent=`📅 Cal Only (${calCount})`;
   document.getElementById('f-hb').textContent=`HoneyBook (${hbCount})`;
   document.getElementById('f-all').textContent=`All (${yearRows.length})`;
 
-  // Update stage button counts when HB filter active
   if(currentFilter==='hb'){
     const hbYearRows=yearRows.filter(r=>r.hbStage);
-    const allBtn=document.getElementById('sf-all');
-    allBtn.textContent=`All (${hbYearRows.length})`;
+    document.getElementById('sf-all').textContent=`All (${hbYearRows.length})`;
     ['Inquiry','Questionnaire','Follow-up','Proposal Sent','Proposal Signed','Retainer Paid','Planning','Completed'].forEach(s=>{
       const btn=document.getElementById('sf-'+s);
-      if(btn){
-        const cnt=hbYearRows.filter(r=>r.hbStage===s).length;
-        btn.textContent=`${s} (${cnt})`;
-      }
+      if(btn){const cnt=hbYearRows.filter(r=>r.hbStage===s).length;btn.textContent=`${s} (${cnt})`;}
     });
     applyStageButtonStyles();
   }
@@ -584,12 +620,18 @@ function render(){
     let noteClass='ok';
     if(r.type==='accepted') noteClass='red';
     else if(r.type==='gmail-only') noteClass='orange';
+    else if(r.type==='cal') noteClass='purple';
 
     let primaryTag='';
     if(r.type==='accepted') primaryTag='<span class="tag tag-accepted">⚠ ACCEPTED — NEEDS HB PROJECT</span>';
     else if(r.type==='gmail-only') primaryTag='<span class="tag tag-gmail-only">📧 GMAIL ONLY</span>';
+    else if(r.type==='cal') primaryTag='<span class="tag tag-cal-only">📅 CAL ONLY</span>';
     else if(r.hbStage) primaryTag=stageTag(r.hbStage);
     else primaryTag='<span class="tag tag-noHB">NOT IN HONEYBOOK</span>';
+
+    const hbLink=HB_LINKS[r.client]||(r.hbEventId?`https://www.honeybook.com/app/event/${r.hbEventId}`:null);
+    const gmailLink=GMAIL_THREADS[r.client];
+    const calLink=CAL_LINKS[r.client];
 
     return`<div class="card type-${r.type}" onclick="toggleCard(${i})">
       <div class="card-top"><div class="card-name">${r.client}</div><div class="card-flag">${flag(r)}</div></div>
@@ -606,8 +648,8 @@ function render(){
         ${r.gmailEmail?`<div>Email: <a href="https://mail.google.com/mail/u/0/?authuser=boathouseblooms%40gmail.com#search/from%3A${encodeURIComponent(r.gmailEmail)}+OR+to%3A${encodeURIComponent(r.gmailEmail)}" target="_blank" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);text-decoration:none;">${r.gmailEmail} ↗</a></div>`:''}
         ${r.date?`<div>Event date: <span>${fmtDate(r.date)}${p?' (past)':s?' (soon!)':''}</span></div>`:''}
         ${r.hbCal?`<div>HB calendar: <span>Inquiry on calendar — no pipeline project</span></div>`:''}
-        ${(HB_LINKS[r.client]||GMAIL_THREADS[r.client]||CAL_LINKS[r.client])?`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px">${HB_LINKS[r.client]?'<a href="'+HB_LINKS[r.client]+'" target="_blank" style="color:var(--blue);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ HoneyBook</a>':''}${GMAIL_THREADS[r.client]?' <a href="'+GMAIL_THREADS[r.client]+'" target="_blank" style="color:var(--gold);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Gmail</a>':''}${CAL_LINKS[r.client]?' <a href="'+CAL_LINKS[r.client]+'" target="_blank" style="color:var(--green);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Calendar</a>':''}</div>`:''}
-        <div>Source: <span>${r.type==='accepted'?'Gmail — accepted, not in HB':r.type==='gmail-only'?'Gmail only — not in HB pipeline':r.type==='cal'?'Calendar only':'HoneyBook pipeline'}</span></div>
+        ${(hbLink||gmailLink||calLink)?`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px">${hbLink?'<a href="'+hbLink+'" target="_blank" style="color:var(--blue);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ HoneyBook</a>':''}${gmailLink?' <a href="'+gmailLink+'" target="_blank" style="color:var(--gold);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Gmail</a>':''}${calLink?' <a href="'+calLink+'" target="_blank" style="color:var(--green);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Calendar</a>':''}</div>`:''}
+        <div>Source: <span>${r.type==='accepted'?'Gmail — accepted, not in HB':r.type==='gmail-only'?'Gmail only — not in HB pipeline':r.type==='cal'?'HB calendar only — no pipeline project':'HoneyBook pipeline'}</span></div>
       </div>
     </div>`;
   }).join('');
@@ -626,178 +668,83 @@ render();
 (function(){
   const built = new Date('2026-03-27T12:00:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
-  const parts = built.toLocaleString('en-US', opts);
-  document.getElementById('data-timestamp').textContent = parts;
+  document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
 </script>
 
 <script>
-const GITHUB_REPO  = 'BHB-David/boathouse-blooms';
-const GITHUB_FILE  = 'index.html';
-let refreshCancelled = false;
-
-function setRefreshUI(icon, title, msg, pct){
-  document.getElementById('refresh-icon').textContent = icon;
-  document.getElementById('refresh-title').textContent = title;
-  document.getElementById('refresh-msg').textContent = msg;
-  document.getElementById('refresh-bar').style.width = pct + '%';
-}
-
-function copyAndOpenClaude(){
-  navigator.clipboard.writeText('refresh the reconciliation table').catch(()=>{});
-  window.open('https://claude.ai/chat/8ebf0c74-9554-48a5-8e0f-0951dc52ce10','_blank');
-}
-
-function cancelRefresh(){
-  refreshCancelled = true;
-  document.getElementById('refresh-overlay').style.display = 'none';
-}
-
+const GITHUB_REPO='BHB-David/boathouse-blooms';
+const GITHUB_FILE='index.html';
+let refreshCancelled=false;
+function setRefreshUI(icon,title,msg,pct){document.getElementById('refresh-icon').textContent=icon;document.getElementById('refresh-title').textContent=title;document.getElementById('refresh-msg').textContent=msg;document.getElementById('refresh-bar').style.width=pct+'%';}
+function copyAndOpenClaude(){navigator.clipboard.writeText('refresh the reconciliation table').catch(()=>{});window.open('https://claude.ai/chat/8ebf0c74-9554-48a5-8e0f-0951dc52ce10','_blank');}
+function cancelRefresh(){refreshCancelled=true;document.getElementById('refresh-overlay').style.display='none';}
 async function startRefresh(){
-  refreshCancelled = false;
-  const overlay = document.getElementById('refresh-overlay');
-  overlay.style.display = 'flex';
+  refreshCancelled=false;
+  document.getElementById('refresh-overlay').style.display='flex';
   setRefreshUI('🔄','Refreshing Data','Fetching latest Gmail & Calendar data...',10);
-
   try {
     setRefreshUI('📧','Checking Gmail','Scanning sent proposals...',20);
-    const freshData = await fetchFreshData();
-    if(refreshCancelled) return;
-
+    const freshData=await fetchFreshData();
+    if(refreshCancelled)return;
     setRefreshUI('📅','Checking Calendar','Scanning HoneyBook calendar...',50);
-    await new Promise(r => setTimeout(r, 500));
-    if(refreshCancelled) return;
-
+    await new Promise(r=>setTimeout(r,500));
+    if(refreshCancelled)return;
     setRefreshUI('✏️','Updating Page','Writing fresh data to page...',65);
-    const cleanHtml = await fetchCleanHtml();
-    const updatedHtml = patchHtml(cleanHtml, freshData);
-    if(refreshCancelled) return;
-
+    const cleanHtml=await fetchCleanHtml();
+    const updatedHtml=patchHtml(cleanHtml,freshData);
+    if(refreshCancelled)return;
     setRefreshUI('📤','Deploying','Pushing to GitHub Pages...',80);
     await commitToGithub(updatedHtml);
-    if(refreshCancelled) return;
-
+    if(refreshCancelled)return;
     setRefreshUI('⏳','Almost Done','Waiting for GitHub Pages to rebuild...',90);
-    document.getElementById('refresh-cancel').style.display = 'none';
-    let secs = 65;
-    const countEl = document.getElementById('refresh-countdown');
-    countEl.style.display = 'block';
-    const ticker = setInterval(() => {
-      if(refreshCancelled){ clearInterval(ticker); return; }
-      secs--;
-      countEl.textContent = 'Reloading in ' + secs + 's...';
-      document.getElementById('refresh-bar').style.width = (90 + (65-secs)/65*10) + '%';
-      if(secs <= 0){
-        clearInterval(ticker);
-        setRefreshUI('✅','Done!','Reloading now...',100);
-        setTimeout(() => location.reload(), 1000);
-      }
-    }, 1000);
-
-  } catch(err) {
-    setRefreshUI('❌','Error',err.message || 'Something went wrong. Try again.',0);
-    document.getElementById('refresh-cancel').textContent = 'Close';
-    console.error('Refresh error:', err);
+    document.getElementById('refresh-cancel').style.display='none';
+    let secs=65;
+    const countEl=document.getElementById('refresh-countdown');
+    countEl.style.display='block';
+    const ticker=setInterval(()=>{
+      if(refreshCancelled){clearInterval(ticker);return;}
+      secs--;countEl.textContent='Reloading in '+secs+'s...';
+      document.getElementById('refresh-bar').style.width=(90+(65-secs)/65*10)+'%';
+      if(secs<=0){clearInterval(ticker);setRefreshUI('✅','Done!','Reloading now...',100);setTimeout(()=>location.reload(),1000);}
+    },1000);
+  } catch(err){
+    setRefreshUI('❌','Error',err.message||'Something went wrong. Try again.',0);
+    document.getElementById('refresh-cancel').textContent='Close';
   }
 }
-
 async function fetchFreshData(){
-  const currentGmailOnly = JSON.stringify(GMAIL_ONLY.map(g => ({
-    client: g.client, email: g.email, gmailDate: g.gmailDate, eventDate: g.eventDate
-  })));
-
-  const prompt = `You are helping refresh data for Boathouse Blooms (boathouseblooms@gmail.com), a floral design business.
-
-Current Gmail-only proposals (sent proposals not yet in HoneyBook pipeline):
-${currentGmailOnly}
-
-Today is ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}.
-
-Based on the current data, return ONLY a JSON object with this exact structure (no markdown, no explanation):
-{
-  "timestamp": "Mar 27, 2026 at 8:00 AM",
-  "gmailCount": 20,
-  "note": "No changes detected since last refresh"
+  const resp=await fetch('https://boathouse-proxy.david-9bd.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,messages:[{role:'user',content:`Return ONLY valid JSON: {"timestamp":"${new Date().toLocaleString('en-US',{timeZone:'America/New_York'})}","gmailCount":${GMAIL_ONLY.length},"note":"No changes"}`}]})});
+  if(!resp.ok)throw new Error('Claude API error: '+resp.status);
+  const data=await resp.json();
+  return JSON.parse(data.content[0].text.replace(/```json|```/g,'').trim());
 }
-
-The timestamp should be the current date/time in Boston time. Keep gmailCount the same as current (${GMAIL_ONLY.length}) unless you have new information. Return ONLY valid JSON.`;
-
-  const resp = await fetch('https://boathouse-proxy.david-9bd.workers.dev', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 200,
-      messages: [{ role: 'user', content: prompt }]
-    })
-  });
-
-  if(!resp.ok) throw new Error('Claude API error: ' + resp.status);
-  const data = await resp.json();
-  const text = data.content[0].text.trim();
-  const clean = text.replace(/```json|```/g,'').trim();
-  return JSON.parse(clean);
+function patchHtml(html,freshData){
+  let p=html.replace(/new Date\('[^']+'\)/,"new Date('2026-03-27T12:00:00Z')");
+  p=p.replace(/Gmail proposals: <span[^>]+>\d+ flagged<\/span>/,'Gmail proposals: <span style="color:var(--text)">'+freshData.gmailCount+' flagged</span>');
+  return p;
 }
-
-function patchHtml(html, freshData){
-  let patched = html.replace(
-    /new Date\('[^']+'\)/,
-    "new Date('2026-03-27T12:00:00Z')"
-  );
-  patched = patched.replace(
-    /Gmail proposals: <span[^>]+>\d+ flagged<\/span>/,
-    'Gmail proposals: <span style="color:var(--text)">' + freshData.gmailCount + ' flagged</span>'
-  );
-  return patched;
-}
-
 async function fetchCleanHtml(){
-  const WORKER = 'https://boathouse-proxy.david-9bd.workers.dev';
-  const shaResp = await fetch(WORKER, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Action': 'github-sha' },
-    body: JSON.stringify({ repo: GITHUB_REPO, file: GITHUB_FILE })
-  });
-  if(!shaResp.ok) throw new Error('Could not fetch file from GitHub (' + shaResp.status + ')');
-  const shaData = await shaResp.json();
-  if(!shaData.content) throw new Error('GitHub returned no content');
-  const b64 = shaData.content.replace(/[\r\n\s]/g, '');
-  const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
-  const decoded = new TextDecoder('utf-8').decode(bytes);
-  if(!decoded || decoded.length < 1000) throw new Error('Decoded HTML too short: ' + decoded.length);
+  const WORKER='https://boathouse-proxy.david-9bd.workers.dev';
+  const r=await fetch(WORKER,{method:'POST',headers:{'Content-Type':'application/json','X-Action':'github-sha'},body:JSON.stringify({repo:GITHUB_REPO,file:GITHUB_FILE})});
+  if(!r.ok)throw new Error('Could not fetch file from GitHub ('+r.status+')');
+  const d=await r.json();
+  if(!d.content)throw new Error('GitHub returned no content');
+  const b64=d.content.replace(/[\r\n\s]/g,'');
+  const bytes=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));
+  const decoded=new TextDecoder('utf-8').decode(bytes);
+  if(!decoded||decoded.length<1000)throw new Error('Decoded HTML too short: '+decoded.length);
   return decoded;
 }
-
 async function commitToGithub(htmlContent){
-  const WORKER = 'https://boathouse-proxy.david-9bd.workers.dev';
-
-  const shaResp = await fetch(WORKER, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Action': 'github-sha' },
-    body: JSON.stringify({ repo: GITHUB_REPO, file: GITHUB_FILE })
-  });
-  if(!shaResp.ok) throw new Error('GitHub: could not get file SHA (' + shaResp.status + ')');
-  const shaData = await shaResp.json();
-  const sha = shaData.sha;
-
-  const encoded = btoa(unescape(encodeURIComponent(htmlContent)));
-
-  const now = new Date().toLocaleString('en-US',{timeZone:'America/New_York',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
-  const commitResp = await fetch(WORKER, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Action': 'github-commit' },
-    body: JSON.stringify({
-      repo: GITHUB_REPO,
-      file: GITHUB_FILE,
-      message: 'Auto-refresh ' + now,
-      content: encoded,
-      sha: sha
-    })
-  });
-  if(!commitResp.ok){
-    const err = await commitResp.json();
-    throw new Error('GitHub commit failed: ' + (err.message || commitResp.status));
-  }
+  const WORKER='https://boathouse-proxy.david-9bd.workers.dev';
+  const r=await fetch(WORKER,{method:'POST',headers:{'Content-Type':'application/json','X-Action':'github-sha'},body:JSON.stringify({repo:GITHUB_REPO,file:GITHUB_FILE})});
+  if(!r.ok)throw new Error('GitHub: could not get file SHA ('+r.status+')');
+  const sha=(await r.json()).sha;
+  const encoded=btoa(unescape(encodeURIComponent(htmlContent)));
+  const now=new Date().toLocaleString('en-US',{timeZone:'America/New_York',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+  const cr=await fetch(WORKER,{method:'POST',headers:{'Content-Type':'application/json','X-Action':'github-commit'},body:JSON.stringify({repo:GITHUB_REPO,file:GITHUB_FILE,message:'Auto-refresh '+now,content:encoded,sha})});
+  if(!cr.ok){const e=await cr.json();throw new Error('GitHub commit failed: '+(e.message||cr.status));}
 }
 </script>
 
