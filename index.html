@@ -1,7 +1,7 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #12
-     Last updated: Mar 27, 2026 · 2:30 PM ET
-     Changes: Cards now sorted by event date — soonest upcoming first, undated items next, past events last
+     Version: Refresh #13
+     Last updated: Mar 27, 2026 · 3:00 PM ET
+     Changes: Fixed date sort (UTC offset was pushing today/tomorrow into past bucket) · Fixed stage pills (spaces in IDs broke multi-word stages like Retainer Paid, Proposal Sent, Proposal Signed)
      Cal Only count: 59 · Gmail Only: 19 · HB Pipeline: 41
 -->
 <!DOCTYPE html>
@@ -188,15 +188,15 @@ function checkPw(){
 
 <div class="stage-filters" id="stage-filter-row">
   <span class="stage-lbl">Stage:</span>
-  <button class="stage-btn active" id="sf-all" onclick="setStage('all',this)">All</button>
-  <button class="stage-btn" id="sf-Inquiry" onclick="setStage('Inquiry',this)">Inquiry</button>
-  <button class="stage-btn" id="sf-Questionnaire" onclick="setStage('Questionnaire',this)">Questionnaire</button>
-  <button class="stage-btn" id="sf-Follow-up" onclick="setStage('Follow-up',this)">Follow-up</button>
-  <button class="stage-btn" id="sf-Proposal Sent" onclick="setStage('Proposal Sent',this)">Proposal Sent</button>
-  <button class="stage-btn" id="sf-Proposal Signed" onclick="setStage('Proposal Signed',this)">Proposal Signed</button>
-  <button class="stage-btn" id="sf-Retainer Paid" onclick="setStage('Retainer Paid',this)">Retainer Paid</button>
-  <button class="stage-btn" id="sf-Planning" onclick="setStage('Planning',this)">Planning</button>
-  <button class="stage-btn" id="sf-Completed" onclick="setStage('Completed',this)">Completed</button>
+  <button class="stage-btn active" id="sf-all" data-stage="all" onclick="setStage('all',this)">All</button>
+  <button class="stage-btn" id="sf-Inquiry" data-stage="Inquiry" onclick="setStage('Inquiry',this)">Inquiry</button>
+  <button class="stage-btn" id="sf-Questionnaire" data-stage="Questionnaire" onclick="setStage('Questionnaire',this)">Questionnaire</button>
+  <button class="stage-btn" id="sf-Follow-up" data-stage="Follow-up" onclick="setStage('Follow-up',this)">Follow-up</button>
+  <button class="stage-btn" id="sf-ProposalSent" data-stage="Proposal Sent" onclick="setStage('Proposal Sent',this)">Proposal Sent</button>
+  <button class="stage-btn" id="sf-ProposalSigned" data-stage="Proposal Signed" onclick="setStage('Proposal Signed',this)">Proposal Signed</button>
+  <button class="stage-btn" id="sf-RetainerPaid" data-stage="Retainer Paid" onclick="setStage('Retainer Paid',this)">Retainer Paid</button>
+  <button class="stage-btn" id="sf-Planning" data-stage="Planning" onclick="setStage('Planning',this)">Planning</button>
+  <button class="stage-btn" id="sf-Completed" data-stage="Completed" onclick="setStage('Completed',this)">Completed</button>
 </div>
 
 <div id="refresh-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9998;align-items:center;justify-content:center;">
@@ -481,6 +481,7 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Mar 27, 2026",label:"Refresh #13",changes:["Fixed date sort — today/tomorrow no longer fall into 'past' bucket due to UTC offset","Fixed stage sub-filter pills — Retainer Paid, Proposal Sent, Proposal Signed now render and color correctly (spaces in element IDs were breaking getElementById)"]},
   {date:"Mar 27, 2026",label:"Refresh #12",changes:["Cards sorted by event date — soonest upcoming first, undated items next, past events last"]},
   {date:"Mar 27, 2026",label:"Refresh #11",changes:["Jamie Menn moved from Cal Only → HB Pipeline at Proposal Signed (Apr 4, 2026, Granite Links)"]},
   {date:"Mar 27, 2026",label:"Refresh #10",changes:["Increased contrast across light theme (text, borders, muted labels, all color vars)","Google Calendar links added to all 60 Cal Only cards","Fixed data timestamp to show refresh date rather than page load time"]},
@@ -581,17 +582,16 @@ function buildAllRows(){
 }
 
 function sortByDate(rows){
-  const now = new Date();
-  // Bucket: 0 = future/today, 1 = no date, 2 = past
+  const todayStr = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD in local time
   function bucket(r){
     if(!r.date) return 1;
-    return new Date(r.date) >= now ? 0 : 2;
+    return r.date >= todayStr ? 0 : 2;
   }
   return rows.slice().sort((a,b)=>{
     const ba=bucket(a), bb=bucket(b);
     if(ba!==bb) return ba-bb;
-    if(ba===0) return new Date(a.date)-new Date(b.date); // future: soonest first
-    if(ba===2) return new Date(b.date)-new Date(a.date); // past: most recent first
+    if(ba===0) return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; // future: soonest first
+    if(ba===2) return a.date > b.date ? -1 : a.date < b.date ? 1 : 0; // past: most recent first
     return a.client.localeCompare(b.client); // no date: alpha
   });
 }
@@ -652,7 +652,7 @@ function setStage(s,btn){
 
 function applyStageButtonStyles(){
   document.querySelectorAll('.stage-btn').forEach(btn=>{
-    const stage=btn.id.replace('sf-','');
+    const stage=btn.dataset.stage;
     const style=STAGE_BTN_STYLE[stage];
     if(!style) return;
     if(btn.classList.contains('active')){
@@ -692,9 +692,11 @@ function render(){
   if(currentFilter==='hb'){
     const hbYearRows=yearRows.filter(r=>r.hbStage);
     document.getElementById('sf-all').textContent=`All (${hbYearRows.length})`;
-    ['Inquiry','Questionnaire','Follow-up','Proposal Sent','Proposal Signed','Retainer Paid','Planning','Completed'].forEach(s=>{
-      const btn=document.getElementById('sf-'+s);
-      if(btn){const cnt=hbYearRows.filter(r=>r.hbStage===s).length;btn.textContent=`${s} (${cnt})`;}
+    document.querySelectorAll('.stage-btn[data-stage]').forEach(btn=>{
+      const s=btn.dataset.stage;
+      if(s==='all') return;
+      const cnt=hbYearRows.filter(r=>r.hbStage===s).length;
+      btn.textContent=`${s} (${cnt})`;
     });
     applyStageButtonStyles();
   }
@@ -759,7 +761,7 @@ render();
 
 <script>
 (function(){
-  const built = new Date('2026-03-27T18:30:00Z');
+  const built = new Date('2026-03-27T19:00:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
