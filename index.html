@@ -1,8 +1,8 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #16
-     Last updated: Mar 28, 2026 · 10:00 AM ET
-     Changes: Meaghan Keefe duplicate (Questionnaire) removed — active project is Meaghan and Matthew at Retainer Paid
-     Cal Only count: 59 · Gmail Only: 19 · HB Pipeline: 41
+     Version: Refresh #17
+     Last updated: Mar 28, 2026 · 10:30 AM ET
+     Changes: Jack & Paige Soucy moved from Gmail Only → HB Pipeline (Retainer Paid, Oct 3, 2026, Wiano Club)
+     Cal Only count: 59 · Gmail Only: 18 · HB Pipeline: 42
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -257,6 +257,7 @@ const HB_PIPELINE=[
   {name:"Cara Goudy",email:"hcgrigorian@gmail.com",stage:"Retainer Paid",date:"2026-03-28"},
   {name:"Molly Murphy",email:"mollymm10@gmail.com",stage:"Retainer Paid",date:"2026-04-04"},
   {name:"Kellie Cronin",email:"kelliecronin10@gmail.com",stage:"Retainer Paid",date:"2026-10-03",notes:"Boston Harbor Hotel Wharf Room · deposit paid Oct 2025 · studio visit May 28 4:30 PM"},
+  {name:"Jack & Paige Soucy",email:"jackpaigesoucy@gmail.com",stage:"Retainer Paid",date:"2026-10-03"},
   {name:"Caleigh's Baby Shower",stage:"Retainer Paid",date:null},
   {name:"Meaghan and Matthew",email:"meaganjkeefe@gmail.com",stage:"Retainer Paid",date:"2026-06-13"},
   {name:"Samantha Barmore",email:"sbarmore26@gmail.com",stage:"Retainer Paid",date:"2027-08-20"},
@@ -277,7 +278,6 @@ const ACCEPTED_NO_HB = [];
 const GMAIL_ONLY = [
   {client:"Arianna",email:"jacob.arianna2027@gmail.com",gmailDate:"2026-03-25",eventDate:null,hbCal:false,notes:"Preliminary proposal sent Mar 25. Not yet in HB pipeline."},
   {client:"Allison Thomas",email:"allisonmariel13@gmail.com",gmailDate:"2026-03-11",eventDate:null,hbCal:false,notes:"Two proposals sent (Feb 16 + Mar 11). Active back-and-forth. Not in HB pipeline."},
-  {client:"Jack & Paige Soucy",email:"jackpaigesoucy@gmail.com",gmailDate:"2026-03-08",eventDate:"2026-10-03",hbCal:true,notes:"Revised proposal Mar 8. Oct 3, 2026 wedding (Wiano Club). In HB calendar as Inquiry only."},
   {client:"Erin Daly",email:"erindaly814@gmail.com",gmailDate:"2026-02-20",eventDate:null,hbCal:false,notes:"Updated proposal Feb 20. Not in HB pipeline or calendar."},
   {client:"Caroline & Dylan Chase",email:"cdchase27@gmail.com",gmailDate:"2026-02-17",eventDate:null,hbCal:false,notes:"Updated proposal Feb 17. Not in HB pipeline."},
   {client:"Joe & James Carrara",email:"joecarrara2@gmail.com",gmailDate:"2026-02-17",eventDate:null,hbCal:false,notes:"Two proposals sent (Feb 9 + Feb 17). Not in HB pipeline."},
@@ -384,6 +384,7 @@ const HB_LINKS = {
   "Gabby Majenski":"https://www.honeybook.com/app/event/67eb2bb8ba47330007d84727",
   "Grace and Michael":"https://www.honeybook.com/app/event/685d57c713266900232dbaa5",
   "Isabella Sinibaldi":"https://www.honeybook.com/app/event/69a72dc1f81c230007154659",
+  "Jack & Paige Soucy":"https://www.honeybook.com/app/event/6797c0a4472d95000799293f",
   "Jamie Menn":"https://www.honeybook.com/app/event/68c068ac6d670700075fc956",
   "Julia Stell":"https://www.honeybook.com/app/event/6961313b60de340007a45ad0",
   "Kate Dwyer":"https://www.honeybook.com/app/event/679f7cc84aa87800089713ab",
@@ -482,6 +483,7 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Mar 28, 2026",label:"Refresh #17",changes:["Jack & Paige Soucy moved from Gmail Only → HB Pipeline at Retainer Paid (Oct 3, 2026, Wiano Club)"]},
   {date:"Mar 28, 2026",label:"Refresh #16",changes:["Removed duplicate Meaghan Keefe (Questionnaire) — archived project. Active project is Meaghan and Matthew at Retainer Paid (Jun 13, 2026, Wequassett)"]},
   {date:"Mar 28, 2026",label:"Refresh #15",changes:["Christina Maheras moved from Cal Only → HB Pipeline at Proposal Signed (Apr 26, 2026, Granite Links, ~150 guests, Greek/American wedding)"]},
   {date:"Mar 28, 2026",label:"Refresh #14",changes:["Julia Carr added to Cal Only (Aug 29, 2026, The Lakehouse Halifax MA)"]},
@@ -765,7 +767,7 @@ render();
 
 <script>
 (function(){
-  const built = new Date('2026-03-28T14:00:00Z');
+  const built = new Date('2026-03-28T14:30:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
