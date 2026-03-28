@@ -350,6 +350,7 @@ const CAL_ONLY = [
   {name:"Emma (2027)",date:"2027-06-11",hbEventId:"699b976cb6331700075fe863"},
   {name:"Kate Davignon",date:"2027-06-20",hbEventId:"69757fc8ff9d380007d8824a"},
   {name:"Kara Mahoney",date:"2027-06-25",hbEventId:"696f858489753800079a29b0"},
+  {name:"Brianna Harnois",date:"2027-08-13",hbEventId:"69c7126edd943d00079a67a5"},
 ];
 
 const STAGE_ORDER=["Completed","Planning","Retainer Paid","Proposal Signed","Proposal Sent","Follow-up","Questionnaire","Inquiry"];
@@ -473,6 +474,7 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Mar 27, 2026",label:"Refresh #9",changes:["Cal Only: added Brianna Harnois (Aug 13, 2027, Wychmere Beach Club)"]},
   {date:"Mar 27, 2026",label:"Refresh #8",changes:["Cal Only: removed Vanessa Acosta (resolved in HoneyBook)","Cal Only: added Kelly Spain (Apr 24, Granite Links), John & Jillian (Apr 24, River Club Scituate), Elizabeth Callaghan (Apr 25, Granite Links)"]},
   {date:"Mar 27, 2026",label:"Refresh #7",changes:["Added Cal Only category: 57 HB calendar Inquiries surfaced with direct HoneyBook links for review","Moved Changelog + Refresh Data pills to year-filter bar","Deprecated Redeploy button","Stats bar now shows Cal Only count"]},
   {date:"Mar 27, 2026",label:"Refresh #6",changes:["HoneyBook filter expanded with per-stage sub-filters (Inquiry, Questionnaire, Follow-up, Proposal Sent, Proposal Signed, Retainer Paid, Planning, Completed)"]},
@@ -669,9 +671,8 @@ render();
 
 <script>
 (function(){
-  const built = new Date('2026-03-27T12:00:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
-  document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
+  document.getElementById('data-timestamp').textContent = new Date().toLocaleString('en-US', opts);
 })();
 </script>
 
