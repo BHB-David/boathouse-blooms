@@ -1,7 +1,7 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #9
+     Version: Refresh #10
      Last updated: Mar 27, 2026
-     Changes: Brianna Harnois added to Cal Only (Aug 13 2027, Wychmere) · Live timestamp fix
+     Changes: Increased contrast on light theme · Google Calendar links added to all Cal Only cards
      Cal Only count: 60 · Gmail Only: 19 · HB Pipeline: 40
 -->
 <!DOCTYPE html>
@@ -13,11 +13,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#f8f5f2;--surface:#ffffff;--border:#e8e0d8;--border-bright:#d4c8bc;
-    --text:#2c2420;--muted:#8c7d72;--accent:#c8626a;--accent-dim:rgba(200,98,106,0.10);
-    --red:#c0392b;--red-dim:#fdf0ef;--gold:#a07820;--gold-dim:#fdf8ed;
-    --green:#1a8c5a;--green-dim:#edf8f3;--purple:#6b52a8;--purple-dim:#f2f0f9;--blue:#2563eb;
-    --orange:#c2560c;
+    --bg:#f5f1ed;--surface:#ffffff;--border:#cec5ba;--border-bright:#b0a090;
+    --text:#1a100c;--muted:#5e5048;--accent:#b84450;--accent-dim:rgba(184,68,80,0.10);
+    --red:#a82020;--red-dim:#fdf0ef;--gold:#7a5808;--gold-dim:#fdf8ed;
+    --green:#0e6640;--green-dim:#edf8f3;--purple:#4e3898;--purple-dim:#eeeaf8;--blue:#1848c8;
+    --orange:#9e3806;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Cormorant Garamond',Georgia,serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
@@ -62,9 +62,9 @@
 
   .card{border-radius:12px;padding:11px 13px;margin-bottom:7px;cursor:pointer;transition:opacity .1s;border-left-width:3px;border-left-style:solid;border-top:1px solid;border-right:1px solid;border-bottom:1px solid;}
   .card:hover{opacity:.88;}
-  .card.type-accepted{background:#fff5f5;border-color:#fcd5d5;border-left-color:var(--red);}
-  .card.type-gmail-only{background:#fff8f0;border-color:#fde8cc;border-left-color:var(--orange);}
-  .card.type-cal{background:var(--purple-dim);border-color:#e0d8f5;border-left-color:var(--purple);}
+  .card.type-accepted{background:#fff0f0;border-color:#f5b0b0;border-left-color:var(--red);}
+  .card.type-gmail-only{background:#fff4ec;border-color:#f5c898;border-left-color:var(--orange);}
+  .card.type-cal{background:var(--purple-dim);border-color:#c0b4e8;border-left-color:var(--purple);}
   .card.type-hb{background:var(--surface);border-color:var(--border);border-left-color:var(--border-bright);}
 
   .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px;}
@@ -480,6 +480,7 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Mar 27, 2026",label:"Refresh #10",changes:["Increased contrast across light theme (text, borders, muted labels, all color vars)","Google Calendar links added to all 60 Cal Only cards"]},
   {date:"Mar 27, 2026",label:"Refresh #9",changes:["Cal Only: added Brianna Harnois (Aug 13, 2027, Wychmere Beach Club)"]},
   {date:"Mar 27, 2026",label:"Refresh #8",changes:["Cal Only: removed Vanessa Acosta (resolved in HoneyBook)","Cal Only: added Kelly Spain (Apr 24, Granite Links), John & Jillian (Apr 24, River Club Scituate), Elizabeth Callaghan (Apr 25, Granite Links)"]},
   {date:"Mar 27, 2026",label:"Refresh #7",changes:["Added Cal Only category: 57 HB calendar Inquiries surfaced with direct HoneyBook links for review","Moved Changelog + Refresh Data pills to year-filter bar","Deprecated Redeploy button","Stats bar now shows Cal Only count"]},
@@ -493,6 +494,69 @@ const CHANGELOG = [
 
 function openCL(){var el=document.getElementById('cl-entries');if(!el.children.length){el.innerHTML=CHANGELOG.map(function(e){return '<div class="cl-entry"><div class="cl-label">'+e.label+'</div><div class="cl-date">'+e.date+'</div><ul>'+e.changes.map(function(c){return '<li>'+c+'</li>';}).join('')+'</ul></div>';}).join('');}document.getElementById('cl-modal').classList.add('open');}
 function closeCL(){document.getElementById('cl-modal').classList.remove('open');}
+
+const CAL_ONLY_GCAL_LINKS = {
+  "Jamie Menn": "https://www.google.com/calendar/event?eid=NjhjMDY4YWM2ZDY3MDcwMDA3NWZjOTU2IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Kelly Spain": "https://www.google.com/calendar/event?eid=Njc2Nzg3YWE0MDBmYTEwMDA3ODhhZTcwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "John & Jillian": "https://www.google.com/calendar/event?eid=NjhkZDFhYTMyMzViZjIwMDA4MWQyNjczIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Elizabeth Callaghan": "https://www.google.com/calendar/event?eid=NjgwOWQwNjM0MGVmODMwMDA3ZjIzNTg1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Christina Maheras": "https://www.google.com/calendar/event?eid=NjhjOGEwODdmOWZhZTQwMDA3NzVhMjNlIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Liz Polin": "https://www.google.com/calendar/event?eid=NjljNjgxNTNmZmQ0MmMwMDA3Njk3YTc5IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Mia Angeli": "https://www.google.com/calendar/event?eid=Njc0MGE3ZWJlZWEwYWQwMDA3MjU1ZWI0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Brianna Consigli": "https://www.google.com/calendar/event?eid=NjhiOWMzNGYwYjAyYTcwMDA3ZWRhZjNmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Alyssa Rao": "https://www.google.com/calendar/event?eid=Njg4YzA5Yjg0ZWQyMmMwMDA3ZDlhY2JiIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Sydney Dazzo": "https://www.google.com/calendar/event?eid=NjkxMGRmZDNmNGJiOGIwMDA3ZGI5YTZmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Kelly Hannon": "https://www.google.com/calendar/event?eid=Njg0NWJhNzJmNDI5NWMwMDA3MWFiOTRjIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Katelyn Cronin": "https://www.google.com/calendar/event?eid=NjcwNmIwMTY0MjkzYTkwMDA3YmJlZGUyIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Samantha Sieger": "https://www.google.com/calendar/event?eid=NjdlOTVmZGZiMmZjMjkwMDA3MjBiYTg0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Katelyn E Flaherty": "https://www.google.com/calendar/event?eid=NjdlOGE0NDk2YmE4Y2QwMDA3OGNjNGQ5IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Lucy Yu": "https://www.google.com/calendar/event?eid=NjgxYmEwYTgyZmVkNDQwMDA3ODY3YzFjIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Nicole Derosier": "https://www.google.com/calendar/event?eid=NjhiMzYwZjhiMzUwZjEwMDA3YzQ0ZmMyIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Ashley Gresian": "https://www.google.com/calendar/event?eid=Njg4ZTJlN2Y5MjliNTYwMDA3OWU4OWQzIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Melissa Guller": "https://www.google.com/calendar/event?eid=Njg0MGIzMDMzZDU5ZGYwMDA3ZDA1M2RlIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Sarah Vita": "https://www.google.com/calendar/event?eid=NjdmNjU4MTJkOWEyZmQwMDA3ODkyNjMzIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Liz Quill": "https://www.google.com/calendar/event?eid=NjhjYmViNDg0MDAzYWMwMDA2ZDE1OTcxIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Sophia Lynch": "https://www.google.com/calendar/event?eid=NjhkMTQ0OGUzNjJlYmIwMDA3ZWM4OWI1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Rachel Cohen": "https://www.google.com/calendar/event?eid=Njg3ZTUyM2JlOWU0ZjMwMDA3OWU2NjBjIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Tori Carson": "https://www.google.com/calendar/event?eid=NjgyODkzYjMzYzU2MGIwMDA4MWEyMjk3IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Paige Sheldon": "https://www.google.com/calendar/event?eid=Njk5ZDA2MTU5YzI0MDUwMDA3NjQ3MGY4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Suzy Malone": "https://www.google.com/calendar/event?eid=NjhhY2M1NGQyNjM0YTkwMDA3NmYzZWI0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Diann Crugnale": "https://www.google.com/calendar/event?eid=Njg3ODA5Yzg4NDcwNDYwMDA3OTAxZTJjIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Alexandra Roat": "https://www.google.com/calendar/event?eid=NjhkZWFjMTU1OTM1YjIwMDA3YzNjYWU2IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Lauren Katz": "https://www.google.com/calendar/event?eid=NjgyMTM1MDA1ZDYyNjkwMDA3N2QyYWY4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Sara Hagopian": "https://www.google.com/calendar/event?eid=NjdhYjc1NTM1YjE4OWIwMDA4Y2Q2MzA5IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Sarah Checkosky": "https://www.google.com/calendar/event?eid=Njg2NWUxMTkxNGZiY2IwMDA3ZTY3OTU3IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Nicole Tammaro": "https://www.google.com/calendar/event?eid=NjhmYTQ0NWYwMjY2Y2YwMDA3ZjkwZmRlIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Tyra Cameron": "https://www.google.com/calendar/event?eid=Njc4NDEzOGM5NzE0MWUwMDA3N2Y1Y2M1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Kaitlyn Dabenigno": "https://www.google.com/calendar/event?eid=Njk2M2Y5MzRjZDMwMzUwMDA3NGJkMWQ1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Alessandra Gallo": "https://www.google.com/calendar/event?eid=Njk5MzE4MTdhNmI4NDIwMDA4MmZkOWNkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Erin Walsh": "https://www.google.com/calendar/event?eid=Njk3ZTJiZDgwZGE1NDcwMDA3MjY5MTJkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Samantha Cardinal": "https://www.google.com/calendar/event?eid=Njc2NDNlOGQwZTY2OTYwMDA3MmE5NThhIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Louis Morgan": "https://www.google.com/calendar/event?eid=NjhiYTA2ODQxMDZlOGYwMDA3Y2U2ZGI0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Mikayla Ferguson": "https://www.google.com/calendar/event?eid=NjhiMGJmMGVmNGZlY2QwMDA3Mjg1Yjc3IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Dianne Rodenbush": "https://www.google.com/calendar/event?eid=NjgxMGUxNWIyMGMzYzgwMDA3M2E5MzIwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Julia Frisch": "https://www.google.com/calendar/event?eid=Njg5N2E3MDQyMGU5YzgwMDA3Njc4YzJiIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Kaitlynn Dotts": "https://www.google.com/calendar/event?eid=NjhmZjBkMThhNTBiZjEwMDA3ZmQ5MTJmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Samantha Chieffalo": "https://www.google.com/calendar/event?eid=NjhlZmQxYTZiNDYyYzIwMDA3NWM5Mzg5IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Sara DiCenso": "https://www.google.com/calendar/event?eid=Njg1Njk3NzI5NDU0MjYwMDA3M2NhMGVhIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Allison Bernhardt": "https://www.google.com/calendar/event?eid=Njc5N2MwYTQ0NzJkOTUwMDA3OTkyOTNmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Rebecca Grassia": "https://www.google.com/calendar/event?eid=NjhkMmNiMDRhM2I2YTIwMDA3YjM4MDllIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Kate Slowe": "https://www.google.com/calendar/event?eid=NjkxYzlkNWNmOGJmZDEwMDA3YWMwZGQ4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Brenna McEachern": "https://www.google.com/calendar/event?eid=NjhkYzNlNTQ4NGMzNjMwMDA3ZmQ0NzJjIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Connor Kennedy": "https://www.google.com/calendar/event?eid=NjhmNTYxMGU3YjllMGYwMDA3ODczYWNmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Kathryn Pedi": "https://www.google.com/calendar/event?eid=NjgxYTIyMjE1MmY2YWEwMDA3ODRkYWM4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Elizabeth Pino": "https://www.google.com/calendar/event?eid=NjhmNjY2MTBmZDgxM2EwMDA3NDg5ZWNkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Olivia Truenow": "https://www.google.com/calendar/event?eid=NjdjZjBhMWRiNDM1ZTgwMDA3NmUzZGI0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Mary": "https://www.google.com/calendar/event?eid=NjkzNzQ5ZWJlNDY0MTcwMDA3MjdlNjA1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Julianne Sheehan": "https://www.google.com/calendar/event?eid=NjhjODYwYjViYzRhOTUwMDA4OTQ1YjlmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Damiana LoRusso": "https://www.google.com/calendar/event?eid=NjdhYmUyYmM3MTA1YjYwMDA3MTgwMzhmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Christina McGinnis": "https://www.google.com/calendar/event?eid=NjkzM2ExOTJhZmIzNWMwMDA3Y2NiN2Q3IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Ani Hackett": "https://www.google.com/calendar/event?eid=NjkyZGJkNWEwZWQ5NjUwMDA4ZGQ2MjBhIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Emma (2027)": "https://www.google.com/calendar/event?eid=Njk5Yjk3NmNiNjMzMTcwMDA3NWZlODYzIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Kate Davignon": "https://www.google.com/calendar/event?eid=Njk3NTdmYzhmZjlkMzgwMDA3ZDg4MjRhIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Kara Mahoney": "https://www.google.com/calendar/event?eid=Njk2Zjg1ODQ4OTc1MzgwMDA3OWEyOWIwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Brianna Harnois": "https://www.google.com/calendar/event?eid=NjljNzEyNmVkZDk0M2QwMDA3OWE2N2E1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+};
 
 function buildAllRows(){
   const rows=[];
@@ -642,7 +706,7 @@ function render(){
 
     const hbLink=HB_LINKS[r.client]||(r.hbEventId?`https://www.honeybook.com/app/event/${r.hbEventId}`:null);
     const gmailLink=GMAIL_THREADS[r.client];
-    const calLink=CAL_LINKS[r.client];
+    const calLink=CAL_LINKS[r.client]||(r.type==='cal'?CAL_ONLY_GCAL_LINKS[r.client]:null);
 
     return`<div class="card type-${r.type}" onclick="toggleCard(${i})">
       <div class="card-top"><div class="card-name">${r.client}</div><div class="card-flag">${flag(r)}</div></div>
