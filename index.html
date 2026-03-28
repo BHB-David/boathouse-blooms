@@ -1,8 +1,8 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #10
-     Last updated: Mar 27, 2026
-     Changes: Increased contrast on light theme · Google Calendar links added to all Cal Only cards
-     Cal Only count: 60 · Gmail Only: 19 · HB Pipeline: 40
+     Version: Refresh #12
+     Last updated: Mar 27, 2026 · 2:30 PM ET
+     Changes: Cards now sorted by event date — soonest upcoming first, undated items next, past events last
+     Cal Only count: 59 · Gmail Only: 19 · HB Pipeline: 41
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -250,6 +250,7 @@ const HB_PIPELINE=[
   {name:"Bryant University Healthcare",stage:"Proposal Signed",date:null},
   {name:"Birthday Blooms for Kate",stage:"Proposal Signed",date:null},
   {name:"Margaret (Maggie) Berkeley",email:"berkeleymaggie@gmail.com",stage:"Proposal Signed",date:null},
+  {name:"Jamie Menn",stage:"Proposal Signed",date:"2026-04-04"},
   {name:"Lindsey DeRensis",email:"lindseyaderensis@gmail.com",stage:"Retainer Paid",date:"2026-06-20"},
   {name:"Kate Dwyer",email:"kate.dwyer55@gmail.com",stage:"Retainer Paid",date:"2026-06-26"},
   {name:"Caitlin Ferreira",email:"caitlinstefens@gmail.com",stage:"Retainer Paid",date:"2026-07-10"},
@@ -297,7 +298,6 @@ const GMAIL_ONLY = [
 
 // HB calendar Inquiries with no pipeline project — review & resolve via HoneyBook link
 const CAL_ONLY = [
-  {name:"Jamie Menn",date:"2026-04-04",hbEventId:"68c068ac6d670700075fc956"},
   {name:"Kelly Spain",date:"2026-04-24",hbEventId:"676787aa400fa1000788ae70"},
   {name:"John & Jillian",date:"2026-04-24",hbEventId:"68dd1aa3235bf200081d2673"},
   {name:"Elizabeth Callaghan",date:"2026-04-25",hbEventId:"6809d06340ef830007f23585"},
@@ -383,6 +383,7 @@ const HB_LINKS = {
   "Gabby Majenski":"https://www.honeybook.com/app/event/67eb2bb8ba47330007d84727",
   "Grace and Michael":"https://www.honeybook.com/app/event/685d57c713266900232dbaa5",
   "Isabella Sinibaldi":"https://www.honeybook.com/app/event/69a72dc1f81c230007154659",
+  "Jamie Menn":"https://www.honeybook.com/app/event/68c068ac6d670700075fc956",
   "Julia Stell":"https://www.honeybook.com/app/event/6961313b60de340007a45ad0",
   "Kate Dwyer":"https://www.honeybook.com/app/event/679f7cc84aa87800089713ab",
   "Kristin Kelly":"https://www.honeybook.com/app/event/69acd01c7dafef0007beba11",
@@ -480,7 +481,9 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
-  {date:"Mar 27, 2026",label:"Refresh #10",changes:["Increased contrast across light theme (text, borders, muted labels, all color vars)","Google Calendar links added to all 60 Cal Only cards"]},
+  {date:"Mar 27, 2026",label:"Refresh #12",changes:["Cards sorted by event date — soonest upcoming first, undated items next, past events last"]},
+  {date:"Mar 27, 2026",label:"Refresh #11",changes:["Jamie Menn moved from Cal Only → HB Pipeline at Proposal Signed (Apr 4, 2026, Granite Links)"]},
+  {date:"Mar 27, 2026",label:"Refresh #10",changes:["Increased contrast across light theme (text, borders, muted labels, all color vars)","Google Calendar links added to all 60 Cal Only cards","Fixed data timestamp to show refresh date rather than page load time"]},
   {date:"Mar 27, 2026",label:"Refresh #9",changes:["Cal Only: added Brianna Harnois (Aug 13, 2027, Wychmere Beach Club)"]},
   {date:"Mar 27, 2026",label:"Refresh #8",changes:["Cal Only: removed Vanessa Acosta (resolved in HoneyBook)","Cal Only: added Kelly Spain (Apr 24, Granite Links), John & Jillian (Apr 24, River Club Scituate), Elizabeth Callaghan (Apr 25, Granite Links)"]},
   {date:"Mar 27, 2026",label:"Refresh #7",changes:["Added Cal Only category: 57 HB calendar Inquiries surfaced with direct HoneyBook links for review","Moved Changelog + Refresh Data pills to year-filter bar","Deprecated Redeploy button","Stats bar now shows Cal Only count"]},
@@ -496,7 +499,6 @@ function openCL(){var el=document.getElementById('cl-entries');if(!el.children.l
 function closeCL(){document.getElementById('cl-modal').classList.remove('open');}
 
 const CAL_ONLY_GCAL_LINKS = {
-  "Jamie Menn": "https://www.google.com/calendar/event?eid=NjhjMDY4YWM2ZDY3MDcwMDA3NWZjOTU2IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Kelly Spain": "https://www.google.com/calendar/event?eid=Njc2Nzg3YWE0MDBmYTEwMDA3ODhhZTcwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "John & Jillian": "https://www.google.com/calendar/event?eid=NjhkZDFhYTMyMzViZjIwMDA4MWQyNjczIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Elizabeth Callaghan": "https://www.google.com/calendar/event?eid=NjgwOWQwNjM0MGVmODMwMDA3ZjIzNTg1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
@@ -561,21 +563,37 @@ const CAL_ONLY_GCAL_LINKS = {
 function buildAllRows(){
   const rows=[];
   ACCEPTED_NO_HB.forEach(r=>{
-    rows.push({priority:1,type:"accepted",client:r.client,date:r.eventDate||null,hbStage:null,gmailDate:r.gmailDate,gmailEmail:r.email,notes:r.notes,hbCal:false,hbEventId:null});
+    rows.push({type:"accepted",client:r.client,date:r.eventDate||null,hbStage:null,gmailDate:r.gmailDate,gmailEmail:r.email,notes:r.notes,hbCal:false,hbEventId:null});
   });
-  GMAIL_ONLY.forEach((g,i)=>{
-    rows.push({priority:2+i*0.01,type:"gmail-only",client:g.client,date:g.eventDate||null,hbStage:null,gmailDate:g.gmailDate,gmailEmail:g.email,notes:g.notes,hbCal:g.hbCal,hbEventId:null});
+  GMAIL_ONLY.forEach(g=>{
+    rows.push({type:"gmail-only",client:g.client,date:g.eventDate||null,hbStage:null,gmailDate:g.gmailDate,gmailEmail:g.email,notes:g.notes,hbCal:g.hbCal,hbEventId:null});
   });
-  CAL_ONLY.forEach((c,i)=>{
-    rows.push({priority:5+i*0.01,type:"cal",client:c.name,date:c.date,hbStage:null,gmailDate:null,gmailEmail:null,
+  CAL_ONLY.forEach(c=>{
+    rows.push({type:"cal",client:c.name,date:c.date,hbStage:null,gmailDate:null,gmailEmail:null,
       notes:"HB calendar Inquiry only — no pipeline project. Review in HoneyBook to update stage or remove.",
       hbCal:false,hbEventId:c.hbEventId});
   });
   HB_PIPELINE.forEach(h=>{
-    rows.push({priority:10+STAGE_ORDER.indexOf(h.stage),type:"hb",client:h.name,date:h.date,hbStage:h.stage,
+    rows.push({type:"hb",client:h.name,date:h.date,hbStage:h.stage,
       gmailDate:null,gmailEmail:null,notes:h.notes||null,hbCal:false,hbEventId:null});
   });
-  return rows.sort((a,b)=>a.priority-b.priority);
+  return sortByDate(rows);
+}
+
+function sortByDate(rows){
+  const now = new Date();
+  // Bucket: 0 = future/today, 1 = no date, 2 = past
+  function bucket(r){
+    if(!r.date) return 1;
+    return new Date(r.date) >= now ? 0 : 2;
+  }
+  return rows.slice().sort((a,b)=>{
+    const ba=bucket(a), bb=bucket(b);
+    if(ba!==bb) return ba-bb;
+    if(ba===0) return new Date(a.date)-new Date(b.date); // future: soonest first
+    if(ba===2) return new Date(b.date)-new Date(a.date); // past: most recent first
+    return a.client.localeCompare(b.client); // no date: alpha
+  });
 }
 
 const ALL_ROWS=buildAllRows();
@@ -649,8 +667,8 @@ function flag(r){
   if(r.type==='accepted') return '🔴';
   if(r.type==='gmail-only') return '📧';
   if(r.type==='cal') return '📅';
-  if(r.priority<=4) return '🟡';
-  return '✅';
+  if(r.hbStage) return '✅';
+  return '🟡';
 }
 function stageTag(s){const st=STAGE_STYLE[s]||{color:'#8899aa',bg:'#eef4fa'};return`<span class="tag tag-stage" style="color:${st.color};background:${st.bg};border-color:${st.color}44">${s}</span>`;}
 
@@ -741,8 +759,9 @@ render();
 
 <script>
 (function(){
+  const built = new Date('2026-03-27T18:30:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
-  document.getElementById('data-timestamp').textContent = new Date().toLocaleString('en-US', opts);
+  document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
 </script>
 
