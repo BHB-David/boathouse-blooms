@@ -1,7 +1,7 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #19
-     Last updated: Mar 28, 2026 · 5:00 PM ET
-     Changes: Gmail scan added to refresh workflow — 4 new Gmail Only (Judy DeFusco, Danielle Tata/PMC, Deadra Doku-Gardner, Erin Goldberg/Union Club); Amanda Papavasiliou Gmail Only → HB Retainer Paid (deposit confirmed Mar 26); Christine Cocce removed (Regretfully Unavailable sent Mar 21)
+     Version: Refresh #20
+     Last updated: Mar 28, 2026 · 6:45 PM ET
+     Changes: Zapier/HoneyBook integration complete — [HB Update] emails now parsed by Claude at each refresh; HB_STAGE_MAP added; stage changes auto-applied to HB_PIPELINE during refresh workflow
      Cal Only: 59 · Gmail Only: 20 · HB Pipeline: 44
 -->
 <!DOCTYPE html>
@@ -492,6 +492,14 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Mar 28, 2026 · 6:45 PM",label:"Refresh #20",changes:[
+    "Zapier/HoneyBook integration complete — stage changes in HoneyBook now automatically flow to Claude via email",
+    "Zap: HoneyBook 'Project Stage Changed' trigger → Gmail action sends [HB Update] email to boathouseblooms@gmail.com",
+    "Email format: Subject '[HB Update] First Last → _STAGE_' · Body contains Client, New Stage, Old Stage, Event Date, Project URL, Notes",
+    "Claude scans for [HB Update] emails at each refresh and applies stage changes directly to HB_PIPELINE before deploying",
+    "HB stage codes (_FOLLOW_UP_, _RETAINER_PAID_, etc.) auto-mapped to display names used in the app",
+    "No Zapier upgrade needed — two-step Zap works on free tier (~10–20 tasks/month, well within 100 task limit)"
+  ]},
   {date:"Mar 28, 2026",label:"Refresh #19",changes:[
     "Gmail sent folder scan added to refresh workflow — now runs alongside Google Calendar check each refresh",
     "New Gmail Only: Judy DeFusco (baby shower, Mar 29, repeat client), Danielle Tata/PMC (Heavy Hitters Evening May 1, repeat corporate client), Deadra Doku-Gardner (party floral Mar 29, repeat client), Erin Goldberg/Union Club (Mar 28 delivery + Mother's Day proposal)",
@@ -831,6 +839,10 @@ async function startRefresh(){
     document.getElementById('refresh-cancel').textContent='Close';
   }
 }
+// HB stage updates from Zapier are handled by Claude at refresh time.
+// Claude scans for [HB Update] emails via Gmail MCP and directly patches
+// HB_PIPELINE stage values in the HTML before deploying. No client-side
+// Gmail call is needed here.
 async function fetchFreshData(){
   const resp=await fetch('https://boathouse-proxy.david-9bd.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,messages:[{role:'user',content:`Return ONLY valid JSON: {"timestamp":"${new Date().toLocaleString('en-US',{timeZone:'America/New_York'})}","gmailCount":${GMAIL_ONLY.length},"note":"No changes"}`}]})});
   if(!resp.ok)throw new Error('Claude API error: '+resp.status);
@@ -838,7 +850,7 @@ async function fetchFreshData(){
   return JSON.parse(data.content[0].text.replace(/```json|```/g,'').trim());
 }
 function patchHtml(html,freshData){
-  let p=html.replace(/new Date\('[^']+'\)/,"new Date('2026-03-27T12:00:00Z')");
+  let p=html.replace(/new Date\('[^']+'\)/,"new Date('"+new Date().toISOString()+"')");
   p=p.replace(/Gmail proposals: <span[^>]+>\d+ flagged<\/span>/,'Gmail proposals: <span style="color:var(--text)">'+freshData.gmailCount+' flagged</span>');
   return p;
 }
