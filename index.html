@@ -1,7 +1,7 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #13
-     Last updated: Mar 27, 2026 · 3:00 PM ET
-     Changes: Fixed date sort (UTC offset was pushing today/tomorrow into past bucket) · Fixed stage pills (spaces in IDs broke multi-word stages like Retainer Paid, Proposal Sent, Proposal Signed)
+     Version: Refresh #16
+     Last updated: Mar 28, 2026 · 10:00 AM ET
+     Changes: Meaghan Keefe duplicate (Questionnaire) removed — active project is Meaghan and Matthew at Retainer Paid
      Cal Only count: 59 · Gmail Only: 19 · HB Pipeline: 41
 -->
 <!DOCTYPE html>
@@ -233,7 +233,6 @@ const HB_PIPELINE=[
   {name:"Catherine Welch",email:"catherinerosewelch@gmail.com",stage:"Inquiry",date:"2026-06-06"},
   {name:"Leigh A Keefe",email:"leighkeefe@gmail.com",stage:"Inquiry",date:"2026-06-13"},
   {name:"Laura Nicholson",email:"laura.b.nichol@gmail.com",stage:"Inquiry",date:"2026-02-14"},
-  {name:"Meaghan Keefe",email:"meaganjkeefe@gmail.com",stage:"Questionnaire",date:null},
   {name:"Alyssa Verzino",stage:"Questionnaire",date:"2025-10-04"},
   {name:"Christine Cocce",email:"christineandericwed@gmail.com",stage:"Follow-up",date:"2026-10-17"},
   {name:"Maeve Bake",email:"maeveblake5@gmail.com",stage:"Follow-up",date:"2027-07-16"},
@@ -251,6 +250,7 @@ const HB_PIPELINE=[
   {name:"Birthday Blooms for Kate",stage:"Proposal Signed",date:null},
   {name:"Margaret (Maggie) Berkeley",email:"berkeleymaggie@gmail.com",stage:"Proposal Signed",date:null},
   {name:"Jamie Menn",stage:"Proposal Signed",date:"2026-04-04"},
+  {name:"Christina Maheras",email:"gilbertcoins@gmail.com",stage:"Proposal Signed",date:"2026-04-26"},
   {name:"Lindsey DeRensis",email:"lindseyaderensis@gmail.com",stage:"Retainer Paid",date:"2026-06-20"},
   {name:"Kate Dwyer",email:"kate.dwyer55@gmail.com",stage:"Retainer Paid",date:"2026-06-26"},
   {name:"Caitlin Ferreira",email:"caitlinstefens@gmail.com",stage:"Retainer Paid",date:"2026-07-10"},
@@ -301,7 +301,6 @@ const CAL_ONLY = [
   {name:"Kelly Spain",date:"2026-04-24",hbEventId:"676787aa400fa1000788ae70"},
   {name:"John & Jillian",date:"2026-04-24",hbEventId:"68dd1aa3235bf200081d2673"},
   {name:"Elizabeth Callaghan",date:"2026-04-25",hbEventId:"6809d06340ef830007f23585"},
-  {name:"Christina Maheras",date:"2026-04-26",hbEventId:"68c8a087f9fae4000775a23e"},
   {name:"Liz Polin",date:"2026-05-02",hbEventId:"69c68153ffd42c0007697a79"},
   {name:"Mia Angeli",date:"2026-05-02",hbEventId:"6740a7ebeea0ad0007255eb4"},
   {name:"Brianna Consigli",date:"2026-05-08",hbEventId:"68b9c34f0b02a70007edaf3f"},
@@ -329,6 +328,7 @@ const CAL_ONLY = [
   {name:"Sarah Checkosky",date:"2026-08-14",hbEventId:"6865e11914fbcb0007e67957"},
   {name:"Nicole Tammaro",date:"2026-08-21",hbEventId:"68fa445f0266cf0007f90fde"},
   {name:"Tyra Cameron",date:"2026-08-28",hbEventId:"6784138c97141e00077f5cc5"},
+  {name:"Julia Carr",date:"2026-08-29",hbEventId:"69c73ea2dd943d0007e30c8c"},
   {name:"Kaitlyn Dabenigno",date:"2026-09-05",hbEventId:"6963f934cd303500074bd1d5"},
   {name:"Alessandra Gallo",date:"2026-09-05",hbEventId:"69931817a6b84200082fd9cd"},
   {name:"Erin Walsh",date:"2026-09-06",hbEventId:"697e2bd80da547000726912d"},
@@ -377,6 +377,7 @@ const HB_LINKS = {
   "Caitlin Ferreira":"https://www.honeybook.com/app/event/683f76d4866ca9001f457284",
   "Cara Goudy":"https://www.honeybook.com/app/event/67efd38703af720007ffbd68",
   "Catherine Welch":"https://www.honeybook.com/app/event/695f2fcfffaaf000078f5218",
+  "Christina Maheras":"https://www.honeybook.com/app/event/68c8a087f9fae4000775a23e",
   "Christine Cocce":"https://www.honeybook.com/app/event/69bdf3ba80a97d0007fc739b",
   "Dan Varrichio":"https://www.honeybook.com/app/event/694e0d52e8a4140007e83b3d",
   "Kellie Cronin":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms%40gmail.com#all/199e0584c27ad6db",
@@ -481,6 +482,9 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Mar 28, 2026",label:"Refresh #16",changes:["Removed duplicate Meaghan Keefe (Questionnaire) — archived project. Active project is Meaghan and Matthew at Retainer Paid (Jun 13, 2026, Wequassett)"]},
+  {date:"Mar 28, 2026",label:"Refresh #15",changes:["Christina Maheras moved from Cal Only → HB Pipeline at Proposal Signed (Apr 26, 2026, Granite Links, ~150 guests, Greek/American wedding)"]},
+  {date:"Mar 28, 2026",label:"Refresh #14",changes:["Julia Carr added to Cal Only (Aug 29, 2026, The Lakehouse Halifax MA)"]},
   {date:"Mar 27, 2026",label:"Refresh #13",changes:["Fixed date sort — today/tomorrow no longer fall into 'past' bucket due to UTC offset","Fixed stage sub-filter pills — Retainer Paid, Proposal Sent, Proposal Signed now render and color correctly (spaces in element IDs were breaking getElementById)"]},
   {date:"Mar 27, 2026",label:"Refresh #12",changes:["Cards sorted by event date — soonest upcoming first, undated items next, past events last"]},
   {date:"Mar 27, 2026",label:"Refresh #11",changes:["Jamie Menn moved from Cal Only → HB Pipeline at Proposal Signed (Apr 4, 2026, Granite Links)"]},
@@ -503,7 +507,6 @@ const CAL_ONLY_GCAL_LINKS = {
   "Kelly Spain": "https://www.google.com/calendar/event?eid=Njc2Nzg3YWE0MDBmYTEwMDA3ODhhZTcwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "John & Jillian": "https://www.google.com/calendar/event?eid=NjhkZDFhYTMyMzViZjIwMDA4MWQyNjczIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Elizabeth Callaghan": "https://www.google.com/calendar/event?eid=NjgwOWQwNjM0MGVmODMwMDA3ZjIzNTg1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Christina Maheras": "https://www.google.com/calendar/event?eid=NjhjOGEwODdmOWZhZTQwMDA3NzVhMjNlIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Liz Polin": "https://www.google.com/calendar/event?eid=NjljNjgxNTNmZmQ0MmMwMDA3Njk3YTc5IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Mia Angeli": "https://www.google.com/calendar/event?eid=Njc0MGE3ZWJlZWEwYWQwMDA3MjU1ZWI0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Brianna Consigli": "https://www.google.com/calendar/event?eid=NjhiOWMzNGYwYjAyYTcwMDA3ZWRhZjNmIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
@@ -531,6 +534,7 @@ const CAL_ONLY_GCAL_LINKS = {
   "Sarah Checkosky": "https://www.google.com/calendar/event?eid=Njg2NWUxMTkxNGZiY2IwMDA3ZTY3OTU3IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Nicole Tammaro": "https://www.google.com/calendar/event?eid=NjhmYTQ0NWYwMjY2Y2YwMDA3ZjkwZmRlIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Tyra Cameron": "https://www.google.com/calendar/event?eid=Njc4NDEzOGM5NzE0MWUwMDA3N2Y1Y2M1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Julia Carr": "https://www.google.com/calendar/event?eid=NjljNzNlYTJkZDk0M2QwMDA3ZTMwYzhjIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Kaitlyn Dabenigno": "https://www.google.com/calendar/event?eid=Njk2M2Y5MzRjZDMwMzUwMDA3NGJkMWQ1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Alessandra Gallo": "https://www.google.com/calendar/event?eid=Njk5MzE4MTdhNmI4NDIwMDA4MmZkOWNkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Erin Walsh": "https://www.google.com/calendar/event?eid=Njk3ZTJiZDgwZGE1NDcwMDA3MjY5MTJkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
@@ -761,7 +765,7 @@ render();
 
 <script>
 (function(){
-  const built = new Date('2026-03-27T19:00:00Z');
+  const built = new Date('2026-03-28T14:00:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
