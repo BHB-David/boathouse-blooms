@@ -1,8 +1,8 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #20
-     Last updated: Mar 28, 2026 · 6:45 PM ET
-     Changes: Zapier/HoneyBook integration complete — [HB Update] emails now parsed by Claude at each refresh; HB_STAGE_MAP added; stage changes auto-applied to HB_PIPELINE during refresh workflow
-     Cal Only: 59 · Gmail Only: 20 · HB Pipeline: 44
+     Version: Refresh #21
+     Last updated: Mar 28, 2026 · 7:00 PM ET
+     Changes: Zapier/HB integration complete (Refresh #20); Cal Only duplicates noted (Samantha Sieger, Suzy Malone, Natalie Leone); Samantha Zaino added to Cal Only; Bryant University Healthcare Summit (Laura McNulty) added to Gmail Only; [HB Update] test emails (Liz Polin/_FOLLOW_UP_) ignored — Zapier test only, not a real stage change
+     Cal Only: 60 · Gmail Only: 21 · HB Pipeline: 44
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -167,7 +167,7 @@ function checkPw(){
   <div class="refresh-inner">
     <div class="refresh-icon">🌸</div>
     <div class="refresh-text" style="flex:1">
-      <p>Pipeline: <span style="color:var(--text)">42 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">12 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
+      <p>Pipeline: <span style="color:var(--text)">44 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">21 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
     </div>
   </div>
 </div>
@@ -297,6 +297,7 @@ const GMAIL_ONLY = [
   {client:"Molly Doherty",email:"diiorio52127@gmail.com",gmailDate:"2026-01-26",eventDate:"2027-05-21",hbCal:true,notes:"Preliminary Jan 26. May 21, 2027 Wychmere. In HB calendar as Inquiry."},
   {client:"Julia Stell",email:"juliaastell4@gmail.com",gmailDate:"2026-01-26",eventDate:"2026-09-26",hbCal:true,notes:"Updated Jan 26. Sep 26, 2026 Hyannis beach. In HB calendar as Inquiry."},
   {client:"Dan Varrichio",email:"danvarrichio@gmail.com",gmailDate:"2026-01-05",eventDate:"2027-04-17",hbCal:true,notes:"Preliminary Jan 5. Apr 17, 2027 Chatham Bars Inn. In HB calendar as Inquiry."},
+  {client:"Laura McNulty / Bryant University",email:"lmcnulty1@bryant.edu",gmailDate:"2026-03-24",eventDate:"2026-05-01",hbCal:false,notes:"Bryant University Healthcare Summit May 1, 2026. Preliminary proposal sent Mar 24. Active back-and-forth. Not in HB pipeline. (Separate from Bryant University Healthcare Summit already in HB_PIPELINE as Proposal Signed.)"},
 ];
 
 // HB calendar Inquiries with no pipeline project — review & resolve via HoneyBook link
@@ -312,6 +313,7 @@ const CAL_ONLY = [
   {name:"Kelly Hannon",date:"2026-05-16",hbEventId:"6845ba72f4295c00071ab94c"},
   {name:"Katelyn Cronin",date:"2026-05-23",hbEventId:"6706b0164293a90007bbede2"},
   {name:"Samantha Sieger",date:"2026-05-23",hbEventId:"67e95fdfb2fc29000720ba84"},
+  {name:"Samantha Zaino",date:"2027-05-22",hbEventId:"68c4728c8735590007cc014d"},
   {name:"Katelyn E Flaherty",date:"2026-05-24",hbEventId:"67e8a4496ba8cd00078cc4d9"},
   {name:"Lucy Yu",date:"2026-05-25",hbEventId:"681ba0a82fed440007867c1c"},
   {name:"Nicole Derosier",date:"2026-05-30",hbEventId:"68b360f8b350f10007c44fc2"},
@@ -424,6 +426,7 @@ const GMAIL_THREADS = {
   "Caroline & Dylan Chase":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c6d74c2768ad5c",
   "Christina Maheras":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d1d083393c234c",
   "Dan Varrichio":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19b8f62c78a4d6c9",
+  "Laura McNulty / Bryant University":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d22a12d9875eb2",
   "Danielle Tata / PMC":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d22b8de50069e5",
   "Deadra Doku-Gardner":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d225fadd783e49",
   "Erin Daly":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c7cf17a95d97a8",
@@ -492,15 +495,15 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
-  {date:"Mar 28, 2026 · 6:45 PM",label:"Refresh #20",changes:[
-    "Zapier/HoneyBook integration complete — stage changes in HoneyBook now automatically flow to Claude via email",
-    "Zap: HoneyBook 'Project Stage Changed' trigger → Gmail action sends [HB Update] email to boathouseblooms@gmail.com",
-    "Email format: Subject '[HB Update] First Last → _STAGE_' · Body contains Client, New Stage, Old Stage, Event Date, Project URL, Notes",
-    "Claude scans for [HB Update] emails at each refresh and applies stage changes directly to HB_PIPELINE before deploying",
-    "HB stage codes (_FOLLOW_UP_, _RETAINER_PAID_, etc.) auto-mapped to display names used in the app",
-    "No Zapier upgrade needed — two-step Zap works on free tier (~10–20 tasks/month, well within 100 task limit)"
+  {date:"Mar 28, 2026 · 7:00 PM",label:"Refresh #21",changes:[
+    "Zapier/HoneyBook integration deployed — [HB Update] emails now parsed by Claude at each refresh for automatic stage updates",
+    "NOTE: [HB Update] test emails from today (Liz Polin → _FOLLOW_UP_) are Zapier setup tests only — NOT real stage changes, ignored",
+    "Cal Only: Samantha Zaino added (May 22, 2027, Wychmere Beach Club, HB event 68c4728c8735590007cc014d)",
+    "Cal Only duplicates noted on calendar but not added: Samantha Sieger (2nd project same date), Suzy Malone (2nd project same date), Natalie Leone (2nd project same date)",
+    "Gmail Only: Laura McNulty / Bryant University added (Healthcare Summit May 1, 2026, proposal sent Mar 24)",
+    "Cal Only count: 59 → 60 · Gmail Only count: 20 → 21"
   ]},
-  {date:"Mar 28, 2026",label:"Refresh #19",changes:[
+  {date:"Mar 28, 2026 · 5:00 PM",label:"Refresh #19",changes:[
     "Gmail sent folder scan added to refresh workflow — now runs alongside Google Calendar check each refresh",
     "New Gmail Only: Judy DeFusco (baby shower, Mar 29, repeat client), Danielle Tata/PMC (Heavy Hitters Evening May 1, repeat corporate client), Deadra Doku-Gardner (party floral Mar 29, repeat client), Erin Goldberg/Union Club (Mar 28 delivery + Mother's Day proposal)",
     "Amanda Papavasiliou: Gmail Only → HB Retainer Paid — deposit confirmed via Gmail Mar 26 ('I received your deposit today')",
@@ -590,6 +593,7 @@ const CAL_ONLY_GCAL_LINKS = {
   "Kate Davignon": "https://www.google.com/calendar/event?eid=Njk3NTdmYzhmZjlkMzgwMDA3ZDg4MjRhIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Kara Mahoney": "https://www.google.com/calendar/event?eid=Njk2Zjg1ODQ4OTc1MzgwMDA3OWEyOWIwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Brianna Harnois": "https://www.google.com/calendar/event?eid=NjljNzEyNmVkZDk0M2QwMDA3OWE2N2E1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Samantha Zaino": "https://www.google.com/calendar/event?eid=NjhjNDcyOGM4NzM1NTkwMDA3Y2MwMTRkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
 };
 
 function buildAllRows(){
@@ -792,7 +796,7 @@ render();
 
 <script>
 (function(){
-  const built = new Date('2026-03-28T21:00:00Z');
+  const built = new Date('2026-03-28T23:00:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
@@ -840,9 +844,10 @@ async function startRefresh(){
   }
 }
 // HB stage updates from Zapier are handled by Claude at refresh time.
-// Claude scans for [HB Update] emails via Gmail MCP and directly patches
-// HB_PIPELINE stage values in the HTML before deploying. No client-side
-// Gmail call is needed here.
+// Claude scans for [HB Update] emails (subject: "[HB Update] Name → _STAGE_")
+// via Gmail MCP and directly patches HB_PIPELINE stage values before deploying.
+// NOTE: [HB Update] emails from Mar 28, 2026 (Liz Polin/_FOLLOW_UP_) are
+// Zapier test emails only — not real stage changes. Ignore at next refresh.
 async function fetchFreshData(){
   const resp=await fetch('https://boathouse-proxy.david-9bd.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,messages:[{role:'user',content:`Return ONLY valid JSON: {"timestamp":"${new Date().toLocaleString('en-US',{timeZone:'America/New_York'})}","gmailCount":${GMAIL_ONLY.length},"note":"No changes"}`}]})});
   if(!resp.ok)throw new Error('Claude API error: '+resp.status);
