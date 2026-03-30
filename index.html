@@ -1,8 +1,8 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #23
-     Last updated: Mar 29, 2026
-     Changes: Face ID / WebAuthn biometric login added — device enrolls on first successful password entry, subsequent visits use Face ID/Touch ID automatically. Password remains as fallback.
-     Cal Only: 60 · Gmail Only: 19 · HB Pipeline: 46
+     Version: Refresh #24
+     Last updated: Mar 30, 2026
+     Changes: Face ID login added (Refresh #23); Isabella Sinibaldi Gmail Only → HB Retainer Paid (Jun 18, 2027 Wychmere) via Zapier; Margaret (Maggie) Berkeley removed (Closed via Zapier); Julia Carr removed from Cal Only (declined Mar 29); Abby Greene & Alex Perry added to Gmail Only; David Hellman _CLOSED_ [HB Update] emails ignored (internal test projects)
+     Cal Only: 59 · Gmail Only: 17 · HB Pipeline: 47
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -266,7 +266,7 @@ async function tryFaceId(){
   <div class="refresh-inner">
     <div class="refresh-icon">🌸</div>
     <div class="refresh-text" style="flex:1">
-      <p>Pipeline: <span style="color:var(--text)">46 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">19 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
+      <p>Pipeline: <span style="color:var(--text)">47 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">17 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
     </div>
   </div>
 </div>
@@ -349,7 +349,6 @@ const HB_PIPELINE=[
   {name:"Bryant University Summit",stage:"Proposal Signed",date:null},
   {name:"Bryant University Healthcare",stage:"Proposal Signed",date:null},
   {name:"Birthday Blooms for Kate",stage:"Proposal Signed",date:null},
-  {name:"Margaret (Maggie) Berkeley",email:"berkeleymaggie@gmail.com",stage:"Proposal Signed",date:null},
   {name:"Jamie Menn",stage:"Proposal Signed",date:"2026-04-04"},
   {name:"Christina Maheras",email:"gilbertcoins@gmail.com",stage:"Proposal Signed",date:"2026-04-26"},
   {name:"Lindsey DeRensis",email:"lindseyaderensis@gmail.com",stage:"Retainer Paid",date:"2026-06-20"},
@@ -360,6 +359,7 @@ const HB_PIPELINE=[
   {name:"Kellie Cronin",email:"kelliecronin10@gmail.com",stage:"Retainer Paid",date:"2026-10-03",notes:"Boston Harbor Hotel Wharf Room · deposit paid Oct 2025 · studio visit May 28 4:30 PM"},
   {name:"Jack & Paige Soucy",email:"jackpaigesoucy@gmail.com",stage:"Retainer Paid",date:"2026-10-03"},
   {name:"Alicia Herlihy",email:"amherlihy@yahoo.com",stage:"Retainer Paid",date:"2026-06-27"},
+  {name:"Isabella Sinibaldi",email:"izzysinibaldi10@gmail.com",stage:"Retainer Paid",date:"2027-06-18",notes:"Wychmere Beach Club · moved from Gmail Only via Zapier [HB Update] Mar 29"},
   {name:"Amanda Papavasiliou",email:"amandapappas14@gmail.com",stage:"Retainer Paid",date:"2027-02-06",notes:"Four Seasons Back Bay · deposit confirmed via Gmail Mar 26"},
   {name:"Caleigh's Baby Shower",stage:"Retainer Paid",date:null},
   {name:"Meaghan and Matthew",email:"meaganjkeefe@gmail.com",stage:"Retainer Paid",date:"2026-06-13"},
@@ -389,12 +389,12 @@ const GMAIL_ONLY = [
   {client:"Caroline & Dylan Chase",email:"cdchase27@gmail.com",gmailDate:"2026-02-17",eventDate:null,hbCal:false,notes:"Updated proposal Feb 17. Not in HB pipeline."},
   {client:"Joe & James Carrara",email:"joecarrara2@gmail.com",gmailDate:"2026-02-17",eventDate:null,hbCal:false,notes:"Two proposals sent (Feb 9 + Feb 17). Not in HB pipeline."},
   {client:"Jan Koss & Kenzie",email:"jankoss@comcast.net",gmailDate:"2026-02-15",eventDate:null,hbCal:false,notes:"Preliminary outline Feb 15. Not in HB pipeline."},
-  {client:"Isabella Sinibaldi",email:"izzysinibaldi10@gmail.com",gmailDate:"2026-03-12",eventDate:"2027-06-18",hbCal:true,notes:"Preliminary Mar 12. Jun 18, 2027 Wychmere. In HB calendar as Inquiry."},
   {client:"Samantha Gomes",email:"sgomes5310@gmail.com",gmailDate:"2026-02-19",eventDate:"2027-06-06",hbCal:true,notes:"Preliminary Feb 19. Jun 6, 2027 Wychmere. In HB calendar as Inquiry."},
   {client:"Brittany Naples",email:"bmnaples@outlook.com",gmailDate:"2026-02-09",eventDate:"2027-06-19",hbCal:true,notes:"Preliminary Feb 9. Jun 19, 2027 Granite Links. In HB calendar as Inquiry."},
   {client:"Samantha Zaino",email:"sdmarks7525@gmail.com",gmailDate:"2026-02-09",eventDate:"2027-05-22",hbCal:true,notes:"Updated Feb 9. May 22, 2027 Wychmere. In HB calendar as Inquiry."},
   {client:"Nicole Carroll",email:"nicolecarroll4@yahoo.com",gmailDate:"2026-01-26",eventDate:"2027-06-26",hbCal:true,notes:"Preliminary Jan 26. Jun 26, 2027 Granite Links (300 guests). In HB calendar as Inquiry."},
   {client:"Molly Doherty",email:"diiorio52127@gmail.com",gmailDate:"2026-01-26",eventDate:"2027-05-21",hbCal:true,notes:"Preliminary Jan 26. May 21, 2027 Wychmere. In HB calendar as Inquiry."},
+  {client:"Abby Greene & Alex Perry",email:"almanoukian@aol.com",gmailDate:"2026-03-29",eventDate:null,hbCal:false,notes:"Full floral proposal sent Mar 29 via wedding planner Andria Manoukian. Not in HB pipeline."},
   {client:"Dan Varrichio",email:"danvarrichio@gmail.com",gmailDate:"2026-01-05",eventDate:"2027-04-17",hbCal:true,notes:"Preliminary Jan 5. Apr 17, 2027 Chatham Bars Inn. In HB calendar as Inquiry."},
   {client:"Laura McNulty / Bryant University",email:"lmcnulty1@bryant.edu",gmailDate:"2026-03-24",eventDate:"2026-05-01",hbCal:false,notes:"Bryant University Healthcare Summit May 1, 2026. Preliminary proposal sent Mar 24. Active back-and-forth. Not in HB pipeline as separate project."},
 ];
@@ -432,7 +432,6 @@ const CAL_ONLY = [
   {name:"Sarah Checkosky",date:"2026-08-14",hbEventId:"6865e11914fbcb0007e67957"},
   {name:"Nicole Tammaro",date:"2026-08-21",hbEventId:"68fa445f0266cf0007f90fde"},
   {name:"Tyra Cameron",date:"2026-08-28",hbEventId:"6784138c97141e00077f5cc5"},
-  {name:"Julia Carr",date:"2026-08-29",hbEventId:"69c73ea2dd943d0007e30c8c"},
   {name:"Kaitlyn Dabenigno",date:"2026-09-05",hbEventId:"6963f934cd303500074bd1d5"},
   {name:"Alessandra Gallo",date:"2026-09-05",hbEventId:"69931817a6b84200082fd9cd"},
   {name:"Erin Walsh",date:"2026-09-06",hbEventId:"697e2bd80da547000726912d"},
@@ -594,6 +593,14 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Mar 30, 2026",label:"Refresh #24",changes:[
+    "Isabella Sinibaldi: Gmail Only → HB Retainer Paid (Jun 18, 2027, Wychmere) via Zapier [HB Update]",
+    "Margaret (Maggie) Berkeley: removed from HB Pipeline — Closed via Zapier [HB Update] (event date 2024, past project)",
+    "Julia Carr: removed from Cal Only — 'Regretfully Not Available' sent Mar 29 (Aug 29, 2026 Lakehouse Halifax)",
+    "Abby Greene & Alex Perry: added to Gmail Only — full proposal sent Mar 29 via planner Andria Manoukian (almanoukian@aol.com)",
+    "[HB Update] 'David Hellman → _CLOSED_' emails ignored — internal/test HB projects, not client projects",
+    "HB Pipeline: 46 → 47 · Gmail Only: 19 → 17 · Cal Only: 60 → 59"
+  ]},
   {date:"Mar 29, 2026",label:"Refresh #23",changes:[
     "Face ID / biometric login added (WebAuthn) — works on iPhone (Face ID), iPad, Mac (Touch ID), Android",
     "First visit: enter password once → Face ID enrolls automatically on that device",
@@ -904,7 +911,7 @@ render();
 
 <script>
 (function(){
-  const built = new Date('2026-03-29T04:30:00Z');
+  const built = new Date('2026-03-30T12:00:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
