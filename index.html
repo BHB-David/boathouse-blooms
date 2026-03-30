@@ -1,7 +1,7 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #24
+     Version: Refresh #27
      Last updated: Mar 30, 2026
-     Changes: Face ID login added (Refresh #23); Isabella Sinibaldi Gmail Only → HB Retainer Paid (Jun 18, 2027 Wychmere) via Zapier; Margaret (Maggie) Berkeley removed (Closed via Zapier); Julia Carr removed from Cal Only (declined Mar 29); Abby Greene & Alex Perry added to Gmail Only; David Hellman _CLOSED_ [HB Update] emails ignored (internal test projects)
+     Changes: Desktop two-column layout (≥900px) — sidebar with nav/filters/search, scrollable main card list. Stage pills wrap on desktop (no more horizontal scroll). Cards get subtle hover lift on desktop. Mobile unchanged.
      Cal Only: 59 · Gmail Only: 17 · HB Pipeline: 47
 -->
 <!DOCTYPE html>
@@ -18,9 +18,13 @@
     --red:#a82020;--red-dim:#fdf0ef;--gold:#7a5808;--gold-dim:#fdf8ed;
     --green:#0e6640;--green-dim:#edf8f3;--purple:#4e3898;--purple-dim:#eeeaf8;--blue:#1848c8;
     --orange:#9e3806;
+    --sidebar-w:280px;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Cormorant Garamond',Georgia,serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+  body{font-family:'Cormorant Garamond',Georgia,serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+  /* ── MOBILE layout (default) ── */
+  .app-shell{display:flex;flex-direction:column;align-items:center;min-height:100vh;}
 
   .nav{width:100%;max-width:700px;padding:20px 20px 0;display:flex;align-items:center;gap:12px;}
   .nav-title h1{font-size:18px;font-weight:600;color:var(--accent);}
@@ -38,6 +42,15 @@
   .year-bar-action.cl{background:var(--accent-dim);border-color:var(--accent);color:var(--accent);}
   .year-bar-action.cl:hover{background:rgba(200,98,106,0.18);}
 
+  .search-bar{width:100%;max-width:700px;padding:8px 20px 0;}
+  .search-inner{background:var(--surface);border:1px solid var(--border-bright);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px;transition:border-color .15s;}
+  .search-inner:focus-within{border-color:var(--accent);}
+  .search-icon{font-size:14px;flex-shrink:0;opacity:.5;}
+  .search-input{flex:1;background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--text);}
+  .search-input::placeholder{color:var(--muted);}
+  .search-clear{background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:0 2px;line-height:1;flex-shrink:0;}
+  .search-clear:hover{color:var(--accent);}
+
   .refresh-box{width:100%;max-width:700px;padding:10px 20px 0;}
   .refresh-inner{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;}
   .refresh-icon{font-size:18px;flex-shrink:0;}
@@ -52,6 +65,7 @@
   .filter-btn{flex-shrink:0;padding:6px 14px;border-radius:24px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
   .filter-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent);}
 
+  /* Stage filters — mobile: horizontal scroll */
   .stage-filters{width:100%;max-width:700px;padding:0 20px 10px;display:none;gap:6px;overflow-x:auto;align-items:center;}
   .stage-filters.visible{display:flex;}
   .stage-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;padding-right:2px;}
@@ -60,7 +74,7 @@
 
   .list{width:100%;max-width:700px;padding:0 12px 80px;flex:1;}
 
-  .card{border-radius:12px;padding:11px 13px;margin-bottom:7px;cursor:pointer;transition:opacity .1s;border-left-width:3px;border-left-style:solid;border-top:1px solid;border-right:1px solid;border-bottom:1px solid;}
+  .card{border-radius:12px;padding:11px 13px;margin-bottom:7px;cursor:pointer;transition:box-shadow .15s,opacity .1s;border-left-width:3px;border-left-style:solid;border-top:1px solid;border-right:1px solid;border-bottom:1px solid;}
   .card:hover{opacity:.88;}
   .card.type-accepted{background:#fff0f0;border-color:#f5b0b0;border-left-color:var(--red);}
   .card.type-gmail-only{background:#fff4ec;border-color:#f5c898;border-left-color:var(--orange);}
@@ -97,6 +111,67 @@
   .empty{text-align:center;padding:60px 20px;color:var(--muted);}
   ::-webkit-scrollbar{width:3px;height:3px;}
   ::-webkit-scrollbar-thumb{background:var(--border-bright);border-radius:2px;}
+
+  /* ── DESKTOP layout (≥900px) ── */
+  @media(min-width:900px){
+    body{overflow:hidden;height:100vh;}
+    .app-shell{flex-direction:row;align-items:stretch;height:100vh;overflow:hidden;max-width:none;}
+
+    /* Sidebar */
+    .sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);height:100vh;overflow-y:auto;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:0 0 24px;flex-shrink:0;}
+    .sidebar::-webkit-scrollbar{width:3px;}
+    .sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+    /* Main content area */
+    .main-col{flex:1;height:100vh;overflow-y:auto;display:flex;flex-direction:column;align-items:stretch;}
+    .main-col::-webkit-scrollbar{width:4px;}
+    .main-col::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+    /* Nav — sits inside sidebar on desktop */
+    .nav{max-width:none;width:100%;padding:24px 20px 16px;border-bottom:1px solid var(--border);margin-bottom:4px;}
+
+    /* Year bar — sidebar on desktop */
+    .year-bar{max-width:none;width:100%;padding:12px 16px 12px;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--border);}
+    .year-bar-spacer{display:none;}
+    .year-bar-action.cl{width:100%;text-align:center;margin-top:4px;}
+
+    /* Search bar — sidebar */
+    .search-bar{max-width:none;width:100%;padding:12px 16px 0;}
+    .search-inner{border-radius:8px;}
+
+    /* Status bar (refresh-box) — sidebar */
+    .refresh-box{max-width:none;width:100%;padding:10px 16px 0;}
+    .refresh-inner{border-radius:8px;flex-direction:column;align-items:flex-start;gap:6px;}
+    .refresh-text p{font-size:9px;line-height:1.7;}
+
+    /* Stats — sidebar, stacked 2×2 */
+    .stats{max-width:none;width:100%;padding:10px 16px 0;display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+    .stat-card{padding:10px 12px;}
+    .stat-card .num{font-size:22px;}
+    .stat-card .lbl{font-size:8px;}
+
+    /* Filter tabs — sidebar, vertical stack */
+    .filters{max-width:none;width:100%;padding:12px 16px 0;flex-direction:column;gap:5px;overflow-x:visible;}
+    .filter-btn{text-align:left;border-radius:8px;padding:8px 12px;font-size:13px;}
+
+    /* Stage filters — sidebar, wrapped grid (no scroll!) */
+    .stage-filters{max-width:none;width:100%;padding:6px 16px 0;flex-wrap:wrap;overflow-x:visible;gap:5px;}
+    .stage-filters.visible{display:flex;}
+    .stage-lbl{width:100%;padding:0 0 2px;}
+    .stage-btn{flex-shrink:0;}
+
+    /* Card list — main column */
+    .list{max-width:none;width:100%;padding:16px 20px 40px;flex:1;}
+
+    /* Cards — slightly more spacious on desktop */
+    .card{padding:13px 16px;margin-bottom:8px;transition:box-shadow .15s,transform .1s;}
+    .card:hover{opacity:1;box-shadow:0 2px 12px rgba(0,0,0,0.08);transform:translateY(-1px);}
+    .card-name{font-size:16px;}
+
+    /* Desktop-only: card detail shows inline with 2-col layout */
+    .card-detail.open{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;}
+    .card-detail.open .note{grid-column:1/-1;}
+  }
 </style>
 </head>
 <body>
@@ -244,6 +319,9 @@ async function tryFaceId(){
 }
 </script>
 
+<div class="app-shell">
+<div class="sidebar">
+
 <div class="nav">
   <div style="font-size:22px">🌸</div>
   <div class="nav-title" style="flex:1">
@@ -259,7 +337,14 @@ async function tryFaceId(){
   <button class="year-btn all-future" id="y-all" onclick="setYear('all',this)">All Future</button>
   <div class="year-bar-spacer"></div>
   <button class="year-bar-action cl" onclick="openCL()">&#x1F4CB; Changelog</button>
-  <button class="year-bar-action" onclick="copyAndOpenClaude()">💬 Refresh Data</button>
+</div>
+
+<div class="search-bar">
+  <div class="search-inner">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="search-input" type="text" placeholder="Search clients…" oninput="onSearch(this.value)" autocomplete="off" autocorrect="off" spellcheck="false"/>
+    <button class="search-clear" id="search-clear" onclick="clearSearch()" style="display:none">✕</button>
+  </div>
 </div>
 
 <div class="refresh-box">
@@ -297,6 +382,9 @@ async function tryFaceId(){
   <button class="stage-btn" id="sf-Planning" data-stage="Planning" onclick="setStage('Planning',this)">Planning</button>
   <button class="stage-btn" id="sf-Completed" data-stage="Completed" onclick="setStage('Completed',this)">Completed</button>
 </div>
+
+</div><!-- end .sidebar -->
+<div class="main-col">
 
 <div id="refresh-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9998;align-items:center;justify-content:center;">
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px 28px;width:340px;text-align:center;">
@@ -346,9 +434,9 @@ const HB_PIPELINE=[
   {name:"Lisa Martin",stage:"Proposal Sent",date:null},
   {name:"Becca and Griffin",stage:"Proposal Sent",date:"2025-10-18"},
   {name:"Melanie Walsh",email:"melaniewalsh854@gmail.com",stage:"Proposal Signed",date:"2025-12-13"},
-  {name:"Bryant University Summit",stage:"Proposal Signed",date:null},
-  {name:"Bryant University Healthcare",stage:"Proposal Signed",date:null},
-  {name:"Birthday Blooms for Kate",stage:"Proposal Signed",date:null},
+  {name:"Bryant University Summit",stage:"Completed",date:null},
+  {name:"Bryant University Healthcare",stage:"Completed",date:null},
+  {name:"Birthday Blooms for Kate",stage:"Completed",date:null},
   {name:"Jamie Menn",stage:"Proposal Signed",date:"2026-04-04"},
   {name:"Christina Maheras",email:"gilbertcoins@gmail.com",stage:"Proposal Signed",date:"2026-04-26"},
   {name:"Lindsey DeRensis",email:"lindseyaderensis@gmail.com",stage:"Retainer Paid",date:"2026-06-20"},
@@ -593,6 +681,25 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Mar 30, 2026",label:"Refresh #27",changes:[
+    "Desktop layout (≥900px): two-column view — fixed sidebar with all controls, scrollable card area on the right",
+    "Sidebar contains: nav, year tabs, search, status bar, stats grid (2×2), filter tabs (vertical), stage pills (wrapped)",
+    "Stage pills: no more horizontal scroll on desktop — all 9 stages visible at once in a wrapped grid",
+    "Cards: subtle hover lift effect on desktop (translateY + box-shadow)",
+    "Card detail: 2-column grid layout on desktop for cleaner expanded view",
+    "Mobile: unchanged single-column layout"
+  ]},
+  {date:"Mar 30, 2026",label:"Refresh #26",changes:[
+    "Deprecated 'Refresh Data' pill — replaced with inline search bar",
+    "Search filters by client name, email address, or notes in real time",
+    "Works across all filter tabs (Gmail Only, Cal Only, HoneyBook) and stage sub-filters",
+    "Clear (✕) button appears when typing; empty state shows search term when no results found"
+  ]},
+  {date:"Mar 30, 2026",label:"Refresh #25",changes:[
+    "Bryant University Summit: Proposal Signed → Completed (completed 2025)",
+    "Bryant University Healthcare: Proposal Signed → Completed (completed 2025)",
+    "Birthday Blooms for Kate: Proposal Signed → Completed (completed 2025)"
+  ]},
   {date:"Mar 30, 2026",label:"Refresh #24",changes:[
     "Isabella Sinibaldi: Gmail Only → HB Retainer Paid (Jun 18, 2027, Wychmere) via Zapier [HB Update]",
     "Margaret (Maggie) Berkeley: removed from HB Pipeline — Closed via Zapier [HB Update] (event date 2024, past project)",
@@ -747,7 +854,19 @@ function sortByDate(rows){
 }
 
 const ALL_ROWS=buildAllRows();
-let currentFilter='gmail',currentYear=2026,currentStage='all',openCard=null;
+let currentFilter='gmail',currentYear=2026,currentStage='all',currentSearch='',openCard=null;
+
+function onSearch(val){
+  currentSearch=val.trim().toLowerCase();
+  document.getElementById('search-clear').style.display=val?'block':'none';
+  openCard=null;
+  render();
+}
+function clearSearch(){
+  document.getElementById('search-input').value='';
+  onSearch('');
+  document.getElementById('search-input').focus();
+}
 
 function filterByYear(rows){
   if(currentYear==='all') return rows.filter(r=>!r.date||isFuture(r.date));
@@ -761,6 +880,14 @@ function getDisplayRows(){
   else if(currentFilter==='hb'){
     rows=rows.filter(r=>r.hbStage);
     if(currentStage!=='all') rows=rows.filter(r=>r.hbStage===currentStage);
+  }
+  if(currentSearch){
+    rows=rows.filter(r=>{
+      const name=(r.client||'').toLowerCase();
+      const email=(r.gmailEmail||'').toLowerCase();
+      const notes=(r.notes||'').toLowerCase();
+      return name.includes(currentSearch)||email.includes(currentSearch)||notes.includes(currentSearch);
+    });
   }
   return rows;
 }
@@ -853,7 +980,7 @@ function render(){
 
   const list=document.getElementById('listArea');
   if(!displayed.length){
-    list.innerHTML=`<div class="empty"><div style="font-size:32px;margin-bottom:10px">✅</div><div>No items for this selection</div></div>`;
+    list.innerHTML=`<div class="empty"><div style="font-size:32px;margin-bottom:10px">${currentSearch?'🔍':'✅'}</div><div>${currentSearch?'No results for "'+currentSearch+'"':'No items for this selection'}</div></div>`;
     return;
   }
 
@@ -1018,5 +1145,8 @@ async function commitToGithub(htmlContent){
   <h3>&#x1F4CB; Refresh Changelog</h3>
   <div id="cl-entries"></div></div>
 </div>
+
+</div><!-- end .main-col -->
+</div><!-- end .app-shell -->
 </body>
 </html>
