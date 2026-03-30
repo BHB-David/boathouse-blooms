@@ -1,7 +1,7 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #22
-     Last updated: Mar 29, 2026 · 12:30 AM ET
-     Changes: 3 real [HB Update] stage changes from Zapier — CJ McCartin (Gmail Only → HB Proposal Sent, Oct 24 Pelham House), Melissa Gaffey (Gmail Only → HB Proposal Sent, Oct 11), Julia Stell (Follow-up → Proposal Sent, Sep 26); Samantha Zaino added to Cal Only; Laura McNulty/Bryant added to Gmail Only
+     Version: Refresh #23
+     Last updated: Mar 29, 2026
+     Changes: Face ID / WebAuthn biometric login added — device enrolls on first successful password entry, subsequent visits use Face ID/Touch ID automatically. Password remains as fallback.
      Cal Only: 60 · Gmail Only: 19 · HB Pipeline: 46
 -->
 <!DOCTYPE html>
@@ -111,36 +111,135 @@
 .pw-input:focus{border-color:var(--accent);}
 .pw-btn{width:100%;background:var(--accent-dim);border:1px solid var(--accent);border-radius:8px;color:var(--accent);font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;padding:10px;cursor:pointer;transition:all .15s;}
 .pw-btn:hover{background:rgba(232,180,184,0.25);}
-.pw-error{font-size:11px;color:var(--red);font-family:'DM Mono',monospace;display:none;margin-top:-4px;}
+.pw-btn-faceid{width:100%;background:transparent;border:1px solid var(--border-bright);border-radius:8px;color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;padding:9px;cursor:pointer;transition:all .15s;margin-top:8px;}
+.pw-btn-faceid:hover{border-color:var(--accent);color:var(--accent);}
+.pw-error{font-size:11px;color:var(--red);font-family:'DM Mono',monospace;display:none;margin-top:6px;}
+.pw-status{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:6px;min-height:16px;}
 </style>
 
 <div id="pw-gate">
   <div class="pw-box">
-    <div style="font-size:32px;margin-bottom:12px">🌸</div>
+    <div style="font-size:32px;margin-bottom:12px" id="pw-icon">🌸</div>
     <h2>Boathouse Blooms</h2>
-    <p>Enter password to continue</p>
+    <p id="pw-subtitle">Enter password to continue</p>
     <input class="pw-input" type="password" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()"/>
     <button class="pw-btn" onclick="checkPw()">Enter</button>
+    <button class="pw-btn-faceid" id="faceid-btn" onclick="tryFaceId()" style="display:none">Use Face ID / Biometrics</button>
     <div class="pw-error" id="pw-error">Incorrect password</div>
+    <div class="pw-status" id="pw-status"></div>
   </div>
 </div>
 
 <script>
+// ── WebAuthn / Face ID constants ──────────────────────────────────────────────
+const RP_ID = location.hostname;
+const CRED_KEY = 'bb_webauthn_cred_id';
+const CHALLENGE = new Uint8Array([0xB0, 0xA7, 0x33, 0x5E, 0x4F, 0x8C, 0x2D, 0x91,
+                                   0x7A, 0x6E, 0xF2, 0x19, 0x85, 0xC4, 0x3B, 0x70]);
+
+function unlock(){
+  sessionStorage.setItem('bbauth','1');
+  document.getElementById('pw-gate').classList.add('hidden');
+}
+
+function hasWebAuthn(){
+  return window.PublicKeyCredential && location.protocol === 'https:';
+}
+
+function storedCredId(){
+  try { return localStorage.getItem(CRED_KEY); } catch(e){ return null; }
+}
+
+// On load: try Face ID silently if a credential is registered on this device
 (function(){
-  if(sessionStorage.getItem('bbauth')==='1'){
-    document.getElementById('pw-gate').classList.add('hidden');
+  if(sessionStorage.getItem('bbauth')==='1'){ unlock(); return; }
+  if(hasWebAuthn() && storedCredId()){
+    // Show Face ID button immediately
+    document.getElementById('faceid-btn').style.display='block';
+    document.getElementById('pw-subtitle').textContent='Use Face ID or enter password';
+    // Auto-attempt Face ID after a short delay so the page renders first
+    setTimeout(tryFaceId, 400);
+  } else if(hasWebAuthn()){
+    // No credential yet — show button so they can enroll after password
+    document.getElementById('faceid-btn').style.display='block';
   }
 })();
+
+// Password check — on success, offer to enroll Face ID if not yet registered
 function checkPw(){
   const val = document.getElementById('pw-input').value;
   const hash = val.split('').reduce((a,c)=>(Math.imul(31,a)+c.charCodeAt(0))|0,0);
   if(hash === -874608686){
-    sessionStorage.setItem('bbauth','1');
-    document.getElementById('pw-gate').classList.add('hidden');
+    if(hasWebAuthn() && !storedCredId()){
+      enrollFaceId();   // register biometric then unlock
+    } else {
+      unlock();
+    }
   } else {
     document.getElementById('pw-error').style.display='block';
     document.getElementById('pw-input').value='';
     document.getElementById('pw-input').focus();
+  }
+}
+
+// Enroll a new WebAuthn credential (called after first successful password entry)
+async function enrollFaceId(){
+  const status = document.getElementById('pw-status');
+  try {
+    status.textContent = 'Setting up Face ID…';
+    const cred = await navigator.credentials.create({
+      publicKey: {
+        challenge: CHALLENGE,
+        rp: { name: 'Boathouse Blooms', id: RP_ID },
+        user: { id: new Uint8Array([1]), name: 'bbuser', displayName: 'Boathouse Blooms' },
+        pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+        authenticatorSelection: {
+          authenticatorAttachment: 'platform',  // device biometric only (Face ID / Touch ID)
+          userVerification: 'required',
+          residentKey: 'preferred'
+        },
+        timeout: 60000,
+        attestation: 'none'
+      }
+    });
+    // Store the credential ID so we can use it for future logins
+    const credId = btoa(String.fromCharCode(...new Uint8Array(cred.rawId)));
+    localStorage.setItem(CRED_KEY, credId);
+    status.textContent = '✓ Face ID set up for this device';
+    setTimeout(unlock, 600);
+  } catch(e){
+    // User declined or device doesn't support — just unlock without biometric
+    status.textContent = '';
+    unlock();
+  }
+}
+
+// Authenticate with Face ID (called on return visits)
+async function tryFaceId(){
+  const status = document.getElementById('pw-status');
+  const icon   = document.getElementById('pw-icon');
+  const rawId  = storedCredId();
+  if(!rawId){ return; }
+  try {
+    status.textContent = 'Waiting for Face ID…';
+    icon.textContent = '🔐';
+    const credIdBytes = Uint8Array.from(atob(rawId), c => c.charCodeAt(0));
+    await navigator.credentials.get({
+      publicKey: {
+        challenge: CHALLENGE,
+        rpId: RP_ID,
+        allowCredentials: [{ type: 'public-key', id: credIdBytes }],
+        userVerification: 'required',
+        timeout: 60000
+      }
+    });
+    icon.textContent = '✅';
+    status.textContent = '';
+    setTimeout(unlock, 300);
+  } catch(e){
+    // Face ID failed or cancelled — fall back to password
+    icon.textContent = '🌸';
+    status.textContent = e.name === 'NotAllowedError' ? 'Face ID cancelled — enter password below' : '';
   }
 }
 </script>
@@ -495,6 +594,14 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Mar 29, 2026",label:"Refresh #23",changes:[
+    "Face ID / biometric login added (WebAuthn) — works on iPhone (Face ID), iPad, Mac (Touch ID), Android",
+    "First visit: enter password once → Face ID enrolls automatically on that device",
+    "Every visit after: Face ID prompt appears automatically, unlocks without typing anything",
+    "Password field remains as fallback if Face ID is cancelled or unavailable",
+    "Each device (David's phone, Susan's phone, etc.) enrolls independently",
+    "No server changes needed — credential stored locally on device via localStorage"
+  ]},
   {date:"Mar 29, 2026 · 12:30 AM",label:"Refresh #22",changes:[
     "🎉 Zapier integration live — first real [HB Update] stage changes detected automatically",
     "CJ McCartin: Gmail Only → HB Proposal Sent (Oct 24, 2026, Pelham House) via [HB Update] email",
