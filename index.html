@@ -1,7 +1,7 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #27
-     Last updated: Mar 30, 2026
-     Changes: Desktop two-column layout (≥900px) — sidebar with nav/filters/search, scrollable main card list. Stage pills wrap on desktop (no more horizontal scroll). Cards get subtle hover lift on desktop. Mobile unchanged.
+     Version: Refresh #28
+     Last updated: Mar 31, 2026
+     Changes: Mobile card-detail width fix — detail records now fit viewport on all screen sizes. Contacts updated from my_contacts_(2).csv (676 entries). Brianna Harnois moved to Follow-up via Zapier.
      Cal Only: 59 · Gmail Only: 17 · HB Pipeline: 47
 -->
 <!DOCTYPE html>
@@ -98,7 +98,7 @@
   .tag-stage{border:1px solid;}
   .tag-hb-cal{background:#e8f4ff;color:#2563eb;border-color:#bfdbfe;font-size:8px;}
 
-  .card-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:12px;line-height:2;color:var(--muted);}
+  .card-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:12px;line-height:2;color:var(--muted);width:100%;max-width:100%;overflow:hidden;overflow-wrap:break-word;word-break:break-word;}
   .card-detail.open{display:block;}
   .card-detail span{color:var(--text);}
   .card-detail .note{margin-bottom:6px;display:block;}
@@ -547,7 +547,7 @@ const CAL_ONLY = [
   {name:"Emma (2027)",date:"2027-06-11",hbEventId:"699b976cb6331700075fe863"},
   {name:"Kate Davignon",date:"2027-06-20",hbEventId:"69757fc8ff9d380007d8824a"},
   {name:"Kara Mahoney",date:"2027-06-25",hbEventId:"696f858489753800079a29b0"},
-  {name:"Brianna Harnois",date:"2027-08-13",hbEventId:"69c7126edd943d00079a67a5"},
+  {name:"Brianna Harnois",date:"2027-08-13",hbEventId:"69c7126edd943d00079a67a5",notes:"Wychmere Beach Club · HB stage: Follow-up (updated Mar 31 via Zapier)"},
 ];
 
 const STAGE_ORDER=["Completed","Planning","Retainer Paid","Proposal Signed","Proposal Sent","Follow-up","Questionnaire","Inquiry"];
@@ -681,6 +681,13 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Mar 31, 2026",label:"Refresh #28",changes:[
+    "Mobile fix: card detail records now fit viewport width — word-break and overflow added to prevent long emails/links overflowing on mobile",
+    "Contacts database updated from my_contacts_(2).csv (676 entries as of Mar 31, 2026)",
+    "Brianna Harnois moved to Follow-up stage via Zapier HB Update Mar 31",
+    "Calendar scan: no new entries since Refresh #27",
+    "Gmail scan: Siena McHugh declined (Regretfully Unavailable, Jul 5 2026) — already removed in prior refresh"
+  ]},
   {date:"Mar 30, 2026",label:"Refresh #27",changes:[
     "Desktop layout (≥900px): two-column view — fixed sidebar with all controls, scrollable card area on the right",
     "Sidebar contains: nav, year tabs, search, status bar, stats grid (2×2), filter tabs (vertical), stage pills (wrapped)",
@@ -1038,7 +1045,7 @@ render();
 
 <script>
 (function(){
-  const built = new Date('2026-03-30T12:00:00Z');
+  const built = new Date('2026-03-31T14:00:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
