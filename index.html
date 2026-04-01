@@ -25,6 +25,8 @@
 
   /* ── MOBILE layout (default) ── */
   .app-shell{display:flex;flex-direction:column;align-items:center;min-height:100vh;}
+  .sidebar{width:100%;}
+  .main-col{width:100%;}
 
   .nav{width:100%;max-width:700px;padding:20px 20px 0;display:flex;align-items:center;gap:12px;}
   .nav-title h1{font-size:18px;font-weight:600;color:var(--accent);}
@@ -689,6 +691,8 @@ const CHANGELOG = [
     "Arianna gmailDate updated to Mar 31 (updated proposal sent)",
     "Danielle Tata / PMC gmailDate updated to Mar 31 (updated proposal sent)",
     "Emily Feil added to Cal Only (May 22, 2027 · Cape Club of Falmouth)",
+    "HoneyBook is now the default selected filter on page open",
+    "Mobile layout fix: sidebar and main-col now fill full viewport width (HoneyBook and Cal Only cards were rendering too narrow on mobile)",
   ]},
   {date:"Mar 31, 2026",label:"Refresh #28",changes:[
     "Mobile fix: card detail records now fit viewport width — word-break and overflow added to prevent long emails/links overflowing on mobile",
@@ -871,7 +875,7 @@ function sortByDate(rows){
 }
 
 const ALL_ROWS=buildAllRows();
-let currentFilter='gmail',currentYear=2026,currentStage='all',currentSearch='',openCard=null;
+let currentFilter='hb',currentYear=2026,currentStage='all',currentSearch='',openCard=null;
 
 function onSearch(val){
   currentSearch=val.trim().toLowerCase();
@@ -1051,6 +1055,7 @@ function toggleCard(i){
 }
 
 render();
+setFilter('hb', document.getElementById('f-hb'));
 </script>
 
 <script>
