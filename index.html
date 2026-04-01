@@ -1,7 +1,7 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #29
+     Version: Refresh #30
      Last updated: Apr 1, 2026
-     Changes: Meg & Alex Mattie → Proposal Signed (contract sent Mar 30). Arianna + Danielle Tata gmailDates updated to Mar 31. Emily Feil added to Cal Only (May 22 2027, Cape Club of Falmouth).
+     Changes: Face ID persists across sessions (localStorage auth token + safe base64 encoding fix).
      Cal Only: 57 · Gmail Only: 18 · HB Pipeline: 47
 -->
 <!DOCTYPE html>
@@ -211,10 +211,13 @@
 // ── WebAuthn / Face ID constants ──────────────────────────────────────────────
 const RP_ID = location.hostname;
 const CRED_KEY = 'bb_webauthn_cred_id';
+const AUTH_KEY = 'bb_authed';
 const CHALLENGE = new Uint8Array([0xB0, 0xA7, 0x33, 0x5E, 0x4F, 0x8C, 0x2D, 0x91,
                                    0x7A, 0x6E, 0xF2, 0x19, 0x85, 0xC4, 0x3B, 0x70]);
 
 function unlock(){
+  // Persist auth in localStorage so it survives tab close / new sessions
+  try { localStorage.setItem(AUTH_KEY,'1'); } catch(e){}
   sessionStorage.setItem('bbauth','1');
   document.getElementById('pw-gate').classList.add('hidden');
 }
@@ -227,14 +230,31 @@ function storedCredId(){
   try { return localStorage.getItem(CRED_KEY); } catch(e){ return null; }
 }
 
-// On load: try Face ID silently if a credential is registered on this device
+// Safe base64 encoder that doesn't use spread (avoids call-stack overflow on large buffers)
+function uint8ToBase64(bytes){
+  let bin = '';
+  for(let i = 0; i < bytes.byteLength; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+
+// On load: if already authed via localStorage skip gate entirely;
+// otherwise auto-prompt Face ID if a credential is registered on this device.
 (function(){
+  // Same-tab fast path
   if(sessionStorage.getItem('bbauth')==='1'){ unlock(); return; }
+  // Cross-session fast path: previously authed with Face ID on this device
+  try {
+    if(localStorage.getItem(AUTH_KEY)==='1' && hasWebAuthn() && storedCredId()){
+      // Re-verify silently — Face ID prompt fires automatically
+      document.getElementById('pw-subtitle').textContent='Use Face ID or enter password';
+      document.getElementById('faceid-btn').style.display='block';
+      setTimeout(tryFaceId, 400);
+      return;
+    }
+  } catch(e){}
   if(hasWebAuthn() && storedCredId()){
-    // Show Face ID button immediately
     document.getElementById('faceid-btn').style.display='block';
     document.getElementById('pw-subtitle').textContent='Use Face ID or enter password';
-    // Auto-attempt Face ID after a short delay so the page renders first
     setTimeout(tryFaceId, 400);
   } else if(hasWebAuthn()){
     // No credential yet — show button so they can enroll after password
@@ -271,7 +291,7 @@ async function enrollFaceId(){
         user: { id: new Uint8Array([1]), name: 'bbuser', displayName: 'Boathouse Blooms' },
         pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
         authenticatorSelection: {
-          authenticatorAttachment: 'platform',  // device biometric only (Face ID / Touch ID)
+          authenticatorAttachment: 'platform',
           userVerification: 'required',
           residentKey: 'preferred'
         },
@@ -279,8 +299,8 @@ async function enrollFaceId(){
         attestation: 'none'
       }
     });
-    // Store the credential ID so we can use it for future logins
-    const credId = btoa(String.fromCharCode(...new Uint8Array(cred.rawId)));
+    // Safe encoding — no spread operator, avoids stack overflow on large credential IDs
+    const credId = uint8ToBase64(new Uint8Array(cred.rawId));
     localStorage.setItem(CRED_KEY, credId);
     status.textContent = '✓ Face ID set up for this device';
     setTimeout(unlock, 600);
@@ -314,7 +334,8 @@ async function tryFaceId(){
     status.textContent = '';
     setTimeout(unlock, 300);
   } catch(e){
-    // Face ID failed or cancelled — fall back to password
+    // Face ID failed or cancelled — clear persisted auth so password is required
+    try { localStorage.removeItem(AUTH_KEY); } catch(_){}
     icon.textContent = '🌸';
     status.textContent = e.name === 'NotAllowedError' ? 'Face ID cancelled — enter password below' : '';
   }
@@ -685,6 +706,11 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Apr 1, 2026",label:"Refresh #30",changes:[
+    "Face ID now persists across sessions — auth token stored in localStorage (was sessionStorage, which clears on tab close)",
+    "Fixed base64 encoding of WebAuthn credential ID — replaced spread operator with safe loop, preventing silent failure on large credential buffers",
+    "Face ID failure/cancel now clears persisted auth so password is required, keeping security intact",
+  ]},
   {date:"Apr 1, 2026",label:"Refresh #29",changes:[
     "Meg & Alex Mattie upgraded Proposal Sent → Proposal Signed (contract + deposit link sent Mar 30)",
     "Meg & Alex Mattie Gmail thread link added to GMAIL_THREADS (was missing — no ↗ Gmail link showed in card)",
