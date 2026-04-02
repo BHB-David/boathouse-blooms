@@ -1,8 +1,8 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #30
-     Last updated: Apr 1, 2026
-     Changes: Face ID persists across sessions (localStorage auth token + safe base64 encoding fix).
-     Cal Only: 57 · Gmail Only: 18 · HB Pipeline: 47
+     Version: Refresh #31
+     Last updated: Apr 2, 2026
+     Changes: Meg & Alex Mattie → Retainer Paid (deposit Apr 2). Arianna → HB Pipeline Retainer Paid (deposit Apr 1). Emily Feil removed from Cal Only (unavailable).
+     Cal Only: 56 · Gmail Only: 17 · HB Pipeline: 48
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -374,7 +374,7 @@ async function tryFaceId(){
   <div class="refresh-inner">
     <div class="refresh-icon">🌸</div>
     <div class="refresh-text" style="flex:1">
-      <p>Pipeline: <span style="color:var(--text)">47 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">18 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
+      <p>Pipeline: <span style="color:var(--text)">48 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">17 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
     </div>
   </div>
 </div>
@@ -448,7 +448,7 @@ const HB_PIPELINE=[
   {name:"Tessa Bednarz",email:"tessa.colby27@gmail.com",stage:"Follow-up",date:"2027-04-24"},
   {name:"Natalie Leone",email:"natalie.leone5@gmail.com",stage:"Follow-up",date:"2027-08-28"},
   {name:"Kristin Kelly",email:"nkluise@gmail.com",stage:"Follow-up",date:"2027-07-31"},
-  {name:"Meg & Alex Mattie",email:"s.mattie@comcast.net",stage:"Proposal Signed",date:"2027-08-07",notes:"Contract + deposit link sent Mar 30. Moved to Proposal Signed."},
+  {name:"Meg & Alex Mattie",email:"s.mattie@comcast.net",stage:"Retainer Paid",date:"2027-08-07",notes:"Contract signed + retainer ($500) paid Apr 2, 2026."},
   {name:"Brooke Kazanovicz",email:"brookekazanovicz@yahoo.com",stage:"Proposal Sent",date:"2027-07-16"},
   {name:"Grace and Michael",email:"clucchese5@gmail.com",stage:"Proposal Sent",date:"2026-05-02"},
   {name:"CJ McCartin",email:"mccartinjuroswedding@gmail.com",stage:"Proposal Sent",date:"2026-10-24",notes:"Pelham House, Oct 24, 2026. Moved from Gmail Only via Zapier [HB Update] Mar 28."},
@@ -472,7 +472,7 @@ const HB_PIPELINE=[
   {name:"Alicia Herlihy",email:"amherlihy@yahoo.com",stage:"Retainer Paid",date:"2026-06-27"},
   {name:"Isabella Sinibaldi",email:"izzysinibaldi10@gmail.com",stage:"Retainer Paid",date:"2027-06-18",notes:"Wychmere Beach Club · moved from Gmail Only via Zapier [HB Update] Mar 29"},
   {name:"Amanda Papavasiliou",email:"amandapappas14@gmail.com",stage:"Retainer Paid",date:"2027-02-06",notes:"Four Seasons Back Bay · deposit confirmed via Gmail Mar 26"},
-  {name:"Caleigh's Baby Shower",stage:"Retainer Paid",date:null},
+  {name:"Arianna",email:"jacob.arianna2027@gmail.com",stage:"Retainer Paid",date:null,notes:"Deposit confirmed Apr 1 via Gmail. Moved from Gmail Only. Event date TBD."},
   {name:"Meaghan and Matthew",email:"meaganjkeefe@gmail.com",stage:"Retainer Paid",date:"2026-06-13"},
   {name:"Samantha Barmore",email:"sbarmore26@gmail.com",stage:"Retainer Paid",date:"2027-08-20"},
   {name:"Alexa Paiva",email:"alexa.j.paiva@gmail.com",stage:"Retainer Paid",date:"2026-10-17"},
@@ -490,7 +490,6 @@ const HB_PIPELINE=[
 const ACCEPTED_NO_HB = [];
 
 const GMAIL_ONLY = [
-  {client:"Arianna",email:"jacob.arianna2027@gmail.com",gmailDate:"2026-03-31",eventDate:null,hbCal:false,notes:"Updated proposal sent Mar 31. Active back-and-forth. Not yet in HB pipeline."},
   {client:"Allison Thomas",email:"allisonmariel13@gmail.com",gmailDate:"2026-03-11",eventDate:null,hbCal:false,notes:"Two proposals sent (Feb 16 + Mar 11). Active back-and-forth. Not in HB pipeline."},
   {client:"Judy DeFusco",email:"jdydefusco@yahoo.com",gmailDate:"2026-03-25",eventDate:"2026-03-29",hbCal:false,notes:"Baby shower floral. Repeat client. Proposal Mar 24, updated Mar 25. Delivery Mar 29. Not in HB pipeline."},
   {client:"Danielle Tata / PMC",email:"danielle@pmc.org",gmailDate:"2026-03-31",eventDate:"2026-05-01",hbCal:false,notes:"Heavy Hitters Evening May 1. Repeat corporate client (did Legacy Floral Oct 2025). Active proposal back-and-forth. Not in HB pipeline."},
@@ -571,7 +570,6 @@ const CAL_ONLY = [
   {name:"Kate Davignon",date:"2027-06-20",hbEventId:"69757fc8ff9d380007d8824a"},
   {name:"Kara Mahoney",date:"2027-06-25",hbEventId:"696f858489753800079a29b0"},
   {name:"Brianna Harnois",date:"2027-08-13",hbEventId:"69c7126edd943d00079a67a5",notes:"Wychmere Beach Club · HB stage: Follow-up (updated Mar 31 via Zapier)"},
-  {name:"Emily Feil",date:"2027-05-22",hbEventId:"69cc8133ccc2690007d1d523"},
 ];
 
 const STAGE_ORDER=["Completed","Planning","Retainer Paid","Proposal Signed","Proposal Sent","Follow-up","Questionnaire","Inquiry"];
@@ -625,6 +623,7 @@ const HB_LINKS = {
 
 const GMAIL_THREADS = {
   "Alexa Paiva":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19adccf1ac7949cb",
+  "Arianna":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d450a817dce671",
   "Alicia Herlihy":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19bc4c7a3a8b5ba7",
   "Allison Thomas":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19cdec8d061abb21",
   "Amanda Papavasiliou":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19cdf993bad26e35",
@@ -706,6 +705,11 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Apr 2, 2026",label:"Refresh #31",changes:[
+    "Meg & Alex Mattie → Retainer Paid (retainer $500 received Apr 2 via HoneyBook · confirmed via Zapier + receipt email)",
+    "Arianna → moved from Gmail Only to HB Pipeline at Retainer Paid (deposit confirmed Apr 1 via Gmail)",
+    "Emily Feil removed from Cal Only (Regretfully Unavailable sent Apr 1)",
+  ]},
   {date:"Apr 1, 2026",label:"Refresh #30",changes:[
     "Face ID now persists across sessions — auth token stored in localStorage (was sessionStorage, which clears on tab close)",
     "Fixed base64 encoding of WebAuthn credential ID — replaced spread operator with safe loop, preventing silent failure on large credential buffers",
@@ -1086,7 +1090,7 @@ setFilter('hb', document.getElementById('f-hb'));
 
 <script>
 (function(){
-  const built = new Date('2026-04-01T12:00:00Z');
+  const built = new Date('2026-04-02T16:00:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
