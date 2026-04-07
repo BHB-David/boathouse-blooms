@@ -1,8 +1,8 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #32
-     Last updated: Apr 6, 2026
-     Changes: Samantha Gomes → HB Pipeline Proposal Sent (contract Apr 3 via Zapier). Joe & James Carrara gmailDate updated (studio visit + proposal Apr 3).
-     Cal Only: 56 · Gmail Only: 16 · HB Pipeline: 49
+     Version: Refresh #33
+     Last updated: Apr 7, 2026
+     Changes: Samantha Gomes → Retainer Paid (contract signed + deposit Apr 6). Becca Wysocki → Retainer Paid (deposit Apr 6). Jesha Stevens added to Gmail Only (Jul 18 Wellfleet, via Arch Cape Cod).
+     Cal Only: 56 · Gmail Only: 17 · HB Pipeline: 49
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -374,7 +374,7 @@ async function tryFaceId(){
   <div class="refresh-inner">
     <div class="refresh-icon">🌸</div>
     <div class="refresh-text" style="flex:1">
-      <p>Pipeline: <span style="color:var(--text)">49 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">16 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
+      <p>Pipeline: <span style="color:var(--text)">49 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">17 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
     </div>
   </div>
 </div>
@@ -439,7 +439,7 @@ const STAGE_BTN_STYLE={
 };
 
 const HB_PIPELINE=[
-  {name:"Becca Wysocki",email:"rawysocki@gmail.com",stage:"Inquiry",date:"2027-10-01"},
+  {name:"Becca Wysocki",email:"rawysocki@gmail.com",stage:"Retainer Paid",date:"2027-10-01",notes:"Beauport Hotel Gloucester · deposit $500 confirmed Apr 6 via Gmail."},
   {name:"Catherine Welch",email:"catherinerosewelch@gmail.com",stage:"Inquiry",date:"2026-06-06"},
   {name:"Leigh A Keefe",email:"leighkeefe@gmail.com",stage:"Inquiry",date:"2026-06-13"},
   {name:"Laura Nicholson",email:"laura.b.nichol@gmail.com",stage:"Inquiry",date:"2026-02-14"},
@@ -454,7 +454,7 @@ const HB_PIPELINE=[
   {name:"CJ McCartin",email:"mccartinjuroswedding@gmail.com",stage:"Proposal Sent",date:"2026-10-24",notes:"Pelham House, Oct 24, 2026. Moved from Gmail Only via Zapier [HB Update] Mar 28."},
   {name:"Melissa Gaffey",email:"melissagaffey@yahoo.com",stage:"Proposal Sent",date:"2026-10-11",notes:"Oct 11, 2026. Moved from Gmail Only via Zapier [HB Update] Mar 28."},
   {name:"Julia Stell",email:"juliaastell4@gmail.com",stage:"Proposal Sent",date:"2026-09-26",notes:"Hyannis beach, Sep 26, 2026. Moved from Gmail Only via Zapier [HB Update] Mar 28."},
-  {name:"Samantha Gomes",email:"sgomes5310@gmail.com",stage:"Proposal Sent",date:"2027-06-06",notes:"Wychmere Beach Club · Jun 6, 2027 · contract sent Apr 3 via HoneyBook. Moved from Gmail Only via Zapier [HB Update] Apr 3."},
+  {name:"Samantha Gomes",email:"sgomes5310@gmail.com",stage:"Retainer Paid",date:"2027-06-06",notes:"Wychmere Beach Club · Jun 6, 2027 · contract signed + retainer $500 paid Apr 6. Moved from Gmail Only via Zapier Apr 3, upgraded to Retainer Paid Apr 6."},
   {name:"Becca and Griffin",stage:"Proposal Sent",date:"2025-10-18"},
   {name:"Melanie Walsh",email:"melaniewalsh854@gmail.com",stage:"Proposal Signed",date:"2025-12-13"},
   {name:"Bryant University Summit",stage:"Completed",date:null},
@@ -506,6 +506,7 @@ const GMAIL_ONLY = [
   {client:"Abby Greene & Alex Perry",email:"almanoukian@aol.com",gmailDate:"2026-03-29",eventDate:null,hbCal:false,notes:"Full floral proposal sent Mar 29 via wedding planner Andria Manoukian. Not in HB pipeline."},
   {client:"Dan Varrichio",email:"danvarrichio@gmail.com",gmailDate:"2026-01-05",eventDate:"2027-04-17",hbCal:true,notes:"Preliminary Jan 5. Apr 17, 2027 Chatham Bars Inn. In HB calendar as Inquiry."},
   {client:"Laura McNulty / Bryant University",email:"lmcnulty1@bryant.edu",gmailDate:"2026-03-24",eventDate:"2026-05-01",hbCal:false,notes:"Bryant University Healthcare Summit May 1, 2026. Preliminary proposal sent Mar 24. Active back-and-forth. Not in HB pipeline as separate project."},
+  {client:"Jesha Stevens",email:"partnerships@jeshastevens.com",gmailDate:"2026-04-06",eventDate:"2026-07-18",hbCal:false,notes:"Floral inquiry for Jul 18, Wellfleet. Via Arch Cape Cod Wedding planner. Active reply Apr 6. Not in HB pipeline."},
 ];
 
 // HB calendar Inquiries with no pipeline project — review & resolve via HoneyBook link
@@ -645,6 +646,7 @@ const GMAIL_THREADS = {
   "Isabella Sinibaldi":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19ce32960b3fc767",
   "Jack & Paige Soucy":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19ccdab9366ae69b",
   "Jan Koss & Kenzie":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c62ce5f84e75a6",
+  "Jesha Stevens":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d639828f40e800",
   "Joe & James Carrara":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c6d65555e2039f",
   "Judy DeFusco":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d27267f34fee14",
   "Julia Stell":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19bfc06cc5501350",
@@ -705,6 +707,11 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Apr 7, 2026",label:"Refresh #33",changes:[
+    "Samantha Gomes → Retainer Paid (contract signed + deposit $500 paid Apr 6 via Zapier double-update)",
+    "Becca Wysocki → Retainer Paid (deposit $500 confirmed Apr 6 via Gmail · Beauport Hotel Gloucester, Oct 1, 2027)",
+    "Jesha Stevens added to Gmail Only (Jul 18, 2026 · Wellfleet · via Arch Cape Cod Wedding planner)",
+  ]},
   {date:"Apr 6, 2026",label:"Refresh #32",changes:[
     "Samantha Gomes moved from Gmail Only → HB Pipeline at Proposal Sent (contract sent Apr 3 · Zapier [HB Update] confirmed · Wychmere Jun 6, 2027)",
     "Joe & James Carrara gmailDate updated to Apr 3 (studio visit completed, updated proposal sent)",
@@ -1095,7 +1102,7 @@ setFilter('hb', document.getElementById('f-hb'));
 
 <script>
 (function(){
-  const built = new Date('2026-04-06T14:00:00Z');
+  const built = new Date('2026-04-07T14:00:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
