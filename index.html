@@ -252,10 +252,19 @@ function getOrCreateUserId(){
   }
 }
 
-// On load: show Face ID button if credential exists.
-// Never auto-call tryFaceId() — iOS Safari requires a tap (user gesture).
+// On load: wipe any legacy credential that was enrolled before the residentKey fix.
+// Old credentials had no USER_KEY (created with hardcoded user.id) — they won't work.
+// This runs once, silently, so no console access needed on iPhone.
 (function(){
   if(sessionStorage.getItem('bbauth')==='1'){ unlock(); return; }
+  try {
+    const hasCredId = localStorage.getItem(CRED_KEY);
+    const hasUserId = localStorage.getItem(USER_KEY);
+    if(hasCredId && !hasUserId){
+      // Legacy bad credential — clear it so fresh enrollment happens after password
+      localStorage.removeItem(CRED_KEY);
+    }
+  } catch(e){}
   if(hasWebAuthn() && storedCredId()){
     const btn = document.getElementById('faceid-btn');
     btn.style.display = 'block';
