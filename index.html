@@ -1,8 +1,8 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #33
-     Last updated: Apr 7, 2026
-     Changes: Samantha Gomes → Retainer Paid (contract signed + deposit Apr 6). Becca Wysocki → Retainer Paid (deposit Apr 6). Jesha Stevens added to Gmail Only (Jul 18 Wellfleet, via Arch Cape Cod).
-     Cal Only: 56 · Gmail Only: 17 · HB Pipeline: 49
+     Version: Refresh #34
+     Last updated: Apr 9, 2026
+     Changes: Erin Daly → HB Pipeline Planning (May 30, full payment Apr 8). Katie Escano added Gmail Only. Face ID fix: removed bb_authed localStorage bypass; Face ID now prompts every new session.
+     Cal Only: 56 · Gmail Only: 18 · HB Pipeline: 50
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -209,15 +209,15 @@
 
 <script>
 // ── WebAuthn / Face ID constants ──────────────────────────────────────────────
+// CRED_KEY: persists the enrolled credential ID across sessions (localStorage).
+// Session auth uses sessionStorage only — no persistent auth bypass.
 const RP_ID = location.hostname;
 const CRED_KEY = 'bb_webauthn_cred_id';
-const AUTH_KEY = 'bb_authed';
 const CHALLENGE = new Uint8Array([0xB0, 0xA7, 0x33, 0x5E, 0x4F, 0x8C, 0x2D, 0x91,
                                    0x7A, 0x6E, 0xF2, 0x19, 0x85, 0xC4, 0x3B, 0x70]);
 
 function unlock(){
-  // Persist auth in localStorage so it survives tab close / new sessions
-  try { localStorage.setItem(AUTH_KEY,'1'); } catch(e){}
+  // Tab-session fast path only — never persist a bypass in localStorage
   sessionStorage.setItem('bbauth','1');
   document.getElementById('pw-gate').classList.add('hidden');
 }
@@ -237,32 +237,25 @@ function uint8ToBase64(bytes){
   return btoa(bin);
 }
 
-// On load: if already authed via localStorage skip gate entirely;
-// otherwise auto-prompt Face ID if a credential is registered on this device.
+// On load:
+//   1. Same-tab fast path: sessionStorage set → unlock immediately (no re-prompt)
+//   2. Credential enrolled on this device → auto-prompt Face ID every new session
+//   3. No credential yet → show password form (Face ID enroll button visible for after)
 (function(){
-  // Same-tab fast path
+  // Same-tab fast path — don't re-prompt within a session
   if(sessionStorage.getItem('bbauth')==='1'){ unlock(); return; }
-  // Cross-session fast path: previously authed with Face ID on this device
-  try {
-    if(localStorage.getItem(AUTH_KEY)==='1' && hasWebAuthn() && storedCredId()){
-      // Re-verify silently — Face ID prompt fires automatically
-      document.getElementById('pw-subtitle').textContent='Use Face ID or enter password';
-      document.getElementById('faceid-btn').style.display='block';
-      setTimeout(tryFaceId, 400);
-      return;
-    }
-  } catch(e){}
   if(hasWebAuthn() && storedCredId()){
+    // Credential known — auto-prompt Face ID on every new session
     document.getElementById('faceid-btn').style.display='block';
     document.getElementById('pw-subtitle').textContent='Use Face ID or enter password';
     setTimeout(tryFaceId, 400);
   } else if(hasWebAuthn()){
-    // No credential yet — show button so they can enroll after password
+    // No credential yet — show button so user can enroll after password
     document.getElementById('faceid-btn').style.display='block';
   }
 })();
 
-// Password check — on success, offer to enroll Face ID if not yet registered
+// Password check — on success enroll Face ID if not yet registered, then unlock
 function checkPw(){
   const val = document.getElementById('pw-input').value;
   const hash = val.split('').reduce((a,c)=>(Math.imul(31,a)+c.charCodeAt(0))|0,0);
@@ -311,7 +304,7 @@ async function enrollFaceId(){
   }
 }
 
-// Authenticate with Face ID (called on return visits)
+// Authenticate with Face ID (called automatically on every new session)
 async function tryFaceId(){
   const status = document.getElementById('pw-status');
   const icon   = document.getElementById('pw-icon');
@@ -334,8 +327,7 @@ async function tryFaceId(){
     status.textContent = '';
     setTimeout(unlock, 300);
   } catch(e){
-    // Face ID failed or cancelled — clear persisted auth so password is required
-    try { localStorage.removeItem(AUTH_KEY); } catch(_){}
+    // Face ID failed or cancelled — fall back to password
     icon.textContent = '🌸';
     status.textContent = e.name === 'NotAllowedError' ? 'Face ID cancelled — enter password below' : '';
   }
@@ -374,7 +366,7 @@ async function tryFaceId(){
   <div class="refresh-inner">
     <div class="refresh-icon">🌸</div>
     <div class="refresh-text" style="flex:1">
-      <p>Pipeline: <span style="color:var(--text)">49 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">17 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
+      <p>Pipeline: <span style="color:var(--text)">50 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">18 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
     </div>
   </div>
 </div>
@@ -474,6 +466,7 @@ const HB_PIPELINE=[
   {name:"Amanda Papavasiliou",email:"amandapappas14@gmail.com",stage:"Retainer Paid",date:"2027-02-06",notes:"Four Seasons Back Bay · deposit confirmed via Gmail Mar 26"},
   {name:"Arianna",email:"jacob.arianna2027@gmail.com",stage:"Retainer Paid",date:null,notes:"Deposit confirmed Apr 1 via Gmail. Moved from Gmail Only. Event date TBD."},
   {name:"Meaghan and Matthew",email:"meaganjkeefe@gmail.com",stage:"Retainer Paid",date:"2026-06-13"},
+  {name:"Erin Daly",email:"erindaly814@gmail.com",stage:"Planning",date:"2026-05-30",notes:"Erin & Zach · West Dennis · full payment $4,985.69 received Apr 8 (invoice #000144-002). Moved from Gmail Only via Zapier Apr 7–8."},
   {name:"Samantha Barmore",email:"sbarmore26@gmail.com",stage:"Retainer Paid",date:"2027-08-20"},
   {name:"Alexa Paiva",email:"alexa.j.paiva@gmail.com",stage:"Retainer Paid",date:"2026-10-17"},
   {name:"Shelby and Timothy",email:"sem273@gmail.com",stage:"Retainer Paid",date:"2026-07-24"},
@@ -495,7 +488,6 @@ const GMAIL_ONLY = [
   {client:"Danielle Tata / PMC",email:"danielle@pmc.org",gmailDate:"2026-03-31",eventDate:"2026-05-01",hbCal:false,notes:"Heavy Hitters Evening May 1. Repeat corporate client (did Legacy Floral Oct 2025). Active proposal back-and-forth. Not in HB pipeline."},
   {client:"Deadra Doku-Gardner",email:"deadradokugardner@yahoo.com",gmailDate:"2026-03-24",eventDate:"2026-03-29",hbCal:false,notes:"Party floral Mar 29. Repeat client. Proposal sent Mar 24, corrected name version sent same day. Delivery 1pm Sunday."},
   {client:"Erin Goldberg / Union Club",email:"egoldberg@unionclub.org",gmailDate:"2026-03-26",eventDate:"2026-03-28",hbCal:false,notes:"Invoice sent Mar 26 for Mar 28 delivery (today). Mother's Day proposal also sent Mar 24. Repeat client. Not in HB pipeline."},
-  {client:"Erin Daly",email:"erindaly814@gmail.com",gmailDate:"2026-02-20",eventDate:null,hbCal:false,notes:"Updated proposal Feb 20. Not in HB pipeline or calendar."},
   {client:"Caroline & Dylan Chase",email:"cdchase27@gmail.com",gmailDate:"2026-02-17",eventDate:null,hbCal:false,notes:"Updated proposal Feb 17. Not in HB pipeline."},
   {client:"Joe & James Carrara",email:"joecarrara2@gmail.com",gmailDate:"2026-04-03",eventDate:null,hbCal:false,notes:"Studio visit happened Apr 2. Updated proposal sent Apr 3. Not in HB pipeline."},
   {client:"Jan Koss & Kenzie",email:"jankoss@comcast.net",gmailDate:"2026-02-15",eventDate:null,hbCal:false,notes:"Preliminary outline Feb 15. Not in HB pipeline."},
@@ -507,6 +499,7 @@ const GMAIL_ONLY = [
   {client:"Dan Varrichio",email:"danvarrichio@gmail.com",gmailDate:"2026-01-05",eventDate:"2027-04-17",hbCal:true,notes:"Preliminary Jan 5. Apr 17, 2027 Chatham Bars Inn. In HB calendar as Inquiry."},
   {client:"Laura McNulty / Bryant University",email:"lmcnulty1@bryant.edu",gmailDate:"2026-03-24",eventDate:"2026-05-01",hbCal:false,notes:"Bryant University Healthcare Summit May 1, 2026. Preliminary proposal sent Mar 24. Active back-and-forth. Not in HB pipeline as separate project."},
   {client:"Jesha Stevens",email:"partnerships@jeshastevens.com",gmailDate:"2026-04-06",eventDate:"2026-07-18",hbCal:false,notes:"Floral inquiry for Jul 18, Wellfleet. Via Arch Cape Cod Wedding planner. Active reply Apr 6. Not in HB pipeline."},
+  {client:"Katie Escano",email:"fridaywedding26@gmail.com",gmailDate:"2026-04-08",eventDate:null,hbCal:false,notes:"Susan replied Apr 8 re: Boathouse Blooms updates. New contact. Not in HB pipeline."},
 ];
 
 // HB calendar Inquiries with no pipeline project — review & resolve via HoneyBook link
@@ -611,11 +604,11 @@ const HB_LINKS = {
   "Meg & Alex Mattie":"https://www.honeybook.com/app/event/69ba10c60e69d6002009ad8f",
   "Melissa Gaffey":"https://www.honeybook.com/app/event/698a7055be5c3c00073a3d7d",
   "Molly & Mike":"https://www.honeybook.com/app/event/68fe79546e76f6002e62baad",
+  "Erin Daly":"https://app.honeybook.com/app/event/69d5a13aacef770033dc7a60",
   "Molly Doherty":"https://www.honeybook.com/app/event/69596ffc1fe2e100064989a2",
   "Molly Murphy":"https://www.honeybook.com/app/event/68ab892b67e5d200078ebf2f",
   "Natalie Leone":"https://www.honeybook.com/app/event/698b9f3460c183000706e9f6",
   "Nicole Carroll":"https://www.honeybook.com/app/event/695555e7f3437c0007c119b3",
-  "Samantha Gomes":"https://www.honeybook.com/app/event/6989ffc0b85cf3000737432c",
   "Samantha Barmore":"https://www.honeybook.com/app/event/6914ee55e9192c00077c5f3a",
   "Samantha Gomes":"https://www.honeybook.com/app/event/6989ffc0b85cf3000737432c",
   "Shelby and Timothy":"https://www.honeybook.com/app/event/68a36255cfa8dc0021a6b076",
@@ -647,6 +640,7 @@ const GMAIL_THREADS = {
   "Jack & Paige Soucy":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19ccdab9366ae69b",
   "Jan Koss & Kenzie":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c62ce5f84e75a6",
   "Jesha Stevens":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d639828f40e800",
+  "Katie Escano":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/1971ce9426b9b8bc",
   "Joe & James Carrara":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19c6d65555e2039f",
   "Judy DeFusco":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d27267f34fee14",
   "Julia Stell":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19bfc06cc5501350",
@@ -681,7 +675,7 @@ const CAL_LINKS = {
   "Catherine Welch":"https://calendar.google.com/calendar/event?eid=Njk1ZjJmY2ZmZmFhZjAwMDA3OGY1MjE4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Christine Cocce":"https://calendar.google.com/calendar/event?eid=NjliZGYzYmE4MGE5N2QwMDA3ZmM3MzliIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Dan Varrichio":"https://calendar.google.com/calendar/event?eid=Njk0ZTBkNTJlOGE0MTQwMDA3ZTgzYjNkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Erin Daly":"https://calendar.google.com/calendar/event?eid=Njg2NWUxMTkxNGZiY2IwMDA3ZTY3OTU3IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Erin Daly":"https://www.google.com/calendar/event?eid=NjlkNWExM2FhY2VmNzcwMDMzZGM3YTYwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGc&ctz=America/New_York",
   "Gabby Majenski":"https://calendar.google.com/calendar/event?eid=NjdlYjJiYjhiYTQ3MzMwMDA3ZDg0NzI3IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Grace and Michael":"https://calendar.google.com/calendar/event?eid=Njg1ZDU3YzcxMzI2NjkwMDIzMmRiYWE1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Isabella Sinibaldi":"https://calendar.google.com/calendar/event?eid=NjlhNzJkYzFmODFjMjMwMDA3MTU0NjU5IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
@@ -707,6 +701,12 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Apr 9, 2026",label:"Refresh #34",changes:[
+    "Erin Daly → HB Pipeline at Planning (May 30, 2026 · Erin & Zach · West Dennis) — Zapier double-update Apr 7–8, full payment $4,985.69 received Apr 8 (invoice #000144-002, 2 of 2)",
+    "Katie Escano added to Gmail Only (thread Apr 8 · fridaywedding26@gmail.com)",
+    "Face ID fix: removed bb_authed localStorage bypass entirely — Face ID now prompts on every new session (credential ID persists, auth token is sessionStorage only)",
+    "Fixed duplicate Samantha Gomes entry in HB_LINKS",
+  ]},
   {date:"Apr 7, 2026",label:"Refresh #33",changes:[
     "Samantha Gomes → Retainer Paid (contract signed + deposit $500 paid Apr 6 via Zapier double-update)",
     "Becca Wysocki → Retainer Paid (deposit $500 confirmed Apr 6 via Gmail · Beauport Hotel Gloucester, Oct 1, 2027)",
@@ -1102,7 +1102,7 @@ setFilter('hb', document.getElementById('f-hb'));
 
 <script>
 (function(){
-  const built = new Date('2026-04-07T14:00:00Z');
+  const built = new Date('2026-04-09T14:00:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
