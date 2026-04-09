@@ -209,12 +209,12 @@
 
 <script>
 // ── WebAuthn / Face ID constants ──────────────────────────────────────────────
-// CRED_KEY: persists the enrolled credential ID across sessions (localStorage).
-// Session auth uses sessionStorage only — no persistent auth bypass.
-// IMPORTANT: iOS Safari requires a user gesture (tap) before navigator.credentials.get()
-// will fire. We never auto-call tryFaceId() on load — we show a button instead.
+// Uses proper passkey registration (residentKey: required, random user.id)
+// so credentials are stored in iCloud Keychain and sync across Apple devices.
+// CRED_KEY: base64 credential ID  USER_KEY: base64 random user.id (required to be unique)
 const RP_ID = location.hostname;
 const CRED_KEY = 'bb_webauthn_cred_id';
+const USER_KEY = 'bb_webauthn_user_id';
 const CHALLENGE = new Uint8Array([0xB0, 0xA7, 0x33, 0x5E, 0x4F, 0x8C, 0x2D, 0x91,
                                    0x7A, 0x6E, 0xF2, 0x19, 0x85, 0xC4, 0x3B, 0x70]);
 
@@ -238,12 +238,25 @@ function uint8ToBase64(bytes){
   return btoa(bin);
 }
 
-// On load: show Face ID button if credential exists, otherwise show password form.
-// We never auto-call tryFaceId() — iOS Safari requires a tap (user gesture) first.
+// Generate or retrieve a stable random user ID (stored in localStorage)
+// WebAuthn requires user.id to be unique per user — never use a hardcoded value
+function getOrCreateUserId(){
+  try {
+    let stored = localStorage.getItem(USER_KEY);
+    if(stored) return Uint8Array.from(atob(stored), c => c.charCodeAt(0));
+    const id = crypto.getRandomValues(new Uint8Array(16));
+    localStorage.setItem(USER_KEY, uint8ToBase64(id));
+    return id;
+  } catch(e){
+    return crypto.getRandomValues(new Uint8Array(16));
+  }
+}
+
+// On load: show Face ID button if credential exists.
+// Never auto-call tryFaceId() — iOS Safari requires a tap (user gesture).
 (function(){
   if(sessionStorage.getItem('bbauth')==='1'){ unlock(); return; }
   if(hasWebAuthn() && storedCredId()){
-    // Credential enrolled — show prominent Face ID button, subtitle hint
     const btn = document.getElementById('faceid-btn');
     btn.style.display = 'block';
     btn.textContent = '🔐 Use Face ID';
@@ -253,7 +266,6 @@ function uint8ToBase64(bytes){
     btn.style.fontWeight = '600';
     document.getElementById('pw-subtitle').textContent = 'Tap Face ID or enter password';
   } else if(hasWebAuthn()){
-    // No credential yet — show plain button so they can enroll after password
     document.getElementById('faceid-btn').style.display = 'block';
   }
 })();
@@ -275,21 +287,31 @@ function checkPw(){
   }
 }
 
-// Enroll a new WebAuthn credential (called after first successful password entry)
+// Enroll a proper passkey (residentKey: required → stores in iCloud Keychain)
+// random user.id ensures iOS doesn't deduplicate or reject the credential
 async function enrollFaceId(){
   const status = document.getElementById('pw-status');
   try {
     status.textContent = 'Setting up Face ID…';
+    const userId = getOrCreateUserId();
     const cred = await navigator.credentials.create({
       publicKey: {
         challenge: CHALLENGE,
         rp: { name: 'Boathouse Blooms', id: RP_ID },
-        user: { id: new Uint8Array([1]), name: 'bbuser', displayName: 'Boathouse Blooms' },
-        pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+        user: {
+          id: userId,
+          name: 'boathouse',          // visible in password manager
+          displayName: 'Boathouse Blooms'
+        },
+        pubKeyCredParams: [
+          { type: 'public-key', alg: -7 },   // ES256
+          { type: 'public-key', alg: -257 }  // RS256
+        ],
         authenticatorSelection: {
           authenticatorAttachment: 'platform',
-          userVerification: 'required',
-          residentKey: 'preferred'
+          residentKey: 'required',       // must be 'required' for iCloud Keychain
+          requireResidentKey: true,      // legacy flag, set alongside residentKey
+          userVerification: 'required'
         },
         timeout: 60000,
         attestation: 'none'
@@ -305,7 +327,7 @@ async function enrollFaceId(){
   }
 }
 
-// Authenticate with Face ID — called only from a button tap (user gesture required by iOS)
+// Authenticate with stored passkey — only called from button tap (user gesture)
 async function tryFaceId(){
   const status = document.getElementById('pw-status');
   const icon   = document.getElementById('pw-icon');
@@ -706,8 +728,8 @@ const CHANGELOG = [
   {date:"Apr 9, 2026",label:"Refresh #34",changes:[
     "Erin Daly → HB Pipeline at Planning (May 30, 2026 · Erin & Zach · West Dennis) — Zapier double-update Apr 7–8, full payment $4,985.69 received Apr 8 (invoice #000144-002, 2 of 2)",
     "Katie Escano added to Gmail Only (thread Apr 8 · fridaywedding26@gmail.com)",
-    "Face ID fix (iPhone/iOS): removed setTimeout auto-prompt — iOS Safari requires a user gesture (tap) before WebAuthn fires. Face ID button now shows prominently on load; tapping it triggers the prompt. Password enroll path unchanged.",
-    "Also removed bb_authed localStorage bypass and fixed duplicate Samantha Gomes in HB_LINKS",
+    "Face ID root fix: (1) residentKey changed from 'preferred' → 'required' + requireResidentKey:true so credentials store in iCloud Keychain (not as legacy device-bound non-discoverable credentials); (2) user.id changed from hardcoded Uint8Array([1]) to random 16-byte value stored in localStorage — WebAuthn spec requires unique user.id per account, hardcoded value causes iOS to deduplicate/reject. Both issues prevented Face ID from working on iPhone.",
+    "Also fixed: removed bb_authed localStorage bypass, removed setTimeout auto-prompt (iOS user gesture requirement), fixed duplicate Samantha Gomes in HB_LINKS",
   ]},
   {date:"Apr 7, 2026",label:"Refresh #33",changes:[
     "Samantha Gomes → Retainer Paid (contract signed + deposit $500 paid Apr 6 via Zapier double-update)",
