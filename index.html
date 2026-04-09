@@ -211,13 +211,14 @@
 // ── WebAuthn / Face ID constants ──────────────────────────────────────────────
 // CRED_KEY: persists the enrolled credential ID across sessions (localStorage).
 // Session auth uses sessionStorage only — no persistent auth bypass.
+// IMPORTANT: iOS Safari requires a user gesture (tap) before navigator.credentials.get()
+// will fire. We never auto-call tryFaceId() on load — we show a button instead.
 const RP_ID = location.hostname;
 const CRED_KEY = 'bb_webauthn_cred_id';
 const CHALLENGE = new Uint8Array([0xB0, 0xA7, 0x33, 0x5E, 0x4F, 0x8C, 0x2D, 0x91,
                                    0x7A, 0x6E, 0xF2, 0x19, 0x85, 0xC4, 0x3B, 0x70]);
 
 function unlock(){
-  // Tab-session fast path only — never persist a bypass in localStorage
   sessionStorage.setItem('bbauth','1');
   document.getElementById('pw-gate').classList.add('hidden');
 }
@@ -230,28 +231,30 @@ function storedCredId(){
   try { return localStorage.getItem(CRED_KEY); } catch(e){ return null; }
 }
 
-// Safe base64 encoder that doesn't use spread (avoids call-stack overflow on large buffers)
+// Safe base64 encoder — no spread operator (avoids stack overflow on large buffers)
 function uint8ToBase64(bytes){
   let bin = '';
   for(let i = 0; i < bytes.byteLength; i++) bin += String.fromCharCode(bytes[i]);
   return btoa(bin);
 }
 
-// On load:
-//   1. Same-tab fast path: sessionStorage set → unlock immediately (no re-prompt)
-//   2. Credential enrolled on this device → auto-prompt Face ID every new session
-//   3. No credential yet → show password form (Face ID enroll button visible for after)
+// On load: show Face ID button if credential exists, otherwise show password form.
+// We never auto-call tryFaceId() — iOS Safari requires a tap (user gesture) first.
 (function(){
-  // Same-tab fast path — don't re-prompt within a session
   if(sessionStorage.getItem('bbauth')==='1'){ unlock(); return; }
   if(hasWebAuthn() && storedCredId()){
-    // Credential known — auto-prompt Face ID on every new session
-    document.getElementById('faceid-btn').style.display='block';
-    document.getElementById('pw-subtitle').textContent='Use Face ID or enter password';
-    setTimeout(tryFaceId, 400);
+    // Credential enrolled — show prominent Face ID button, subtitle hint
+    const btn = document.getElementById('faceid-btn');
+    btn.style.display = 'block';
+    btn.textContent = '🔐 Use Face ID';
+    btn.style.background = 'var(--accent-dim)';
+    btn.style.borderColor = 'var(--accent)';
+    btn.style.color = 'var(--accent)';
+    btn.style.fontWeight = '600';
+    document.getElementById('pw-subtitle').textContent = 'Tap Face ID or enter password';
   } else if(hasWebAuthn()){
-    // No credential yet — show button so user can enroll after password
-    document.getElementById('faceid-btn').style.display='block';
+    // No credential yet — show plain button so they can enroll after password
+    document.getElementById('faceid-btn').style.display = 'block';
   }
 })();
 
@@ -261,7 +264,7 @@ function checkPw(){
   const hash = val.split('').reduce((a,c)=>(Math.imul(31,a)+c.charCodeAt(0))|0,0);
   if(hash === -874608686){
     if(hasWebAuthn() && !storedCredId()){
-      enrollFaceId();   // register biometric then unlock
+      enrollFaceId();
     } else {
       unlock();
     }
@@ -292,19 +295,17 @@ async function enrollFaceId(){
         attestation: 'none'
       }
     });
-    // Safe encoding — no spread operator, avoids stack overflow on large credential IDs
     const credId = uint8ToBase64(new Uint8Array(cred.rawId));
     localStorage.setItem(CRED_KEY, credId);
     status.textContent = '✓ Face ID set up for this device';
     setTimeout(unlock, 600);
   } catch(e){
-    // User declined or device doesn't support — just unlock without biometric
     status.textContent = '';
     unlock();
   }
 }
 
-// Authenticate with Face ID (called automatically on every new session)
+// Authenticate with Face ID — called only from a button tap (user gesture required by iOS)
 async function tryFaceId(){
   const status = document.getElementById('pw-status');
   const icon   = document.getElementById('pw-icon');
@@ -327,9 +328,10 @@ async function tryFaceId(){
     status.textContent = '';
     setTimeout(unlock, 300);
   } catch(e){
-    // Face ID failed or cancelled — fall back to password
     icon.textContent = '🌸';
-    status.textContent = e.name === 'NotAllowedError' ? 'Face ID cancelled — enter password below' : '';
+    status.textContent = e.name === 'NotAllowedError'
+      ? 'Face ID cancelled — enter password below'
+      : 'Face ID unavailable — enter password below';
   }
 }
 </script>
@@ -704,8 +706,8 @@ const CHANGELOG = [
   {date:"Apr 9, 2026",label:"Refresh #34",changes:[
     "Erin Daly → HB Pipeline at Planning (May 30, 2026 · Erin & Zach · West Dennis) — Zapier double-update Apr 7–8, full payment $4,985.69 received Apr 8 (invoice #000144-002, 2 of 2)",
     "Katie Escano added to Gmail Only (thread Apr 8 · fridaywedding26@gmail.com)",
-    "Face ID fix: removed bb_authed localStorage bypass entirely — Face ID now prompts on every new session (credential ID persists, auth token is sessionStorage only)",
-    "Fixed duplicate Samantha Gomes entry in HB_LINKS",
+    "Face ID fix (iPhone/iOS): removed setTimeout auto-prompt — iOS Safari requires a user gesture (tap) before WebAuthn fires. Face ID button now shows prominently on load; tapping it triggers the prompt. Password enroll path unchanged.",
+    "Also removed bb_authed localStorage bypass and fixed duplicate Samantha Gomes in HB_LINKS",
   ]},
   {date:"Apr 7, 2026",label:"Refresh #33",changes:[
     "Samantha Gomes → Retainer Paid (contract signed + deposit $500 paid Apr 6 via Zapier double-update)",
