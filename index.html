@@ -1,7 +1,7 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #37
-     Last updated: Apr 11, 2026
-     Changes: Kelly Spain removed from Cal Only. Cal Only 49→48.
+     Version: Refresh #38
+     Last updated: Apr 13, 2026
+     Changes: Removed stat boxes (HB/Gmail/Cal/Showing grid). All button now shows "All (showing N of total)" right-justified, "Showing all N" when selected.
      Cal Only: 48 · Gmail Only: 18 · HB Pipeline: 51
 -->
 <!DOCTYPE html>
@@ -404,18 +404,13 @@ async function tryFaceId(){
   </div>
 </div>
 
-<div class="stats">
-  <div class="stat-card"><div class="num" id="statHB" style="color:var(--blue)">0</div><div class="lbl">HoneyBook</div></div>
-  <div class="stat-card"><div class="num" id="statGmail" style="color:var(--orange)">0</div><div class="lbl">Gmail Only</div></div>
-  <div class="stat-card"><div class="num" id="statCal" style="color:var(--purple)">0</div><div class="lbl">Cal Only</div></div>
-  <div class="stat-card"><div class="num" id="statShowing" style="color:var(--muted)">0</div><div class="lbl">Showing</div></div>
-</div>
+
 
 <div class="filters">
   <button class="filter-btn" id="f-gmail" onclick="setFilter('gmail',this)">📧 Gmail Only</button>
   <button class="filter-btn" id="f-cal" onclick="setFilter('cal',this)">📅 Cal Only</button>
   <button class="filter-btn" id="f-hb" onclick="setFilter('hb',this)">HoneyBook</button>
-  <button class="filter-btn" id="f-all" onclick="setFilter('all',this)">All</button>
+  <button class="filter-btn" id="f-all" onclick="setFilter('all',this)" style="display:flex;align-items:center;"><span>All</span><span id="f-all-sub" style="margin-left:auto;font-size:11px;opacity:0.75;"></span></button>
 </div>
 
 <div class="stage-filters" id="stage-filter-row">
@@ -742,6 +737,11 @@ const CHANGELOG = [
     "Katie Escano gmailDate updated to Apr 10 — updated proposal sent (Katie & Andrew), called Apr 9",
     "Jesha Stevens gmailDate updated to Apr 10 — Susan on vacation, call scheduled week of Apr 20",
   ]},
+  {date:"Apr 13, 2026",label:"Refresh #38",changes:[
+    "Removed stat display boxes (HoneyBook / Gmail Only / Cal Only / Showing grid) from sidebar",
+    "All filter button now reads 'All' left + '(showing N of total)' right-justified, updates dynamically per active filter",
+    "When All is selected, button reads 'Showing all N'",
+  ]},
   {date:"Apr 9, 2026",label:"Refresh #34",changes:[
     "Erin Daly → HB Pipeline at Planning (May 30, 2026 · Erin & Zach · West Dennis) — Zapier double-update Apr 7–8, full payment $4,985.69 received Apr 8 (invoice #000144-002, 2 of 2)",
     "Katie Escano added to Gmail Only (thread Apr 8 · fridaywedding26@gmail.com)",
@@ -1060,15 +1060,15 @@ function render(){
   const calCount=yearRows.filter(r=>r.type==='cal').length;
   const displayed=getDisplayRows();
 
-  document.getElementById('statHB').textContent=hbCount;
-  document.getElementById('statGmail').textContent=gmailOnlyCount;
-  document.getElementById('statCal').textContent=calCount;
-  document.getElementById('statShowing').textContent=displayed.length;
-
   document.getElementById('f-gmail').textContent=`📧 Gmail Only (${gmailOnlyCount})`;
   document.getElementById('f-cal').textContent=`📅 Cal Only (${calCount})`;
   document.getElementById('f-hb').textContent=`HoneyBook (${hbCount})`;
-  document.getElementById('f-all').textContent=`All (${yearRows.length})`;
+  const allSub=document.getElementById('f-all-sub');
+  if(currentFilter==='all'){
+    allSub.textContent=`Showing all ${yearRows.length}`;
+  } else {
+    allSub.textContent=`(showing ${displayed.length} of ${yearRows.length})`;
+  }
 
   if(currentFilter==='hb'){
     const hbYearRows=yearRows.filter(r=>r.hbStage);
