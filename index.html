@@ -1,8 +1,8 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #39
+     Version: Refresh #40
      Last updated: Apr 14, 2026
-     Changes: Hannah Loewen → HB Pipeline Follow-up (Jun 16, 2026). Erin Woods → HB Pipeline Follow-up (Jun 12, 2027). Maddie Bovi added Cal Only (Aug 7, 2027 · CBI).
-     Cal Only: 49 · Gmail Only: 18 · HB Pipeline: 53
+     Changes: Annie Stein added Cal Only (Aug 8, 2026 · Dennis Port / Swan River Restaurant).
+     Cal Only: 50 · Gmail Only: 18 · HB Pipeline: 53
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -585,6 +585,7 @@ const CAL_ONLY = [
   {name:"Kara Mahoney",date:"2027-06-25",hbEventId:"696f858489753800079a29b0"},
   {name:"Brianna Harnois",date:"2027-08-13",hbEventId:"69c7126edd943d00079a67a5",notes:"Wychmere Beach Club · HB stage: Follow-up (updated Mar 31 via Zapier)"},
   {name:"Maddie Bovi",date:"2027-08-07",hbEventId:"69dd65a80c3dde00073b7530",notes:"Chatham Bars Inn · rehearsal/welcome party Aug 6 + wedding Aug 7, 2027"},
+  {name:"Annie Stein",date:"2026-08-08",hbEventId:"69deac702213f100079e4281",notes:"Dennis Port beach ceremony + Swan River Restaurant reception · ~80-90 guests · small wedding"},
 ];
 
 const STAGE_ORDER=["Completed","Planning","Retainer Paid","Proposal Signed","Proposal Sent","Follow-up","Questionnaire","Inquiry"];
@@ -728,6 +729,11 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Apr 14, 2026",label:"Refresh #40",changes:[
+    "Annie Stein added to Cal Only (Aug 8, 2026 · Dennis Port beach ceremony + Swan River Restaurant reception · ~80-90 guests)",
+    "No [HB Update] emails or new Gmail proposals since Refresh #39 (Susan on vacation week of Apr 14)",
+    "Cal Only: 49 → 50",
+  ]},
   {date:"Apr 14, 2026",label:"Refresh #39",changes:[
     "Hannah Loewen moved from Cal Only → HB Pipeline at Follow-up (Jun 16, 2026 · Union Club of Boston · repeat corporate/org client · proposal sent Apr 13 · via Zapier Apr 10)",
     "Erin Woods confirmed in HB Pipeline at Follow-up (Jun 12, 2027 · Ocean Edge Resort Brewster · already added in Refresh #35)",
@@ -931,6 +937,7 @@ const CAL_ONLY_GCAL_LINKS = {
   "Kara Mahoney": "https://www.google.com/calendar/event?eid=Njk2Zjg1ODQ4OTc1MzgwMDA3OWEyOWIwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Brianna Harnois": "https://www.google.com/calendar/event?eid=NjljNzEyNmVkZDk0M2QwMDA3OWE2N2E1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Maddie Bovi": "https://www.google.com/calendar/event?eid=NjlkZDY1YTgwYzNkZGUwMDA3M2I3NTMwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Annie Stein": "https://www.google.com/calendar/event?eid=NjlkZWFjNzAyMjEzZjEwMDA3OWU0MjgxIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Emily Feil": "https://www.google.com/calendar/event?eid=NjljYzgxMzNjY2MyNjkwMDA3ZDFkNTIzIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Samantha Zaino": "https://www.google.com/calendar/event?eid=NjhjNDcyOGM4NzM1NTkwMDA3Y2MwMTRkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
 };
@@ -1156,7 +1163,7 @@ setFilter('hb', document.getElementById('f-hb'));
 
 <script>
 (function(){
-  const built = new Date('2026-04-14T18:00:00Z');
+  const built = new Date('2026-04-14T22:45:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
