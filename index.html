@@ -1,8 +1,8 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #38
-     Last updated: Apr 13, 2026
-     Changes: Removed stat boxes (HB/Gmail/Cal/Showing grid). All button now shows "All (showing N of total)" right-justified, "Showing all N" when selected.
-     Cal Only: 48 · Gmail Only: 18 · HB Pipeline: 51
+     Version: Refresh #39
+     Last updated: Apr 14, 2026
+     Changes: Hannah Loewen → HB Pipeline Follow-up (Jun 16, 2026). Erin Woods → HB Pipeline Follow-up (Jun 12, 2027). Maddie Bovi added Cal Only (Aug 7, 2027 · CBI).
+     Cal Only: 49 · Gmail Only: 18 · HB Pipeline: 53
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -399,7 +399,7 @@ async function tryFaceId(){
   <div class="refresh-inner">
     <div class="refresh-icon">🌸</div>
     <div class="refresh-text" style="flex:1">
-      <p>Pipeline: <span style="color:var(--text)">51 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">18 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
+      <p>Pipeline: <span style="color:var(--text)">53 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">18 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
     </div>
   </div>
 </div>
@@ -464,6 +464,7 @@ const HB_PIPELINE=[
   {name:"Leigh A Keefe",email:"leighkeefe@gmail.com",stage:"Inquiry",date:"2026-06-13"},
   {name:"Laura Nicholson",email:"laura.b.nichol@gmail.com",stage:"Inquiry",date:"2026-02-14"},
   {name:"Alyssa Verzino",stage:"Questionnaire",date:"2025-10-04"},
+  {name:"Hannah Loewen",email:"hannah.loewen@heritage.org",stage:"Follow-up",date:"2026-06-16",notes:"Union Club of Boston · corporate/org event · ~6 arrangements · repeat client · proposal sent Apr 13. Moved from Cal Only via Zapier Apr 10."},
   {name:"Erin Woods",email:"woodserin10@gmail.com",stage:"Follow-up",date:"2027-06-12",notes:"Ocean Edge Resort Brewster · HB Inquiry + [HB Update] Follow-up both created Apr 10. Susan replied scheduling call week of Apr 20."},
   {name:"Maeve Bake",email:"maeveblake5@gmail.com",stage:"Follow-up",date:"2027-07-16"},
   {name:"Tessa Bednarz",email:"tessa.colby27@gmail.com",stage:"Follow-up",date:"2027-04-24"},
@@ -542,7 +543,6 @@ const CAL_ONLY = [
   {name:"Ashley Gresian",date:"2026-05-31",hbEventId:"688e2e7f929b5600079e89d3"},
   {name:"Melissa Guller",date:"2026-06-07",hbEventId:"6840b3033d59df0007d053de"},
   {name:"Sarah Vita",date:"2026-06-12",hbEventId:"67f65812d9a2fd0007892633"},
-  {name:"Hannah Loewen",date:"2026-06-16",hbEventId:null,notes:"Union Club of Boston · private dinner ~6 arrangements · repeat client"},
   {name:"Liz Quill",date:"2026-06-20",hbEventId:"68cbeb484003ac0006d15971"},
   {name:"Sophia Lynch",date:"2026-06-20",hbEventId:"68d1448e362ebb0007ec89b5"},
   {name:"Rachel Cohen",date:"2026-07-03",hbEventId:"687e523be9e4f300079e660c"},
@@ -584,6 +584,7 @@ const CAL_ONLY = [
   {name:"Kate Davignon",date:"2027-06-20",hbEventId:"69757fc8ff9d380007d8824a"},
   {name:"Kara Mahoney",date:"2027-06-25",hbEventId:"696f858489753800079a29b0"},
   {name:"Brianna Harnois",date:"2027-08-13",hbEventId:"69c7126edd943d00079a67a5",notes:"Wychmere Beach Club · HB stage: Follow-up (updated Mar 31 via Zapier)"},
+  {name:"Maddie Bovi",date:"2027-08-07",hbEventId:"69dd65a80c3dde00073b7530",notes:"Chatham Bars Inn · rehearsal/welcome party Aug 6 + wedding Aug 7, 2027"},
 ];
 
 const STAGE_ORDER=["Completed","Planning","Retainer Paid","Proposal Signed","Proposal Sent","Follow-up","Questionnaire","Inquiry"];
@@ -595,6 +596,8 @@ function getYear(d){return d?parseInt(d.split("-")[0]):null;}
 function isFuture(d){return d&&new Date(d)>=TODAY;}
 
 const HB_LINKS = {
+  "Hannah Loewen":"https://www.honeybook.com/app/event/69d90be3e1cafc0007d4558a",
+  "Erin Woods":"https://www.honeybook.com/app/event/69d90bfa0cf0f600066a58e4",
   "Alicia Herlihy":"https://www.honeybook.com/app/event/695af50c0c5e580008596961",
   "Amanda Papavasiliou":"https://www.honeybook.com/app/event/69a6303aa7b56000079f6493",
   "Alexa Paiva":"https://www.honeybook.com/app/event/69377c72f560280037780d04",
@@ -639,6 +642,7 @@ const HB_LINKS = {
 const GMAIL_THREADS = {
   "Alexa Paiva":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19adccf1ac7949cb",
   "Arianna":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d450a817dce671",
+  "Hannah Loewen":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d799ea68fc7dad",
   "Alicia Herlihy":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19bc4c7a3a8b5ba7",
   "Allison Thomas":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19cdec8d061abb21",
   "Amanda Papavasiliou":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19cdf993bad26e35",
@@ -685,6 +689,8 @@ const GMAIL_THREADS = {
 
 const CAL_LINKS = {
   "Alexa Paiva":"https://calendar.google.com/calendar/event?eid=NjkzNzdjNzJmNTYwMjgwMDM3NzgwZDA0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Hannah Loewen":"https://www.google.com/calendar/event?eid=NjlkOTBiZTNlMWNhZmMwMDA3ZDQ1NThhIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGc&authuser=boathouseblooms%40gmail.com",
+  "Erin Woods":"https://www.google.com/calendar/event?eid=NjlkOTBiZmEwY2YwZjYwMDA2NmE1OGU0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGc&authuser=boathouseblooms%40gmail.com",
   "Alicia Herlihy":"https://calendar.google.com/calendar/event?eid=Njk1YWY1MGMwYzVlNTgwMDA4NTk2OTYxIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Amanda Papavasiliou":"https://calendar.google.com/calendar/event?eid=NjlhNjMwM2FhN2I1NjAwMDA3OWY2NDkzIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Becca Wysocki":"https://calendar.google.com/calendar/event?eid=NjliODk4YWI2NDUyZjQwMDA3ZjEyNjE4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
@@ -722,6 +728,12 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Apr 14, 2026",label:"Refresh #39",changes:[
+    "Hannah Loewen moved from Cal Only → HB Pipeline at Follow-up (Jun 16, 2026 · Union Club of Boston · repeat corporate/org client · proposal sent Apr 13 · via Zapier Apr 10)",
+    "Erin Woods confirmed in HB Pipeline at Follow-up (Jun 12, 2027 · Ocean Edge Resort Brewster · already added in Refresh #35)",
+    "Maddie Bovi added to Cal Only (Aug 7, 2027 · Chatham Bars Inn · rehearsal/welcome party Aug 6 + wedding Aug 7)",
+    "HB Pipeline: 52 → 53 · Cal Only: 48 → 49",
+  ]},
   {date:"Apr 11, 2026",label:"Refresh #37",changes:[
     "Cal Only sync: Kelly Spain (Apr 24, 2026) removed — no longer present in HoneyBook calendar",
     "No new HB pipeline or Gmail changes since Refresh #36",
@@ -918,6 +930,7 @@ const CAL_ONLY_GCAL_LINKS = {
   "Kate Davignon": "https://www.google.com/calendar/event?eid=Njk3NTdmYzhmZjlkMzgwMDA3ZDg4MjRhIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Kara Mahoney": "https://www.google.com/calendar/event?eid=Njk2Zjg1ODQ4OTc1MzgwMDA3OWEyOWIwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Brianna Harnois": "https://www.google.com/calendar/event?eid=NjljNzEyNmVkZDk0M2QwMDA3OWE2N2E1IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Maddie Bovi": "https://www.google.com/calendar/event?eid=NjlkZDY1YTgwYzNkZGUwMDA3M2I3NTMwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Emily Feil": "https://www.google.com/calendar/event?eid=NjljYzgxMzNjY2MyNjkwMDA3ZDFkNTIzIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Samantha Zaino": "https://www.google.com/calendar/event?eid=NjhjNDcyOGM4NzM1NTkwMDA3Y2MwMTRkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
 };
@@ -1143,7 +1156,7 @@ setFilter('hb', document.getElementById('f-hb'));
 
 <script>
 (function(){
-  const built = new Date('2026-04-11T18:00:00Z');
+  const built = new Date('2026-04-14T18:00:00Z');
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
