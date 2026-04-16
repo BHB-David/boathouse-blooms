@@ -1,8 +1,8 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #41
-     Last updated: Apr 15, 2026
-     Changes: 2 new Cal Only (Samantha Sieger re-appeared May 23; Melanie Guerra Jun 7). Tessa Bednarz notes updated (active proposal Q&A Apr 15).
-     Cal Only: 52 · Gmail Only: 18 · HB Pipeline: 53
+     Version: Refresh #42
+     Last updated: Apr 16, 2026
+     Changes: 1 new Cal Only (Winnie Guo Oct 11). No HB Updates or new Gmail proposals.
+     Cal Only: 53 · Gmail Only: 18 · HB Pipeline: 53
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -568,6 +568,7 @@ const CAL_ONLY = [
   {name:"Julia Frisch",date:"2026-09-25",hbEventId:"6897a70420e9c80007678c2b"},
   {name:"Kaitlynn Dotts",date:"2026-09-25",hbEventId:"68ff0d18a50bf10007fd912f"},
   {name:"Samantha Chieffalo",date:"2026-10-02",hbEventId:"68efd1a6b462c200075c9389"},
+  {name:"Winnie Guo",date:"2026-10-11",hbEventId:"69dffabf449bac000758312c"},
   {name:"Sara DiCenso",date:"2026-10-03",hbEventId:"6856977294542600073ca0ea"},
   {name:"Allison Bernhardt",date:"2026-10-03",hbEventId:"6797c0a4472d95000799293f"},
   {name:"Rebecca Grassia",date:"2026-10-16",hbEventId:"68d2cb04a3b6a20007b3809e"},
@@ -731,6 +732,11 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Apr 16, 2026",label:"Refresh #42",changes:[
+    "Winnie Guo added to Cal Only (Oct 11, 2026 · ID 69dffabf449bac000758312c · new HB calendar inquiry)",
+    "No [HB Update] emails since Refresh #41 · No new Gmail proposals · Cal Only: 52 → 53",
+    "Erin Daly contract completion email detected (HoneyBook auto-email) — already at Planning, no change needed",
+  ]},
   {date:"Apr 15, 2026",label:"Refresh #41",changes:[
     "Samantha Sieger re-added to Cal Only (May 23, 2026 · new ID 67e9d540e764440007eae2d4 · was removed in Refresh #36 as archived; re-opened in HoneyBook)",
     "Melanie Guerra added to Cal Only (Jun 7, 2026 · ID 69df83a223aa870007215112 · new inquiry)",
@@ -1173,7 +1179,7 @@ setFilter('hb', document.getElementById('f-hb'));
 
 <script>
 (function(){
-  const built = new Date('2026-04-15T19:30:00Z'); // ~3:30 PM ET
+  const built = new Date('2026-04-16T17:00:00Z'); // ~1:00 PM ET
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
