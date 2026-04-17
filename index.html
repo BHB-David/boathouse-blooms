@@ -1,7 +1,7 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #43
+     Version: Refresh #44
      Last updated: Apr 17, 2026
-     Changes: Maddie Bovi removed (unavailable). Olivia Hardy added to Cal Only. Tessa Bednarz notes updated.
+     Changes: Arianna date + notes updated (Jul 16 2027 Wychmere, deposit paid, address change).
      Cal Only: 53 · Gmail Only: 18 · HB Pipeline: 53
 -->
 <!DOCTYPE html>
@@ -494,7 +494,7 @@ const HB_PIPELINE=[
   {name:"Alicia Herlihy",email:"amherlihy@yahoo.com",stage:"Retainer Paid",date:"2026-06-27"},
   {name:"Isabella Sinibaldi",email:"izzysinibaldi10@gmail.com",stage:"Retainer Paid",date:"2027-06-18",notes:"Wychmere Beach Club · moved from Gmail Only via Zapier [HB Update] Mar 29"},
   {name:"Amanda Papavasiliou",email:"amandapappas14@gmail.com",stage:"Retainer Paid",date:"2027-02-06",notes:"Four Seasons Back Bay · deposit confirmed via Gmail Mar 26"},
-  {name:"Arianna",email:"jacob.arianna2027@gmail.com",stage:"Retainer Paid",date:null,notes:"Deposit confirmed Apr 1 via Gmail. Moved from Gmail Only. Event date TBD."},
+  {name:"Arianna",email:"jacob.arianna2027@gmail.com",stage:"Retainer Paid",date:"2027-07-16",notes:"Wychmere Beach Club (Ocean Room + beach ceremony) · Jul 16, 2027 · deposit paid Apr 3 via Venmo · address updated Apr 15 to 16 Briarcliff Lane"},
   {name:"Meaghan and Matthew",email:"meaganjkeefe@gmail.com",stage:"Retainer Paid",date:"2026-06-13"},
   {name:"Erin Daly",email:"erindaly814@gmail.com",stage:"Planning",date:"2026-05-30",notes:"Erin & Zach · West Dennis · full payment $4,985.69 received Apr 8 (invoice #000144-002). Moved from Gmail Only via Zapier Apr 7–8."},
   {name:"Samantha Barmore",email:"sbarmore26@gmail.com",stage:"Retainer Paid",date:"2027-08-20"},
@@ -732,6 +732,11 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Apr 17, 2026",label:"Refresh #44",changes:[
+    "Arianna: event date set to Jul 16, 2027 (was TBD) — Wychmere Beach Club, Ocean Room + beach ceremony",
+    "Arianna: notes updated with deposit paid Apr 3 via Venmo, address updated Apr 15 to 16 Briarcliff Lane",
+    "No [HB Update] emails · No new Gmail proposals · No new calendar entries · Cal Only: 53 · Gmail Only: 18 · HB Pipeline: 53",
+  ]},
   {date:"Apr 17, 2026",label:"Refresh #43",changes:[
     "Maddie Bovi removed from Cal Only — Susan sent 'not available on your wedding date' Apr 16",
     "Olivia Hardy added to Cal Only (Jun 5, 2027 · ID 69e1864199dfdc0007a48a8d · new HB calendar inquiry)",
@@ -1186,7 +1191,7 @@ setFilter('hb', document.getElementById('f-hb'));
 
 <script>
 (function(){
-  const built = new Date('2026-04-17T14:30:00Z'); // ~10:30 AM ET
+  const built = new Date('2026-04-17T19:00:00Z'); // ~3:00 PM ET
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
