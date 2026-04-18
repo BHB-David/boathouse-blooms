@@ -415,9 +415,8 @@ async function tryFaceId(){
   <button class="filter-btn" id="f-gmail" onclick="setFilter('gmail',this)">📧 Gmail Only</button>
   <button class="filter-btn" id="f-cal" onclick="setFilter('cal',this)">📅 Cal Only</button>
   <button class="filter-btn" id="f-hb" onclick="setFilter('hb',this)">HoneyBook</button>
-  <button class="filter-btn" id="f-archived" onclick="setFilter('archived',this)" style="display:none">📦 HB Archived</button>
+  <button class="filter-btn" id="f-archived" onclick="setFilter('archived',this)">📦 HB Archived</button>
   <button class="filter-btn" id="f-all" onclick="setFilter('all',this)" style="display:flex;align-items:center;"><span>All</span><span id="f-all-sub" style="margin-left:auto;font-size:11px;opacity:0.75;"></span></button>
-  <button class="filter-btn" id="f-toggle-arch" onclick="toggleArchivedCompleted(this)" style="font-size:11px;opacity:0.75;border-style:dashed;">Show archived/completed</button>
 </div>
 
 <div class="stage-filters" id="stage-filter-row">
@@ -1024,7 +1023,6 @@ function sortByDate(rows){
 
 const ALL_ROWS=buildAllRows();
 let currentFilter='hb',currentYear=2026,currentStage='all',currentSearch='',openCard=null;
-let showArchivedCompleted=false; // toggled by the "Show archived/completed" button
 
 function onSearch(val){
   currentSearch=val.trim().toLowerCase();
@@ -1046,14 +1044,12 @@ function filterByYear(rows){
 function getDisplayRows(){
   let rows=filterByYear(ALL_ROWS);
 
-  // Hide archived + completed by default. User explicitly filtering TO those
-  // categories is the only way to see them when the toggle is off.
-  if(!showArchivedCompleted){
-    const showingArchivedExplicitly = (currentFilter==='archived');
-    const showingCompletedExplicitly = (currentFilter==='hb' && currentStage==='Completed');
-    if(!showingArchivedExplicitly) rows=rows.filter(r=>r.type!=='archived');
-    if(!showingCompletedExplicitly) rows=rows.filter(r=>r.hbStage!=='Completed');
-  }
+  // Archived and Completed entries are hidden unless the user explicitly
+  // filters to them (HB Archived button, or HoneyBook → Completed stage).
+  const showingArchivedExplicitly = (currentFilter==='archived');
+  const showingCompletedExplicitly = (currentFilter==='hb' && currentStage==='Completed');
+  if(!showingArchivedExplicitly) rows=rows.filter(r=>r.type!=='archived');
+  if(!showingCompletedExplicitly) rows=rows.filter(r=>r.hbStage!=='Completed');
 
   if(currentFilter==='gmail') rows=rows.filter(r=>r.type==='accepted'||r.type==='gmail-only');
   else if(currentFilter==='cal') rows=rows.filter(r=>r.type==='cal');
@@ -1084,9 +1080,7 @@ function setYear(y,btn){
 function setFilter(f,btn){
   currentFilter=f;
   currentStage='all';
-  document.querySelectorAll('.filter-btn').forEach(b=>{
-    if(b.id!=='f-toggle-arch') b.classList.remove('active');
-  });
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   const sfRow=document.getElementById('stage-filter-row');
   if(f==='hb'){
@@ -1106,22 +1100,6 @@ function setStage(s,btn){
   document.querySelectorAll('.stage-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   applyStageButtonStyles();
-  openCard=null;
-  render();
-}
-
-function toggleArchivedCompleted(btn){
-  showArchivedCompleted=!showArchivedCompleted;
-  btn.classList.toggle('active',showArchivedCompleted);
-  btn.textContent=showArchivedCompleted?'Hide archived/completed':'Show archived/completed';
-  // Reveal/hide the HB Archived filter button only when toggle is on
-  const fArch=document.getElementById('f-archived');
-  fArch.style.display=showArchivedCompleted?'':'none';
-  // If user turns off the toggle while viewing Archived, bounce back to HB
-  if(!showArchivedCompleted && currentFilter==='archived'){
-    setFilter('hb',document.getElementById('f-hb'));
-    return;
-  }
   openCard=null;
   render();
 }
@@ -1151,12 +1129,11 @@ function stageTag(s){const st=STAGE_STYLE[s]||{color:'#8899aa',bg:'#eef4fa'};ret
 
 function render(){
   const yearRows=filterByYear(ALL_ROWS);
-  // Counts reflect what's actually visible given the toggle state.
-  // When toggle is OFF: Completed and Archived entries don't count toward the
-  // default bucket totals — they're hidden from view, so counting them would
-  // confuse the user.
-  const activeRows = showArchivedCompleted ? yearRows
-    : yearRows.filter(r=>r.type!=='archived' && r.hbStage!=='Completed');
+  // Counts reflect what's actually visible by default. Completed and Archived
+  // entries don't count toward the default bucket totals — they're hidden
+  // unless the user explicitly filters to them (HB Archived button or
+  // Completed stage), at which point the filter's own count shows the truth.
+  const activeRows = yearRows.filter(r=>r.type!=='archived' && r.hbStage!=='Completed');
   const gmailOnlyCount=activeRows.filter(r=>r.type==='accepted'||r.type==='gmail-only').length;
   const hbCount=activeRows.filter(r=>r.hbStage).length;
   const calCount=activeRows.filter(r=>r.type==='cal').length;
@@ -1180,8 +1157,8 @@ function render(){
     document.querySelectorAll('.stage-btn[data-stage]').forEach(btn=>{
       const s=btn.dataset.stage;
       if(s==='all') return;
-      // Completed count comes from full yearRows regardless of toggle, so the
-      // stage button shows the true count — clicking it reveals them.
+      // Completed count comes from full yearRows so the stage button shows
+      // the true count — clicking it reveals them.
       const pool = (s==='Completed') ? yearRows.filter(r=>r.hbStage) : hbYearRows;
       const cnt=pool.filter(r=>r.hbStage===s).length;
       btn.textContent=`${s} (${cnt})`;
