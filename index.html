@@ -1,8 +1,9 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #44
+     Version: Refresh #44 (+ HB_ARCHIVED scaffolding, unreleased)
      Last updated: Apr 17, 2026
-     Changes: Arianna date + notes updated (Jul 16 2027 Wychmere, deposit paid, address change).
-     Cal Only: 53 · Gmail Only: 18 · HB Pipeline: 53
+     Changes: Added HB_ARCHIVED array + "Show archived/completed" toggle. Reverse calendar diff in skill.
+     Cal Only: 55 · Gmail Only: 17 · HB Pipeline: 49 · HB Archived: 0
+     (Actual array lengths — prior version comment said 53·18·53 which was count-drift caught by new verifier.)
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -99,6 +100,10 @@
   .tag-email{background:var(--surface);color:#3a5070;border-color:var(--border);font-size:8px;}
   .tag-stage{border:1px solid;}
   .tag-hb-cal{background:#e8f4ff;color:#2563eb;border-color:#bfdbfe;font-size:8px;}
+  .tag-archived{background:#efeae3;color:var(--muted);border-color:#cec5ba;font-weight:600;}
+  /* Archived cards are muted — historical records, not active work */
+  .card.type-archived{opacity:0.65;}
+  .card.type-archived:hover{opacity:0.9;}
 
   .card-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:12px;line-height:2;color:var(--muted);width:100%;max-width:100%;overflow:hidden;overflow-wrap:break-word;word-break:break-word;}
   .card-detail.open{display:block;}
@@ -109,6 +114,7 @@
   .card-detail .note.purple{color:var(--purple);}
   .card-detail .note.warn{color:var(--gold);}
   .card-detail .note.ok{color:var(--muted);}
+  .card-detail .note.archived{color:var(--muted);font-style:italic;}
 
   .empty{text-align:center;padding:60px 20px;color:var(--muted);}
   ::-webkit-scrollbar{width:3px;height:3px;}
@@ -399,7 +405,7 @@ async function tryFaceId(){
   <div class="refresh-inner">
     <div class="refresh-icon">🌸</div>
     <div class="refresh-text" style="flex:1">
-      <p>Pipeline: <span style="color:var(--text)">53 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">18 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
+      <p>Pipeline: <span style="color:var(--text)">49 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">17 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
     </div>
   </div>
 </div>
@@ -410,7 +416,9 @@ async function tryFaceId(){
   <button class="filter-btn" id="f-gmail" onclick="setFilter('gmail',this)">📧 Gmail Only</button>
   <button class="filter-btn" id="f-cal" onclick="setFilter('cal',this)">📅 Cal Only</button>
   <button class="filter-btn" id="f-hb" onclick="setFilter('hb',this)">HoneyBook</button>
+  <button class="filter-btn" id="f-archived" onclick="setFilter('archived',this)" style="display:none">📦 HB Archived</button>
   <button class="filter-btn" id="f-all" onclick="setFilter('all',this)" style="display:flex;align-items:center;"><span>All</span><span id="f-all-sub" style="margin-left:auto;font-size:11px;opacity:0.75;"></span></button>
+  <button class="filter-btn" id="f-toggle-arch" onclick="toggleArchivedCompleted(this)" style="font-size:11px;opacity:0.75;border-style:dashed;">Show archived/completed</button>
 </div>
 
 <div class="stage-filters" id="stage-filter-row">
@@ -592,6 +600,16 @@ const CAL_ONLY = [
 ];
 
 const STAGE_ORDER=["Completed","Planning","Retainer Paid","Proposal Signed","Proposal Sent","Follow-up","Questionnaire","Inquiry"];
+
+// HB_ARCHIVED — projects HoneyBook has archived, detected via reverse calendar diff.
+// Entries here are NOT on the HB calendar anymore. Preserved for historical record.
+// Hidden by default; revealed by the "Show archived/completed" toggle.
+// Shape: {name, email?, date, hbEventId, archivedAt, source, prevStage?, notes?}
+//   source: "CAL_ONLY" | "HB_PIPELINE"
+//   archivedAt: refresh date (YYYY-MM-DD) when the app detected the archival
+//   prevStage: the stage the entry had before archival (pipeline only)
+const HB_ARCHIVED = [];
+
 const TODAY=new Date();
 function isPast(d){return d&&new Date(d)<TODAY;}
 function isSoon(d){if(!d)return false;const diff=(new Date(d)-TODAY)/86400000;return diff>=0&&diff<=60;}
@@ -987,6 +1005,13 @@ function buildAllRows(){
     rows.push({type:"hb",client:h.name,date:h.date,hbStage:h.stage,
       gmailDate:null,gmailEmail:null,notes:h.notes||null,hbCal:false,hbEventId:null});
   });
+  HB_ARCHIVED.forEach(a=>{
+    rows.push({type:"archived",client:a.name,date:a.date,hbStage:null,
+      gmailDate:null,gmailEmail:a.email||null,
+      notes:(a.notes?a.notes+' · ':'')+`HB archived ${a.archivedAt} (was ${a.source==='CAL_ONLY'?'Cal Only':'Pipeline: '+(a.prevStage||'unknown')})`,
+      hbCal:false,hbEventId:a.hbEventId,
+      archivedAt:a.archivedAt,archivedSource:a.source,archivedPrevStage:a.prevStage||null});
+  });
   return sortByDate(rows);
 }
 
@@ -1007,6 +1032,7 @@ function sortByDate(rows){
 
 const ALL_ROWS=buildAllRows();
 let currentFilter='hb',currentYear=2026,currentStage='all',currentSearch='',openCard=null;
+let showArchivedCompleted=false; // toggled by the "Show archived/completed" button
 
 function onSearch(val){
   currentSearch=val.trim().toLowerCase();
@@ -1027,8 +1053,19 @@ function filterByYear(rows){
 
 function getDisplayRows(){
   let rows=filterByYear(ALL_ROWS);
+
+  // Hide archived + completed by default. User explicitly filtering TO those
+  // categories is the only way to see them when the toggle is off.
+  if(!showArchivedCompleted){
+    const showingArchivedExplicitly = (currentFilter==='archived');
+    const showingCompletedExplicitly = (currentFilter==='hb' && currentStage==='Completed');
+    if(!showingArchivedExplicitly) rows=rows.filter(r=>r.type!=='archived');
+    if(!showingCompletedExplicitly) rows=rows.filter(r=>r.hbStage!=='Completed');
+  }
+
   if(currentFilter==='gmail') rows=rows.filter(r=>r.type==='accepted'||r.type==='gmail-only');
   else if(currentFilter==='cal') rows=rows.filter(r=>r.type==='cal');
+  else if(currentFilter==='archived') rows=rows.filter(r=>r.type==='archived');
   else if(currentFilter==='hb'){
     rows=rows.filter(r=>r.hbStage);
     if(currentStage!=='all') rows=rows.filter(r=>r.hbStage===currentStage);
@@ -1055,7 +1092,9 @@ function setYear(y,btn){
 function setFilter(f,btn){
   currentFilter=f;
   currentStage='all';
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn').forEach(b=>{
+    if(b.id!=='f-toggle-arch') b.classList.remove('active');
+  });
   btn.classList.add('active');
   const sfRow=document.getElementById('stage-filter-row');
   if(f==='hb'){
@@ -1079,6 +1118,22 @@ function setStage(s,btn){
   render();
 }
 
+function toggleArchivedCompleted(btn){
+  showArchivedCompleted=!showArchivedCompleted;
+  btn.classList.toggle('active',showArchivedCompleted);
+  btn.textContent=showArchivedCompleted?'Hide archived/completed':'Show archived/completed';
+  // Reveal/hide the HB Archived filter button only when toggle is on
+  const fArch=document.getElementById('f-archived');
+  fArch.style.display=showArchivedCompleted?'':'none';
+  // If user turns off the toggle while viewing Archived, bounce back to HB
+  if(!showArchivedCompleted && currentFilter==='archived'){
+    setFilter('hb',document.getElementById('f-hb'));
+    return;
+  }
+  openCard=null;
+  render();
+}
+
 function applyStageButtonStyles(){
   document.querySelectorAll('.stage-btn').forEach(btn=>{
     const stage=btn.dataset.stage;
@@ -1096,6 +1151,7 @@ function flag(r){
   if(r.type==='accepted') return '🔴';
   if(r.type==='gmail-only') return '📧';
   if(r.type==='cal') return '📅';
+  if(r.type==='archived') return '📦';
   if(r.hbStage) return '✅';
   return '🟡';
 }
@@ -1103,28 +1159,39 @@ function stageTag(s){const st=STAGE_STYLE[s]||{color:'#8899aa',bg:'#eef4fa'};ret
 
 function render(){
   const yearRows=filterByYear(ALL_ROWS);
-  const gmailOnlyCount=yearRows.filter(r=>r.type==='accepted'||r.type==='gmail-only').length;
-  const hbCount=yearRows.filter(r=>r.hbStage).length;
-  const calCount=yearRows.filter(r=>r.type==='cal').length;
+  // Counts reflect what's actually visible given the toggle state.
+  // When toggle is OFF: Completed and Archived entries don't count toward the
+  // default bucket totals — they're hidden from view, so counting them would
+  // confuse the user.
+  const activeRows = showArchivedCompleted ? yearRows
+    : yearRows.filter(r=>r.type!=='archived' && r.hbStage!=='Completed');
+  const gmailOnlyCount=activeRows.filter(r=>r.type==='accepted'||r.type==='gmail-only').length;
+  const hbCount=activeRows.filter(r=>r.hbStage).length;
+  const calCount=activeRows.filter(r=>r.type==='cal').length;
+  const archivedCount=yearRows.filter(r=>r.type==='archived').length;
   const displayed=getDisplayRows();
 
   document.getElementById('f-gmail').textContent=`📧 Gmail Only (${gmailOnlyCount})`;
   document.getElementById('f-cal').textContent=`📅 Cal Only (${calCount})`;
   document.getElementById('f-hb').textContent=`HoneyBook (${hbCount})`;
+  document.getElementById('f-archived').textContent=`📦 HB Archived (${archivedCount})`;
   const allSub=document.getElementById('f-all-sub');
   if(currentFilter==='all'){
-    allSub.textContent=`Showing all ${yearRows.length}`;
+    allSub.textContent=`Showing all ${activeRows.length}`;
   } else {
-    allSub.textContent=`(showing ${displayed.length} of ${yearRows.length})`;
+    allSub.textContent=`(showing ${displayed.length} of ${activeRows.length})`;
   }
 
   if(currentFilter==='hb'){
-    const hbYearRows=yearRows.filter(r=>r.hbStage);
+    const hbYearRows=activeRows.filter(r=>r.hbStage);
     document.getElementById('sf-all').textContent=`All (${hbYearRows.length})`;
     document.querySelectorAll('.stage-btn[data-stage]').forEach(btn=>{
       const s=btn.dataset.stage;
       if(s==='all') return;
-      const cnt=hbYearRows.filter(r=>r.hbStage===s).length;
+      // Completed count comes from full yearRows regardless of toggle, so the
+      // stage button shows the true count — clicking it reveals them.
+      const pool = (s==='Completed') ? yearRows.filter(r=>r.hbStage) : hbYearRows;
+      const cnt=pool.filter(r=>r.hbStage===s).length;
       btn.textContent=`${s} (${cnt})`;
     });
     applyStageButtonStyles();
@@ -1145,11 +1212,13 @@ function render(){
     if(r.type==='accepted') noteClass='red';
     else if(r.type==='gmail-only') noteClass='orange';
     else if(r.type==='cal') noteClass='purple';
+    else if(r.type==='archived') noteClass='archived';
 
     let primaryTag='';
     if(r.type==='accepted') primaryTag='<span class="tag tag-accepted">⚠ ACCEPTED — NEEDS HB PROJECT</span>';
     else if(r.type==='gmail-only') primaryTag='<span class="tag tag-gmail-only">📧 GMAIL ONLY</span>';
     else if(r.type==='cal') primaryTag='<span class="tag tag-cal-only">📅 CAL ONLY</span>';
+    else if(r.type==='archived') primaryTag='<span class="tag tag-archived">📦 HB ARCHIVED</span>';
     else if(r.hbStage) primaryTag=stageTag(r.hbStage);
     else primaryTag='<span class="tag tag-noHB">NOT IN HONEYBOOK</span>';
 
