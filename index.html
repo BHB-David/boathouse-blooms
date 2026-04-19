@@ -1,7 +1,7 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #45
-     Last updated: Apr 18, 2026
-     Changes: First reverse-diff refresh. Archived 20 HB projects (19 Cal Only + 1 Inquiry pipeline) detected via calendar absence. Liz Polin → Planning. 4 past-event pipeline clients auto-promoted to Completed. Maddie Bovi re-added after new-date resubmission.
+     Version: Refresh #46
+     Last updated: Apr 19, 2026
+     Changes: Null-date backfill for Katie Escano via targeted Gmail thread scan — event date 2026-06-13 @ Black Rock CC (Retainer Paid since May 30, 2025, terminal Gmail Only). No new pipeline entries, no [HB Update] changes, no calendar reverse-diff archival. 2 forward-diff hits both duplicate skips (Kellie Cronin, Natalie Leone).
      Cal Only: 36 · Gmail Only: 17 · HB Pipeline: 49 · HB Archived: 20
 -->
 <!DOCTYPE html>
@@ -535,7 +535,7 @@ const GMAIL_ONLY = [
   {client:"Dan Varrichio",email:"danvarrichio@gmail.com",gmailDate:"2026-01-05",eventDate:"2027-04-17",hbCal:true,notes:"Preliminary Jan 5. Apr 17, 2027 Chatham Bars Inn. In HB calendar as Inquiry."},
   {client:"Laura McNulty / Bryant University",email:"lmcnulty1@bryant.edu",gmailDate:"2026-03-24",eventDate:"2026-05-01",hbCal:false,notes:"Bryant University Healthcare Summit May 1, 2026. Preliminary proposal sent Mar 24. Active back-and-forth. Not in HB pipeline as separate project."},
   {client:"Jesha Stevens",email:"partnerships@jeshastevens.com",gmailDate:"2026-04-10",eventDate:"2026-07-18",hbCal:false,notes:"Floral inquiry for Jul 18, Wellfleet. Via Arch Cape Cod Wedding planner. Susan on vacation; call scheduled week of Apr 20. Not in HB pipeline."},
-  {client:"Katie Escano",email:"fridaywedding26@gmail.com",gmailDate:"2026-04-10",eventDate:null,hbCal:false,notes:"Updated proposal sent Apr 10 (Katie & Andrew). Called Apr 9, Susan scheduled call week of Apr 20. Not in HB pipeline."},
+  {client:"Katie Escano",email:"fridaywedding26@gmail.com",gmailDate:"2026-04-10",eventDate:"2026-06-13",hbCal:false,notes:"Black Rock Country Club, Hingham · Jun 13, 2026 · Retainer Paid May 30, 2025 (terminal Gmail Only — never moved to HB). Updated proposal sent Apr 10, 2026 (head table changes, 9-person head table). Called Apr 9. Not in HB pipeline."},
 ];
 
 // HB calendar Inquiries with no pipeline project — review & resolve via HoneyBook link
@@ -751,6 +751,15 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Apr 19, 2026",label:"Refresh #46",changes:[
+    "Katie Escano null-date backfill via targeted thread scan (to:/from:fridaywedding26@gmail.com): eventDate set to 2026-06-13, venue Black Rock Country Club Hingham. She's been Retainer Paid since May 30, 2025 — deposit paid via Venmo after Susan sent proposal May 27, 2025. Terminal Gmail Only (Susan never moved her into HB). Updated proposal sent Apr 10, 2026 for head-table changes (9-person head table at 8ft rectangle).",
+    "Calendar forward diff: 2 new IDs both duplicate skips — Kellie Cronin (already in HB_LINKS, 2026-10-03) and Natalie Leone (already in CAL_ONLY, 2027-08-28). HB regenerates duplicate project IDs on repeat inquiries; both ignored per skip list.",
+    "Calendar reverse diff: 23 archived IDs all carried forward from Refresh #45 (no new archivals since yesterday). All present in HB_ARCHIVED or correctly retained as Completed past-event pipeline entries.",
+    "Zapier [HB Update] scan found only the Liz Polin _FOLLOW_UP_ → _PLANNING_ email already captured in #45.",
+    "Outbound Gmail: no new proposals. Inbound Gmail: all marketing noise.",
+    "Pending items: Tessa Bednarz awaiting updated proposal (Susan promised Apr 17 morning, no later activity in scan window). Jesha Stevens call Apr 20 2:30 PM still scheduled. Maddie Bovi status ambiguous — Susan's Apr 16 decline may have been for the new 2027-08-07 date (Meg & Alex Mattie already booked that day); no reply from Maddie. Flagged for David's review.",
+    "Counts unchanged: Cal Only 36 · Gmail Only 17 · HB Pipeline 49 · HB Archived 20.",
+  ]},
   {date:"Apr 19, 2026",label:"Hotfix",changes:[
     "Christina Maheras: added missing Google Calendar link to CAL_LINKS. She was promoted Cal Only → HB Pipeline in Refresh #15 (Mar 28) but the gcal URL was dropped during promotion — only HB + Gmail links carried over. All other Cal Only → HB promotions since then picked up gcal links correctly; she was the only one missed.",
   ]},
@@ -1233,7 +1242,7 @@ setFilter('hb', document.getElementById('f-hb'));
 
 <script>
 (function(){
-  const built = new Date('2026-04-18T19:30:00Z'); // ~3:30 PM ET
+  const built = new Date('2026-04-19T17:00:00Z'); // ~1:00 PM ET
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
