@@ -723,6 +723,7 @@ const CAL_LINKS = {
   "Caitlin Ferreira":"https://calendar.google.com/calendar/event?eid=NjgzZjc2ZDQ4NjZjYTkwMDFmNDU3Mjg0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Cara Goudy":"https://calendar.google.com/calendar/event?eid=NjdlZmQzODcwM2FmNzIwMDA3ZmZiZDY4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Catherine Welch":"https://calendar.google.com/calendar/event?eid=Njk1ZjJmY2ZmZmFhZjAwMDA3OGY1MjE4IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
+  "Christina Maheras":"https://www.google.com/calendar/event?eid=NjhjOGEwODdmOWZhZTQwMDA3NzVhMjNlIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGc&authuser=boathouseblooms%40gmail.com",
   "Christine Cocce":"https://calendar.google.com/calendar/event?eid=NjliZGYzYmE4MGE5N2QwMDA3ZmM3MzliIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Dan Varrichio":"https://calendar.google.com/calendar/event?eid=Njk0ZTBkNTJlOGE0MTQwMDA3ZTgzYjNkIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Erin Daly":"https://www.google.com/calendar/event?eid=NjlkNWExM2FhY2VmNzcwMDMzZGM3YTYwIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGc&ctz=America/New_York",
@@ -750,6 +751,9 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Apr 19, 2026",label:"Hotfix",changes:[
+    "Christina Maheras: added missing Google Calendar link to CAL_LINKS. She was promoted Cal Only → HB Pipeline in Refresh #15 (Mar 28) but the gcal URL was dropped during promotion — only HB + Gmail links carried over. All other Cal Only → HB promotions since then picked up gcal links correctly; she was the only one missed.",
+  ]},
   {date:"Apr 18, 2026",label:"Refresh #45",changes:[
     "First reverse-diff refresh. Detected 23 IDs present in app but missing from live HB calendar.",
     "Auto-archived 20: 19 Cal Only entries (Mia Angeli, Alyssa Rao, Kelly Hannon, Katelyn Cronin, Ashley Gresian, Melissa Guller, Sarah Vita, Liz Quill, Sophia Lynch, Rachel Cohen, Tori Carson, Paige Sheldon, Suzy Malone, Alexandra Roat, Lauren Katz, Sara Hagopian, Kaitlyn Dabenigno, Alessandra Gallo, Samantha Chieffalo) + 1 early-stage pipeline (Leigh A Keefe, Inquiry) → all moved to HB_ARCHIVED.",
