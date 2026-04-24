@@ -1,8 +1,8 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #46
-     Last updated: Apr 23, 2026
-     Changes: Quiet refresh. Tessa Bednarz updated proposal sent Apr 21. Hannah Loewen updated Union Club proposal sent Apr 21. Jack & Paige Soucy updated proposal Apr 21 + coordinating Jean 9/18/26 rehearsal dinner. Laura McNulty confirmed "proceed as is" Apr 21. Melanie Guerra removed from Cal Only — Zapier fired Follow-up, Susan declined same day (Jun 7 unavailable). Two new duplicates documented: Natalie Leone second cal entry, Kellie Cronin second cal entry.
-     Cal Only: 35 · Gmail Only: 17 · HB Pipeline: 49 · HB Archived: 20
+     Version: Refresh #46 · Feature add: Full History
+     Last updated: Apr 24, 2026
+     Changes: Added narrative field (summary + dated timeline) with 📖 Full History button in expanded card detail. Pilot narratives for 6 clients: Tessa Bednarz, Hannah Loewen, Jesha Stevens, Katie Escano, Abby Greene, Maddie Bovi. Data findings from authoring scans: (1) Abby Greene wedding date backfilled to Sep 5, 2026; (2) Katie Escano paid deposit May 30, 2025 — flagged for classification review. Backfill will continue client-by-client in upcoming sessions.
+     Cal Only: 35 · Gmail Only: 17 · HB Pipeline: 49 · HB Archived: 20 · Narratives: 6
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +14,7 @@
 <style>
   :root {
     --bg:#f5f1ed;--surface:#ffffff;--border:#cec5ba;--border-bright:#b0a090;
-    --text:#1a100c;--muted:#4a3c34;--accent:#b84450;--accent-dim:rgba(184,68,80,0.10);
+    --text:#1a100c;--muted:#5e5048;--accent:#b84450;--accent-dim:rgba(184,68,80,0.10);
     --red:#a82020;--red-dim:#fdf0ef;--gold:#7a5808;--gold-dim:#fdf8ed;
     --green:#0e6640;--green-dim:#edf8f3;--purple:#4e3898;--purple-dim:#eeeaf8;--blue:#1848c8;
     --orange:#9e3806;
@@ -30,16 +30,16 @@
 
   .nav{width:100%;max-width:700px;padding:20px 20px 0;display:flex;align-items:center;gap:12px;}
   .nav-title h1{font-size:18px;font-weight:600;color:var(--accent);}
-  .nav-title p{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:2px;font-family:'DM Mono',monospace;}
+  .nav-title p{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:2px;font-family:'DM Mono',monospace;}
 
   .year-bar{width:100%;max-width:700px;padding:12px 20px 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-  .year-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;}
-  .year-btn{flex-shrink:0;padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;cursor:pointer;transition:all .15s;}
+  .year-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;}
+  .year-btn{flex-shrink:0;padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:all .15s;}
   .year-btn:hover{border-color:var(--accent);color:var(--accent);}
   .year-btn.active{background:rgba(96,165,250,0.15);color:var(--blue);border-color:var(--blue);}
   .year-btn.all-future.active{background:rgba(62,207,142,0.15);color:var(--green);border-color:var(--green);}
   .year-bar-spacer{flex:1;}
-  .year-bar-action{flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid var(--border-bright);background:transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:all .15s;}
+  .year-bar-action{flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid var(--border-bright);background:transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;transition:all .15s;}
   .year-bar-action:hover{border-color:var(--accent);color:var(--accent);}
   .year-bar-action.cl{background:var(--accent-dim);border-color:var(--accent);color:var(--accent);}
   .year-bar-action.cl:hover{background:rgba(200,98,106,0.18);}
@@ -56,12 +56,12 @@
   .refresh-box{width:100%;max-width:700px;padding:10px 20px 0;}
   .refresh-inner{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;}
   .refresh-icon{font-size:18px;flex-shrink:0;}
-  .refresh-text p{font-size:11px;color:var(--muted);line-height:1.55;font-family:'DM Mono',monospace;}
+  .refresh-text p{font-size:10px;color:var(--muted);line-height:1.5;font-family:'DM Mono',monospace;}
 
   .stats{width:100%;max-width:700px;padding:10px 20px 10px;display:flex;gap:8px;}
   .stat-card{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:8px 10px;}
   .stat-card .num{font-size:20px;font-weight:600;}
-  .stat-card .lbl{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+  .stat-card .lbl{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
 
   .filters{width:100%;max-width:700px;padding:0 20px 6px;display:flex;gap:7px;overflow-x:auto;}
   .filter-btn{flex-shrink:0;padding:6px 14px;border-radius:24px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
@@ -70,8 +70,8 @@
   /* Stage filters — mobile: horizontal scroll */
   .stage-filters{width:100%;max-width:700px;padding:0 20px 10px;display:none;gap:6px;overflow-x:auto;align-items:center;}
   .stage-filters.visible{display:flex;}
-  .stage-lbl{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;padding-right:2px;}
-  .stage-btn{flex-shrink:0;padding:4px 11px;border-radius:20px;border:1px solid;background:transparent;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:all .15s;white-space:nowrap;}
+  .stage-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;padding-right:2px;}
+  .stage-btn{flex-shrink:0;padding:4px 11px;border-radius:20px;border:1px solid;background:transparent;font-family:'DM Mono',monospace;font-size:9px;cursor:pointer;transition:all .15s;white-space:nowrap;}
   .stage-btn:not(.active){color:var(--muted);border-color:var(--border);background:transparent;}
 
   .list{width:100%;max-width:700px;padding:0 12px 80px;flex:1;}
@@ -87,7 +87,7 @@
   .card-name{font-size:15px;font-weight:600;line-height:1.2;}
   .card-flag{font-size:15px;flex-shrink:0;}
   .card-tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
-  .tag{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;border:1px solid;white-space:nowrap;}
+  .tag{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;padding:2px 8px;border-radius:20px;border:1px solid;white-space:nowrap;}
   .tag-noHB{background:#fff0f0;color:var(--red);border-color:#fcc;}
   .tag-accepted{background:#fff0f0;color:var(--red);border-color:#f5aaaa;font-weight:700;}
   .tag-gmail-only{background:#fff4e8;color:var(--orange);border-color:#f5d0a0;}
@@ -96,17 +96,16 @@
   .tag-soon{background:#fffbea;color:var(--gold);border-color:#f0d878;}
   .tag-date{background:var(--surface);color:var(--muted);border-color:var(--border);}
   .tag-gmail{background:#fffbea;color:var(--gold);border-color:#ede0b0;}
-  .tag-email{background:var(--surface);color:#2a3a5a;border-color:var(--border);font-size:10px;}
+  .tag-email{background:var(--surface);color:#3a5070;border-color:var(--border);font-size:8px;}
   .tag-stage{border:1px solid;}
-  .tag-hb-cal{background:#e8f4ff;color:#2563eb;border-color:#bfdbfe;font-size:10px;}
+  .tag-hb-cal{background:#e8f4ff;color:#2563eb;border-color:#bfdbfe;font-size:8px;}
   .tag-archived{background:#efeae3;color:var(--muted);border-color:#cec5ba;font-weight:600;}
   /* Archived cards are muted — historical records, not active work */
-  .card.type-archived{opacity:0.78;}
-  .card.type-archived:hover{opacity:0.95;}
+  .card.type-archived{opacity:0.65;}
+  .card.type-archived:hover{opacity:0.9;}
 
-  .card-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:13px;line-height:1.85;color:var(--text);width:100%;max-width:100%;overflow:hidden;overflow-wrap:break-word;word-break:break-word;}
+  .card-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:12px;line-height:2;color:var(--muted);width:100%;max-width:100%;overflow:hidden;overflow-wrap:break-word;word-break:break-word;}
   .card-detail.open{display:block;}
-  .card-detail div{color:var(--muted);}
   .card-detail span{color:var(--text);}
   .card-detail .note{margin-bottom:6px;display:block;}
   .card-detail .note.red{color:#c0392b;}
@@ -115,6 +114,24 @@
   .card-detail .note.warn{color:var(--gold);}
   .card-detail .note.ok{color:var(--muted);}
   .card-detail .note.archived{color:var(--muted);font-style:italic;}
+
+  /* ── Narrative pane (Full History) ── */
+  .history-btn{display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:4px 10px;border-radius:14px;border:1px solid var(--border-bright);background:transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;transition:all .15s;letter-spacing:0.5px;}
+  .history-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .history-btn.open{background:var(--accent-dim);border-color:var(--accent);color:var(--accent);}
+  .narrative{display:none;margin-top:10px;padding:12px 14px;background:#faf7f3;border:1px solid var(--border);border-radius:8px;font-family:'Cormorant Garamond',Georgia,serif;}
+  .narrative.open{display:block;}
+  .narrative-summary{font-size:14px;line-height:1.55;color:var(--text);font-style:italic;margin-bottom:10px;padding-bottom:10px;border-bottom:1px dotted var(--border);}
+  .narrative-timeline{list-style:none;padding:0;margin:0;}
+  .narrative-entry{display:grid;grid-template-columns:72px 44px 1fr;gap:10px;align-items:baseline;padding:4px 0;font-size:12px;line-height:1.5;}
+  .narrative-date{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.3px;}
+  .narrative-source{font-family:'DM Mono',monospace;font-size:9px;padding:1px 6px;border-radius:8px;letter-spacing:0.3px;text-align:center;white-space:nowrap;}
+  .narrative-source.gmail-out{background:var(--gold-dim);color:var(--gold);}
+  .narrative-source.gmail-in{background:var(--green-dim);color:var(--green);}
+  .narrative-source.zapier{background:var(--purple-dim);color:var(--purple);}
+  .narrative-source.calendar{background:#eef2fa;color:var(--blue);}
+  .narrative-source.note{background:#f0ede8;color:var(--muted);}
+  .narrative-text{color:var(--text);font-size:13px;}
 
   .empty{text-align:center;padding:60px 20px;color:var(--muted);}
   ::-webkit-scrollbar{width:3px;height:3px;}
@@ -150,13 +167,13 @@
     /* Status bar (refresh-box) — sidebar */
     .refresh-box{max-width:none;width:100%;padding:10px 16px 0;}
     .refresh-inner{border-radius:8px;flex-direction:column;align-items:flex-start;gap:6px;}
-    .refresh-text p{font-size:11px;line-height:1.65;}
+    .refresh-text p{font-size:9px;line-height:1.7;}
 
     /* Stats — sidebar, stacked 2×2 */
     .stats{max-width:none;width:100%;padding:10px 16px 0;display:grid;grid-template-columns:1fr 1fr;gap:6px;}
     .stat-card{padding:10px 12px;}
     .stat-card .num{font-size:22px;}
-    .stat-card .lbl{font-size:10px;}
+    .stat-card .lbl{font-size:8px;}
 
     /* Filter tabs — sidebar, vertical stack */
     .filters{max-width:none;width:100%;padding:12px 16px 0;flex-direction:column;gap:5px;overflow-x:visible;}
@@ -179,6 +196,8 @@
     /* Desktop-only: card detail shows inline with 2-col layout */
     .card-detail.open{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;}
     .card-detail.open .note{grid-column:1/-1;}
+    .card-detail.open .history-btn{grid-column:1/-1;justify-self:start;}
+    .card-detail.open .narrative{grid-column:1/-1;}
   }
 </style>
 </head>
@@ -445,7 +464,7 @@ async function tryFaceId(){
       <div id="refresh-bar" style="height:100%;width:0%;background:var(--accent);border-radius:2px;transition:width 0.5s ease;"></div>
     </div>
     <div id="refresh-countdown" style="display:none;font-size:11px;font-family:'DM Mono',monospace;color:var(--muted)"></div>
-    <button id="refresh-cancel" onclick="cancelRefresh()" style="margin-top:8px;background:transparent;border:1px solid var(--border-bright);border-radius:8px;color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;padding:6px 16px;cursor:pointer;">Cancel</button>
+    <button id="refresh-cancel" onclick="cancelRefresh()" style="margin-top:8px;background:transparent;border:1px solid var(--border-bright);border-radius:8px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 16px;cursor:pointer;">Cancel</button>
   </div>
 </div>
 
@@ -471,10 +490,10 @@ const HB_PIPELINE=[
   {name:"Catherine Welch",email:"catherinerosewelch@gmail.com",stage:"Inquiry",date:"2026-06-06"},
   {name:"Laura Nicholson",email:"laura.b.nichol@gmail.com",stage:"Completed",date:"2026-02-14",notes:"Wedding completed Feb 2026 · Apr 3 returned votives · Apr 18 sent wedding photos to Susan"},
   {name:"Alyssa Verzino",stage:"Questionnaire",date:"2025-10-04"},
-  {name:"Hannah Loewen",email:"hannah.loewen@heritage.org",stage:"Follow-up",date:"2026-06-16",notes:"Union Club of Boston · corporate/org event · ~6 arrangements · repeat client · proposal sent Apr 13 · updated proposal sent Apr 21 (Boathuse Blooms/Union Club Floral). Moved from Cal Only via Zapier Apr 10."},
+  {name:"Hannah Loewen",email:"hannah.loewen@heritage.org",stage:"Follow-up",date:"2026-06-16",notes:"Union Club of Boston · corporate/org event · ~6 arrangements · repeat client · proposal sent Apr 13 · updated proposal sent Apr 21 (Boathuse Blooms/Union Club Floral). Moved from Cal Only via Zapier Apr 10.",narrative:{summary:"Repeat corporate client (Heritage Foundation). Event at the Union Club of Boston on Jun 16, 2026 with ~6 arrangements. Hannah reached out early April; Susan sent proposal Apr 13. Hannah replied Apr 14 that she wants to secure the venue contract before paying the invoice. An updated proposal was sent Apr 21. Currently in Follow-up pending venue confirmation and payment.",timeline:[{date:"2026-04-10",source:"zapier",text:"HB Inquiry created (moved from Cal Only to Pipeline via Zapier)"},{date:"2026-04-10",source:"gmail-out",text:"Susan replied — happy to create florals for Jun 16 event at Union Club"},{date:"2026-04-13",source:"gmail-in",text:"Hannah confirmed and asked to be sent the proposal"},{date:"2026-04-13",source:"gmail-out",text:"Proposal sent"},{date:"2026-04-14",source:"gmail-in",text:"Hannah responded — wants to secure venue contract before paying invoice; asked about timing for deposit"},{date:"2026-04-21",source:"gmail-out",text:"Updated proposal sent (Boathouse Blooms / Union Club Floral)"}]}},
   {name:"Erin Woods",email:"woodserin10@gmail.com",stage:"Follow-up",date:"2027-06-12",notes:"Ocean Edge Resort Brewster · HB Inquiry + [HB Update] Follow-up both created Apr 10. Susan replied scheduling call week of Apr 20."},
   {name:"Maeve Bake",email:"maeveblake5@gmail.com",stage:"Follow-up",date:"2027-07-16"},
-  {name:"Tessa Bednarz",email:"tessa.colby27@gmail.com",stage:"Follow-up",date:"2027-04-24",notes:"Chatham Bars Inn (Stars + South Lounge) · Apr 24, 2027 · proposal sent Apr 13 · Tessa replied Apr 15 with detailed questions · Susan replied Apr 15 — will send venue photos Friday · Apr 16: Tessa requested updated proposal reflecting changes (mom wants closer estimate before signing) · Apr 21 8:16pm: Susan sent updated proposal with floral updates + head-table candle discussion (10 may look pretty, can add more) + cake meadow."},
+  {name:"Tessa Bednarz",email:"tessa.colby27@gmail.com",stage:"Follow-up",date:"2027-04-24",notes:"Chatham Bars Inn (Stars + South Lounge) · Apr 24, 2027 · proposal sent Apr 13 · Tessa replied Apr 15 with detailed questions · Susan replied Apr 15 — will send venue photos Friday · Apr 16: Tessa requested updated proposal reflecting changes (mom wants closer estimate before signing) · Apr 21 8:16pm: Susan sent updated proposal with floral updates + head-table candle discussion (10 may look pretty, can add more) + cake meadow.",narrative:{summary:"Chatham Bars Inn wedding for Apr 24, 2027 — Stars ballroom + South Lounge. Initial proposal was sent mid-April 2026; Tessa replied with detailed questions and requested an updated version reflecting her mother's preferences before signing. Susan sent the revised proposal Apr 21 with floral updates, head-table candle discussion, and a cake meadow. Currently awaiting response/signature.",timeline:[{date:"2026-04-13",source:"gmail-out",text:"Initial proposal sent"},{date:"2026-04-15",source:"gmail-in",text:"Tessa replied with detailed questions"},{date:"2026-04-15",source:"gmail-out",text:"Susan replied — will send venue photos Friday"},{date:"2026-04-16",source:"gmail-in",text:"Tessa requested updated proposal reflecting changes (mom wants closer estimate before signing)"},{date:"2026-04-21",source:"gmail-out",text:"Susan sent updated proposal at 8:16pm — floral updates, head-table candles (10 may look pretty, can add more), cake meadow"}]}},
   {name:"Natalie Leone",email:"natalie.leone5@gmail.com",stage:"Follow-up",date:"2027-08-28"},
   {name:"Kristin Kelly",email:"nkluise@gmail.com",stage:"Follow-up",date:"2027-07-31"},
   {name:"Meg & Alex Mattie",email:"s.mattie@comcast.net",stage:"Retainer Paid",date:"2027-08-07",notes:"Contract signed + retainer ($500) paid Apr 2, 2026."},
@@ -532,11 +551,11 @@ const GMAIL_ONLY = [
   {client:"Samantha Zaino",email:"sdmarks7525@gmail.com",gmailDate:"2026-02-09",eventDate:"2027-05-22",hbCal:true,notes:"Updated Feb 9. May 22, 2027 Wychmere. In HB calendar as Inquiry."},
   {client:"Nicole Carroll",email:"nicolecarroll4@yahoo.com",gmailDate:"2026-01-26",eventDate:"2027-06-26",hbCal:true,notes:"Preliminary Jan 26. Jun 26, 2027 Granite Links (300 guests). In HB calendar as Inquiry."},
   {client:"Molly Doherty",email:"diiorio52127@gmail.com",gmailDate:"2026-01-26",eventDate:"2027-05-21",hbCal:true,notes:"Preliminary Jan 26. May 21, 2027 Wychmere. In HB calendar as Inquiry."},
-  {client:"Abby Greene & Alex Perry",email:"almanoukian@aol.com",gmailDate:"2026-04-21",eventDate:null,hbCal:false,notes:"Full floral proposal sent Mar 29 via wedding planner Andria Manoukian. Apr 17 Andria checked in; Apr 21 Susan replied she'll have answer by end of day — question pending re: visual of smilax on the support poles."},
+  {client:"Abby Greene & Alex Perry",email:"almanoukian@aol.com",gmailDate:"2026-04-21",eventDate:"2026-09-05",hbCal:false,notes:"Full floral proposal sent Mar 29 via wedding planner Andria Manoukian. Wedding Sep 5, 2026. Apr 17 Andria checked in; Apr 21 Susan replied she'll have answer by end of day — question pending re: visual of smilax on the support poles.",narrative:{summary:"Wedding for Sep 5, 2026 coordinated through planner Andria Manoukian (Bloom & Grace). Multi-month collaboration starting late February with in-person meeting, Pinterest inspiration exchange, and a detailed proposal from Andria received Mar 15. Susan enthusiastic, sent updates Mar 29, had follow-up call Apr 7. Andria checked in Apr 17 after Susan had time to discuss with her daughter; Susan replied Apr 21 promising end-of-day answer and raising a smilax-on-support-poles visualization question.",timeline:[{date:"2026-02-23",source:"note",text:"In-person meeting with Susan, Abby, and Andria (referenced in Feb 26 email)"},{date:"2026-02-25",source:"gmail-out",text:"Susan sent inspiration photos + confirmed table sizes"},{date:"2026-02-26",source:"gmail-in",text:"Andria followed up — excited to work together, requested Pinterest links and more detail"},{date:"2026-02-27",source:"gmail-in",text:"Andria beginning proposal work, asked about bridal bouquet inspiration"},{date:"2026-03-03",source:"gmail-out",text:"Susan shared Pinterest board + bouquet direction (organic cascading ribbon, petite, creamy)"},{date:"2026-03-10",source:"gmail-in",text:"Andria apologized for proposal delay — paused last week, resuming"},{date:"2026-03-15",source:"gmail-in",text:"Full proposal from Andria received (Bloom & Grace design)"},{date:"2026-03-16",source:"gmail-out",text:"Susan replied with effusive thanks — 'vision is perfect'"},{date:"2026-03-29",source:"gmail-out",text:"Susan sent updates + asked to schedule another visit/call"},{date:"2026-03-31",source:"gmail-in",text:"Andria on vacation; proposed Apr 7 5:30pm call (7:30pm EST)"},{date:"2026-03-31",source:"gmail-out",text:"Susan confirmed Apr 7 call"},{date:"2026-04-01",source:"gmail-in",text:"Andria confirmed phone number for call"},{date:"2026-04-07",source:"note",text:"Scheduled follow-up call"},{date:"2026-04-17",source:"gmail-in",text:"Andria checked in — asked if Susan had chance to talk with daughter"},{date:"2026-04-21",source:"gmail-out",text:"Susan replied — will have answer EOD, asked for visual of smilax on support poles"}]}},
   {client:"Dan Varrichio",email:"danvarrichio@gmail.com",gmailDate:"2026-01-05",eventDate:"2027-04-17",hbCal:true,notes:"Preliminary Jan 5. Apr 17, 2027 Chatham Bars Inn. In HB calendar as Inquiry."},
   {client:"Laura McNulty / Bryant University",email:"lmcnulty1@bryant.edu",gmailDate:"2026-04-21",eventDate:"2026-05-01",hbCal:false,notes:"Bryant University Healthcare Summit May 1, 2026. Preliminary proposal sent Mar 24. Apr 21: Laura confirmed 'proceed as is' — 7am delivery confirmed for May 1. Not in HB pipeline as separate project."},
-  {client:"Jesha Stevens",email:"partnerships@jeshastevens.com",gmailDate:"2026-04-10",eventDate:"2026-07-18",hbCal:false,notes:"Floral inquiry for Jul 18, Wellfleet. Via Arch Cape Cod Wedding planner. Susan on vacation; call scheduled week of Apr 20. Not in HB pipeline."},
-  {client:"Katie Escano",email:"fridaywedding26@gmail.com",gmailDate:"2026-04-10",eventDate:null,hbCal:false,notes:"Updated proposal sent Apr 10 (Katie & Andrew). Called Apr 9, Susan scheduled call week of Apr 20. Not in HB pipeline."},
+  {client:"Jesha Stevens",email:"partnerships@jeshastevens.com",gmailDate:"2026-04-10",eventDate:"2026-07-18",hbCal:false,notes:"Floral inquiry for Jul 18, Wellfleet. Via Arch Cape Cod Wedding planner. Susan on vacation; call scheduled week of Apr 20. Not in HB pipeline.",narrative:{summary:"Jul 18, 2026 wedding in Wellfleet. Introduced Apr 6 by Danka at Arch Cape Cod Wedding Arch. Jesha and Susan connected quickly, with Jesha sending bouquet and ceremony arch inspiration images Apr 8. Susan on vacation for the week of Apr 13, proposed a telephone call for the week of Apr 20.",timeline:[{date:"2026-04-06",source:"gmail-in",text:"Introduced by Danka at Cape Cod Wedding Arch — connecting Susan and Jesha directly"},{date:"2026-04-06",source:"gmail-in",text:"Jesha replied — happy to share details, flexible on timing"},{date:"2026-04-06",source:"gmail-out",text:"Susan welcomed introduction — invited Jesha to send photographs, offered call"},{date:"2026-04-08",source:"gmail-in",text:"Jesha sent inspiration images for bouquet and ceremony arch"},{date:"2026-04-09",source:"gmail-out",text:"Susan thanked for photos — on vacation, proposed call week of Apr 20"}]}},
+  {client:"Katie Escano",email:"fridaywedding26@gmail.com",gmailDate:"2026-04-10",eventDate:null,hbCal:false,notes:"Updated proposal sent Apr 10 (Katie & Andrew). Called Apr 9, Susan scheduled call week of Apr 20. Not in HB pipeline. ⚠ 2025 deposit paid per Gmail history — classification may need review.",narrative:{summary:"Katie & Andrew wedding at Black Rock Country Club. Originally onboarded May 2025: preliminary proposal sent May 27, 2025, Katie pushed back on pricing ($3k target vs. proposal), updated proposal sent May 29, deposit sent same day. Re-surfaced April 2026 with venue coordination and updated proposal. Apr 10: Katie confirmed head table of 9 (with Andrew) and Susan replied to Victoria Rando at Black Rock re: 60″ rounds and 8ft rectangle head table. Susan scheduled call for week of Apr 20. ⚠ Given deposit was paid in May 2025, this client may belong in a different pipeline stage than Gmail Only.",timeline:[{date:"2025-05-27",source:"gmail-out",text:"Initial preliminary wedding floral proposal sent"},{date:"2025-05-28",source:"gmail-in",text:"Katie asked for price reduction toward $3,000 — suggested simpler cocktail tables"},{date:"2025-05-29",source:"gmail-out",text:"Susan sent updated proposal"},{date:"2025-05-29",source:"gmail-in",text:"Katie approved proposal, asked how to send deposit"},{date:"2025-05-30",source:"gmail-out",text:"Susan confirmed check/Venmo/credit card options"},{date:"2025-05-30",source:"gmail-in",text:"Katie sent deposit via Venmo ('Just sent it over. So excited!!')"},{date:"2026-04-10",source:"gmail-in",text:"Katie emailed Victoria Rando (Black Rock CC) with Susan cc'd — table details, head table of 9 with Andrew"},{date:"2026-04-10",source:"gmail-in",text:"Victoria replied — 60″ rounds for guest tables, 8ft rectangle for head table"},{date:"2026-04-10",source:"gmail-out",text:"Susan replied to venue confirming"},{date:"2026-04-10",source:"gmail-out",text:"Susan sent updated proposal post-call ('so nice to chat with you yesterday')"}]}},
 ];
 
 // HB calendar Inquiries with no pipeline project — review & resolve via HoneyBook link
@@ -575,7 +594,7 @@ const CAL_ONLY = [
   {name:"Brianna Harnois",date:"2027-08-13",hbEventId:"69c7126edd943d00079a67a5",notes:"Wychmere Beach Club · HB stage: Follow-up (updated Mar 31 via Zapier)"},
   {name:"Annie Stein",date:"2026-08-08",hbEventId:"69deac702213f100079e4281",notes:"Dennis Port beach ceremony + Swan River Restaurant reception · ~80-90 guests · small wedding"},
   {name:"Olivia Hardy",date:"2027-06-05",hbEventId:"69e1864199dfdc0007a48a8d"},
-  {name:"Maddie Bovi",date:"2027-08-07",hbEventId:"69dd65a80c3dde00073b7530",notes:"Chatham Bars Inn · Aug 7 2027 (wedding) + Aug 6 welcome party · Susan declined earlier Apr 5/6 2027 inquiry; this is a new date resubmission Apr 13."},
+  {name:"Maddie Bovi",date:"2027-08-07",hbEventId:"69dd65a80c3dde00073b7530",notes:"Chatham Bars Inn · Aug 7 2027 (wedding) + Aug 6 welcome party · Susan declined earlier Apr 5/6 2027 inquiry; this is a new date resubmission Apr 13.",narrative:{summary:"Chatham Bars Inn wedding for Aug 7, 2027 with welcome party Aug 6. This is a resubmission — Susan declined an earlier Apr 5/6, 2027 inquiry from Maddie on Apr 16 ('not available on your wedding date'). The new Aug 2027 date came in Apr 13 via HoneyBook directly (no Gmail outreach from Susan yet). Currently Cal Only awaiting Susan's response on the new date.",timeline:[{date:"2026-04-13",source:"calendar",text:"New HoneyBook inquiry created for Aug 7, 2027 wedding at Chatham Bars Inn"},{date:"2026-04-16",source:"gmail-out",text:"Susan declined earlier Apr 5/6 2027 inquiry ('not available on your wedding date')"},{date:"2026-04-23",source:"note",text:"Still awaiting Susan's response on the new Aug 2027 date · gcal link missing"}]}},
 ];
 
 const STAGE_ORDER=["Completed","Planning","Retainer Paid","Proposal Signed","Proposal Sent","Follow-up","Questionnaire","Inquiry"];
@@ -1000,26 +1019,26 @@ const CAL_ONLY_GCAL_LINKS = {
 function buildAllRows(){
   const rows=[];
   ACCEPTED_NO_HB.forEach(r=>{
-    rows.push({type:"accepted",client:r.client,date:r.eventDate||null,hbStage:null,gmailDate:r.gmailDate,gmailEmail:r.email,notes:r.notes,hbCal:false,hbEventId:null});
+    rows.push({type:"accepted",client:r.client,date:r.eventDate||null,hbStage:null,gmailDate:r.gmailDate,gmailEmail:r.email,notes:r.notes,hbCal:false,hbEventId:null,narrative:r.narrative||null});
   });
   GMAIL_ONLY.forEach(g=>{
-    rows.push({type:"gmail-only",client:g.client,date:g.eventDate||null,hbStage:null,gmailDate:g.gmailDate,gmailEmail:g.email,notes:g.notes,hbCal:g.hbCal,hbEventId:null});
+    rows.push({type:"gmail-only",client:g.client,date:g.eventDate||null,hbStage:null,gmailDate:g.gmailDate,gmailEmail:g.email,notes:g.notes,hbCal:g.hbCal,hbEventId:null,narrative:g.narrative||null});
   });
   CAL_ONLY.forEach(c=>{
     rows.push({type:"cal",client:c.name,date:c.date,hbStage:null,gmailDate:null,gmailEmail:null,
       notes:"HB calendar Inquiry only — no pipeline project. Review in HoneyBook to update stage or remove.",
-      hbCal:false,hbEventId:c.hbEventId});
+      hbCal:false,hbEventId:c.hbEventId,narrative:c.narrative||null});
   });
   HB_PIPELINE.forEach(h=>{
     rows.push({type:"hb",client:h.name,date:h.date,hbStage:h.stage,
-      gmailDate:null,gmailEmail:null,notes:h.notes||null,hbCal:false,hbEventId:null});
+      gmailDate:null,gmailEmail:null,notes:h.notes||null,hbCal:false,hbEventId:null,narrative:h.narrative||null});
   });
   HB_ARCHIVED.forEach(a=>{
     rows.push({type:"archived",client:a.name,date:a.date,hbStage:null,
       gmailDate:null,gmailEmail:a.email||null,
       notes:(a.notes?a.notes+' · ':'')+`HB archived ${a.archivedAt} (was ${a.source==='CAL_ONLY'?'Cal Only':'Pipeline: '+(a.prevStage||'unknown')})`,
       hbCal:false,hbEventId:a.hbEventId,
-      archivedAt:a.archivedAt,archivedSource:a.source,archivedPrevStage:a.prevStage||null});
+      archivedAt:a.archivedAt,archivedSource:a.source,archivedPrevStage:a.prevStage||null,narrative:a.narrative||null});
   });
   return sortByDate(rows);
 }
@@ -1225,20 +1244,34 @@ function render(){
       <div class="card-detail" id="d${i}">
         ${r.notes?`<span class="note ${noteClass}">${r.notes}</span>`:''}
         ${r.gmailDate?`<div>Last Gmail: <span>${fmtDate(r.gmailDate)}</span></div>`:''}
-        ${r.gmailEmail?`<div>Email: <a href="https://mail.google.com/mail/u/0/?authuser=boathouseblooms%40gmail.com#search/from%3A${encodeURIComponent(r.gmailEmail)}+OR+to%3A${encodeURIComponent(r.gmailEmail)}" target="_blank" style="font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);text-decoration:none;">${r.gmailEmail} ↗</a></div>`:''}
+        ${r.gmailEmail?`<div>Email: <a href="https://mail.google.com/mail/u/0/?authuser=boathouseblooms%40gmail.com#search/from%3A${encodeURIComponent(r.gmailEmail)}+OR+to%3A${encodeURIComponent(r.gmailEmail)}" target="_blank" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);text-decoration:none;">${r.gmailEmail} ↗</a></div>`:''}
         ${r.date?`<div>Event date: <span>${fmtDate(r.date)}${p?' (past)':s?' (soon!)':''}</span></div>`:''}
         ${r.hbCal?`<div>HB calendar: <span>Inquiry on calendar — no pipeline project</span></div>`:''}
-        ${(hbLink||gmailLink||calLink)?`<div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:6px">${hbLink?'<a href="'+hbLink+'" target="_blank" style="color:var(--blue);font-family:DM Mono,monospace;font-size:12px;text-decoration:none;">↗ HoneyBook</a>':''}${gmailLink?' <a href="'+gmailLink+'" target="_blank" style="color:var(--gold);font-family:DM Mono,monospace;font-size:12px;text-decoration:none;">↗ Gmail</a>':''}${calLink?' <a href="'+calLink+'" target="_blank" style="color:var(--green);font-family:DM Mono,monospace;font-size:12px;text-decoration:none;">↗ Calendar</a>':''}</div>`:''}
+        ${(hbLink||gmailLink||calLink)?`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px">${hbLink?'<a href="'+hbLink+'" target="_blank" style="color:var(--blue);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ HoneyBook</a>':''}${gmailLink?' <a href="'+gmailLink+'" target="_blank" style="color:var(--gold);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Gmail</a>':''}${calLink?' <a href="'+calLink+'" target="_blank" style="color:var(--green);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Calendar</a>':''}</div>`:''}
         <div>Source: <span>${r.type==='accepted'?'Gmail — accepted, not in HB':r.type==='gmail-only'?'Gmail only — not in HB pipeline':r.type==='cal'?'HB calendar only — no pipeline project':'HoneyBook pipeline'}</span></div>
+        ${r.narrative?`<button class="history-btn" id="hb${i}" onclick="event.stopPropagation();toggleNarrative(${i})">📖 Full History</button><div class="narrative" id="n${i}"><div class="narrative-summary">${escapeHtml(r.narrative.summary)}</div><ul class="narrative-timeline">${(r.narrative.timeline||[]).map(t=>`<li class="narrative-entry"><span class="narrative-date">${fmtDate(t.date)}</span><span class="narrative-source ${t.source}">${sourceLabel(t.source)}</span><span class="narrative-text">${escapeHtml(t.text)}</span></li>`).join('')}</ul></div>`:''}
       </div>
     </div>`;
   }).join('');
+}
+
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function sourceLabel(s){
+  const m={'gmail-out':'OUT','gmail-in':'IN','zapier':'HB','calendar':'CAL','note':'NOTE'};
+  return m[s]||s.toUpperCase();
 }
 
 function toggleCard(i){
   if(openCard!==null&&openCard!==i){const prev=document.getElementById('d'+openCard);if(prev)prev.classList.remove('open');}
   const d=document.getElementById(`d${i}`);
   if(d){d.classList.toggle('open');openCard=d.classList.contains('open')?i:null;}
+}
+
+function toggleNarrative(i){
+  const n=document.getElementById('n'+i);
+  const b=document.getElementById('hb'+i);
+  if(n){n.classList.toggle('open');}
+  if(b){b.classList.toggle('open');}
 }
 
 render();
