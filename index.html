@@ -1,8 +1,8 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #47 · Feature add: Full History (v7 backfill)
+     Version: Refresh #48 · Hannah Loewen archived (HB_PIPELINE → HB_ARCHIVED, narrative preserved)
      Last updated: Apr 26, 2026
-     Changes: Added 5 Gmail Only narratives (Joe & James Carrara, Erin Goldberg/Union Club, Allison Thomas, Caroline & Dylan Chase, Brittany Naples). Backfill total: 41 (v6 was 36; v7 included a re-deploy of v6 since it was never pushed). Data findings: (1) Joe & James Carrara wedding date backfilled to 2026-06-27 (Provincetown Inn); (2) Allison Thomas wedding date backfilled to 2027-05-08 (Thomas/Lappin); (3) Caroline & Dylan Chase wedding date backfilled to 2027-05-28 (Wychmere Harbor Room); (4) Erin Goldberg eventDate updated to next-known event 2026-05-07 (Mother's Day stems delivery, was incorrectly stuck on past Mar 28 event).
-     Cal Only: 35 · Gmail Only: 17 · HB Pipeline: 49 · HB Archived: 20 · Narratives: 41
+     Changes: Hannah Loewen moved to HB_ARCHIVED (prevStage:Follow-up) with full narrative preserved per user instruction. Heritage Foundation cancelled the Jun 16 Union Club event Apr 24; reverse-diff confirmed HB archival this refresh. Resolves Refresh #47 pending item. No other changes — 4 scans returned no actionable activity since 2026/04/24.
+     Cal Only: 35 · Gmail Only: 17 · HB Pipeline: 48 · HB Archived: 21 · Narratives: 41
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -424,7 +424,7 @@ async function tryFaceId(){
   <div class="refresh-inner">
     <div class="refresh-icon">🌸</div>
     <div class="refresh-text" style="flex:1">
-      <p>Pipeline: <span style="color:var(--text)">49 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">17 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
+      <p>Pipeline: <span style="color:var(--text)">48 projects</span> &nbsp;·&nbsp; Gmail proposals: <span style="color:var(--text)">17 flagged</span> &nbsp;·&nbsp; Data as of <span style="color:var(--text)" id="data-timestamp"></span></p>
     </div>
   </div>
 </div>
@@ -490,7 +490,6 @@ const HB_PIPELINE=[
   {name:"Catherine Welch",email:"catherinerosewelch@gmail.com",stage:"Inquiry",date:"2026-06-06",notes:"⚠ STALE — declined Jan 8, 2026 (Susan was already booked on Jun 6, 2026). Should be archived in HoneyBook. Sole Gmail thread is the decline — no further correspondence.",narrative:{summary:"⚠ This Inquiry is stale. Catherine was sent a decline ('regretfully unavailable') on Jan 8, 2026 because Susan already had a wedding booked on Jun 6, 2026. There has been no further correspondence. This client should be archived in HoneyBook to clear from the active pipeline.",timeline:[{date:"2026-01-08",source:"gmail-out",text:"Susan declined — 'regretfully unavailable' for Jun 6, 2026 (already booked)"},{date:"2026-04-25",source:"note",text:"⚠ Stale Inquiry surfaced during narrative backfill — should be archived in HoneyBook"}]}},
   {name:"Laura Nicholson",email:"laura.b.nichol@gmail.com",stage:"Completed",date:"2026-02-14",notes:"Wedding completed Feb 2026 · Apr 3 returned votives · Apr 18 sent wedding photos to Susan"},
   {name:"Alyssa Verzino",stage:"Questionnaire",date:"2025-10-04"},
-  {name:"Hannah Loewen",email:"hannah.loewen@heritage.org",stage:"Follow-up",date:"2026-06-16",notes:"⚠ CANCELLED Apr 24 — Heritage Foundation cancelled Jun 16 Union Club event due to logistics conflicts. Hannah noted hope to work together in the future. Awaiting HB archive (next reverse-diff). Union Club of Boston · ~6 arrangements · repeat client · proposal Apr 13 · updated proposal Apr 21 · cancellation Apr 24.",narrative:{summary:"Repeat corporate client (Heritage Foundation). Event at the Union Club of Boston on Jun 16, 2026 with ~6 arrangements. Hannah reached out early April; Susan sent proposal Apr 13. Hannah replied Apr 14 that she wants to secure the venue contract before paying the invoice. An updated proposal was sent Apr 21. On Apr 24, Hannah replied that her organization is cancelling the event due to logistics conflicts, with a note about hoping to work together in the future.",timeline:[{date:"2026-04-10",source:"zapier",text:"HB Inquiry created (moved from Cal Only to Pipeline via Zapier)"},{date:"2026-04-10",source:"gmail-out",text:"Susan replied — happy to create florals for Jun 16 event at Union Club"},{date:"2026-04-13",source:"gmail-in",text:"Hannah confirmed and asked to be sent the proposal"},{date:"2026-04-13",source:"gmail-out",text:"Proposal sent"},{date:"2026-04-14",source:"gmail-in",text:"Hannah responded — wants to secure venue contract before paying invoice; asked about timing for deposit"},{date:"2026-04-21",source:"gmail-out",text:"Updated proposal sent (Boathouse Blooms / Union Club Floral)"},{date:"2026-04-24",source:"gmail-in",text:"Hannah cancelled — organization cancelling event due to logistics conflicts; hopes to work together in the future"}]}},
   {name:"Erin Woods",email:"woodserin10@gmail.com",stage:"Follow-up",date:"2027-06-12",notes:"Ocean Edge Resort Brewster · HB Inquiry + [HB Update] Follow-up both created Apr 10. Susan replied scheduling call week of Apr 20. ⚠ No reply received yet — pending follow-up.",narrative:{summary:"Ocean Edge Resort Brewster wedding Jun 12, 2027 — Follow-up. Just-arrived inquiry: HB Inquiry created Apr 10, 2026 with Zapier advancing to Follow-up same day. Susan responded Apr 10 with proposal-creation offer and call scheduling for week of Apr 20. ⚠ No reply has been received from Erin yet — stalled at first contact.",timeline:[{date:"2026-04-10",source:"zapier",text:"HB Inquiry created (Zapier advanced to Follow-up same day)"},{date:"2026-04-10",source:"gmail-out",text:"Susan congratulated, offered to create proposal + scheduled call week of Apr 20"},{date:"2026-04-25",source:"note",text:"⚠ No reply received from Erin yet — should follow up if silence continues"}]}},
   {name:"Maeve Bake",email:"maeveblake5@gmail.com",stage:"Follow-up",date:"2027-07-16",notes:"Ocean Edge Resort & Golf Club. ⚠ Single outbound message Mar 18 — no reply received from Maeve.",narrative:{summary:"July 16, 2027 wedding at Ocean Edge Resort & Golf Club — Follow-up. ⚠ Stalled at first contact: HB inquiry March 18, 2026; Susan replied same day offering to create a proposal. No reply has been received from Maeve since.",timeline:[{date:"2026-03-18",source:"gmail-out",text:"Susan congratulated, offered to create proposal for Ocean Edge wedding"},{date:"2026-04-25",source:"note",text:"⚠ No reply received from Maeve — should follow up if silence continues"}]}},
   {name:"Tessa Bednarz",email:"tessa.colby27@gmail.com",stage:"Follow-up",date:"2027-04-24",notes:"Chatham Bars Inn (Stars + South Lounge) · Apr 24, 2027 · proposal sent Apr 13 · Tessa replied Apr 15 with detailed questions · Susan replied Apr 15 — will send venue photos Friday · Apr 16: Tessa requested updated proposal reflecting changes (mom wants closer estimate before signing) · Apr 21 8:16pm: Susan sent updated proposal with floral updates + head-table candle discussion (10 may look pretty, can add more) + cake meadow.",narrative:{summary:"Chatham Bars Inn wedding for Apr 24, 2027 — Stars ballroom + South Lounge. Initial proposal was sent mid-April 2026; Tessa replied with detailed questions and requested an updated version reflecting her mother's preferences before signing. Susan sent the revised proposal Apr 21 with floral updates, head-table candle discussion, and a cake meadow. Currently awaiting response/signature.",timeline:[{date:"2026-04-13",source:"gmail-out",text:"Initial proposal sent"},{date:"2026-04-15",source:"gmail-in",text:"Tessa replied with detailed questions"},{date:"2026-04-15",source:"gmail-out",text:"Susan replied — will send venue photos Friday"},{date:"2026-04-16",source:"gmail-in",text:"Tessa requested updated proposal reflecting changes (mom wants closer estimate before signing)"},{date:"2026-04-21",source:"gmail-out",text:"Susan sent updated proposal at 8:16pm — floral updates, head-table candles (10 may look pretty, can add more), cake meadow"}]}},
@@ -615,6 +614,7 @@ const HB_ARCHIVED = [
   {name:"Melissa Guller",date:"2026-06-07",hbEventId:"6840b3033d59df0007d053de",archivedAt:"2026-04-18",source:"CAL_ONLY",notes:"Archived in HB (first-run cleanup)"},
   {name:"Sarah Vita",date:"2026-06-12",hbEventId:"67f65812d9a2fd0007892633",archivedAt:"2026-04-18",source:"CAL_ONLY",notes:"Archived in HB (first-run cleanup)"},
   {name:"Leigh A Keefe",email:"leighkeefe@gmail.com",date:"2026-06-13",hbEventId:"6930e1884c38200007d319cc",archivedAt:"2026-04-18",source:"HB_PIPELINE",prevStage:"Inquiry",notes:"Archived in HB · early-stage pipeline auto-archive per reverse-diff"},
+  {name:"Hannah Loewen",email:"hannah.loewen@heritage.org",date:"2026-06-16",hbEventId:"69d90be3e1cafc0007d4558a",archivedAt:"2026-04-26",source:"HB_PIPELINE",prevStage:"Follow-up",notes:"⚠ CANCELLED Apr 24 — Heritage Foundation cancelled Jun 16 Union Club event due to logistics conflicts. Hannah noted hope to work together in the future. Union Club of Boston · ~6 arrangements · repeat client · proposal Apr 13 · updated proposal Apr 21 · cancellation Apr 24.",narrative:{summary:"Repeat corporate client (Heritage Foundation). Event at the Union Club of Boston on Jun 16, 2026 with ~6 arrangements. Hannah reached out early April; Susan sent proposal Apr 13. Hannah replied Apr 14 that she wants to secure the venue contract before paying the invoice. An updated proposal was sent Apr 21. On Apr 24, Hannah replied that her organization is cancelling the event due to logistics conflicts, with a note about hoping to work together in the future.",timeline:[{date:"2026-04-10",source:"zapier",text:"HB Inquiry created (moved from Cal Only to Pipeline via Zapier)"},{date:"2026-04-10",source:"gmail-out",text:"Susan replied — happy to create florals for Jun 16 event at Union Club"},{date:"2026-04-13",source:"gmail-in",text:"Hannah confirmed and asked to be sent the proposal"},{date:"2026-04-13",source:"gmail-out",text:"Proposal sent"},{date:"2026-04-14",source:"gmail-in",text:"Hannah responded — wants to secure venue contract before paying invoice; asked about timing for deposit"},{date:"2026-04-21",source:"gmail-out",text:"Updated proposal sent (Boathouse Blooms / Union Club Floral)"},{date:"2026-04-24",source:"gmail-in",text:"Hannah cancelled — organization cancelling event due to logistics conflicts; hopes to work together in the future"}]}},
   {name:"Liz Quill",date:"2026-06-20",hbEventId:"68cbeb484003ac0006d15971",archivedAt:"2026-04-18",source:"CAL_ONLY",notes:"Archived in HB (first-run cleanup)"},
   {name:"Sophia Lynch",date:"2026-06-20",hbEventId:"68d1448e362ebb0007ec89b5",archivedAt:"2026-04-18",source:"CAL_ONLY",notes:"Archived in HB (first-run cleanup)"},
   {name:"Rachel Cohen",date:"2026-07-03",hbEventId:"687e523be9e4f300079e660c",archivedAt:"2026-04-18",source:"CAL_ONLY",notes:"Archived in HB (first-run cleanup)"},
@@ -638,7 +638,6 @@ function isFuture(d){return d&&new Date(d)>=TODAY;}
 
 const HB_LINKS = {
   "Liz Polin":"https://www.honeybook.com/app/event/69c68153ffd42c0007697a79",
-  "Hannah Loewen":"https://www.honeybook.com/app/event/69d90be3e1cafc0007d4558a",
   "Erin Woods":"https://www.honeybook.com/app/event/69d90bfa0cf0f600066a58e4",
   "Alicia Herlihy":"https://www.honeybook.com/app/event/695af50c0c5e580008596961",
   "Amanda Papavasiliou":"https://www.honeybook.com/app/event/69a6303aa7b56000079f6493",
@@ -683,7 +682,6 @@ const HB_LINKS = {
 const GMAIL_THREADS = {
   "Alexa Paiva":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19adccf1ac7949cb",
   "Arianna":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d450a817dce671",
-  "Hannah Loewen":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19d799ea68fc7dad",
   "Alicia Herlihy":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19bc4c7a3a8b5ba7",
   "Allison Thomas":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19cdec8d061abb21",
   "Amanda Papavasiliou":"https://mail.google.com/mail/u/0/?authuser=boathouseblooms@gmail.com#all/19cdf993bad26e35",
@@ -731,7 +729,6 @@ const GMAIL_THREADS = {
 const CAL_LINKS = {
   "Liz Polin":"https://www.google.com/calendar/event?eid=NjljNjgxNTNmZmQ0MmMwMDA3Njk3YTc5IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Alexa Paiva":"https://calendar.google.com/calendar/event?eid=NjkzNzdjNzJmNTYwMjgwMDM3NzgwZDA0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
-  "Hannah Loewen":"https://www.google.com/calendar/event?eid=NjlkOTBiZTNlMWNhZmMwMDA3ZDQ1NThhIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGc&authuser=boathouseblooms%40gmail.com",
   "Erin Woods":"https://www.google.com/calendar/event?eid=NjlkOTBiZmEwY2YwZjYwMDA2NmE1OGU0IGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGc&authuser=boathouseblooms%40gmail.com",
   "Alicia Herlihy":"https://calendar.google.com/calendar/event?eid=Njk1YWY1MGMwYzVlNTgwMDA4NTk2OTYxIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
   "Amanda Papavasiliou":"https://calendar.google.com/calendar/event?eid=NjlhNjMwM2FhN2I1NjAwMDA3OWY2NDkzIGg0dG1yY3YxOGtraHRzNmcxYTI0MDFqNWM0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&authuser=boathouseblooms%40gmail.com",
@@ -770,6 +767,13 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Apr 26, 2026",label:"Refresh #48",changes:[
+    "Hannah Loewen moved from HB Pipeline → HB Archived (prevStage:Follow-up). Full narrative preserved (summary + 7-entry timeline) per user instruction. Reverse-diff confirmed HB archival this refresh, resolving the Refresh #47 pending item.",
+    "Quiet refresh otherwise: 0 Zapier [HB Update] emails, 0 actionable outbound proposals (only a flower-supplier order to Quinlan Wasserman), 0 actionable inbound (only marketing + 2 Knot form-leads not yet engaged), forward calendar diff empty.",
+    "Reverse-diff also surfaced 23 IDs that did NOT need action: 3 past-event Completed pipeline entries (Cara Goudy, Molly Murphy, Jamie Menn) per skill rule, and 20 entries already in HB_ARCHIVED from Refresh #45 sweep (false-positive grep matches on archived-but-still-referenced IDs).",
+    "New Knot inquiries (Apr 25) added to pending watch: Pemmy Friedman (rehearsal dinner, CBI) and Emily Smith (2028-09-16 wedding). Not yet tracked entries — waiting on Susan's reply.",
+    "Counts: HB Pipeline: 49 → 48 · Gmail Only: 17 · Cal Only: 35 · HB Archived: 20 → 21.",
+  ]},
   {date:"Apr 25, 2026",label:"Refresh #47",changes:[
     "Apr 24 inbound — Hannah Loewen (Heritage Foundation): CANCELLED Jun 16 Union Club event due to logistics conflicts. Note + timeline updated; awaiting HB archive (will be picked up by next reverse-diff). Resolves Refresh #46 pending item.",
     "Apr 24 inbound — Abby Greene & Alex Perry / Andria Manoukian (Bloom & Grace): updated proposal sent reflecting phone-call decisions. Andria wants to send contract by EOM; deposit triggers ordering. Resolves Refresh #46 pending EOD answer item.",
@@ -1288,7 +1292,7 @@ setFilter('hb', document.getElementById('f-hb'));
 
 <script>
 (function(){
-  const built = new Date('2026-04-18T19:30:00Z'); // ~3:30 PM ET
+  const built = new Date('2026-04-26T16:30:00Z'); // 12:30 PM ET
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
