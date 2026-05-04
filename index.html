@@ -1161,7 +1161,7 @@ function filterByYear(rows){
   if(currentYears.size===0) return [];
   return rows.filter(r=>{
     if(!r.date) return true; // undated rows always show
-    if(currentYears.has('past') && isPast(r.date)) return true;
+    if(isPast(r.date)) return currentYears.has('past');
     return currentYears.has(getYear(r.date));
   });
 }
