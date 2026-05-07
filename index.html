@@ -13,12 +13,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#f5f1ed;--surface:#ffffff;--border:#cec5ba;--border-bright:#b0a090;
-    --text:#1a100c;--muted:#5e5048;--accent:#b84450;--accent-dim:rgba(184,68,80,0.10);
-    --red:#a82020;--red-dim:#fdf0ef;--gold:#7a5808;--gold-dim:#fdf8ed;
-    --green:#0e6640;--green-dim:#edf8f3;--purple:#4e3898;--purple-dim:#eeeaf8;--blue:#1848c8;
-    --orange:#9e3806;
+    --bg:#f5f1ed;--surface:#ffffff;--border:#bdb1a3;--border-bright:#9a8975;
+    --text:#15090a;--muted:#3a2e26;--accent:#9d3641;--accent-dim:rgba(157,54,65,0.12);
+    --red:#8c1818;--red-dim:#fdf0ef;--gold:#5d4206;--gold-dim:#fdf8ed;
+    --green:#08543a;--green-dim:#edf8f3;--purple:#3d2c80;--purple-dim:#eeeaf8;--blue:#0f3aab;
+    --orange:#7e2c04;
     --sidebar-w:280px;
+    --detail-scale:1;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Cormorant Garamond',Georgia,serif;background:var(--bg);color:var(--text);min-height:100vh;}
@@ -107,34 +108,34 @@
   .card.is-past:not(.type-archived){background:#f5f3f0;border-color:#d8d3cc;border-left-color:#a8a098;opacity:0.85;}
   .card.is-past:not(.type-archived):hover{opacity:1;}
 
-  .card-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:12px;line-height:2;color:var(--muted);width:100%;max-width:100%;overflow:hidden;overflow-wrap:break-word;word-break:break-word;}
+  .card-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:calc(13px * var(--detail-scale));line-height:1.9;color:var(--text);width:100%;max-width:100%;overflow:hidden;overflow-wrap:break-word;word-break:break-word;}
   .card-detail.open{display:block;}
   .card-detail span{color:var(--text);}
   .card-detail .note{margin-bottom:6px;display:block;}
-  .card-detail .note.red{color:#c0392b;}
-  .card-detail .note.orange{color:#c2560c;}
+  .card-detail .note.red{color:#9c2417;}
+  .card-detail .note.orange{color:#9e3806;}
   .card-detail .note.purple{color:var(--purple);}
   .card-detail .note.warn{color:var(--gold);}
   .card-detail .note.ok{color:var(--muted);}
   .card-detail .note.archived{color:var(--muted);font-style:italic;}
 
   /* ── Narrative pane (Full History) ── */
-  .history-btn{display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:4px 10px;border-radius:14px;border:1px solid var(--border-bright);background:transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;transition:all .15s;letter-spacing:0.5px;}
+  .history-btn{display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:4px 10px;border-radius:14px;border:1px solid var(--border-bright);background:transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:calc(11px * var(--detail-scale));cursor:pointer;transition:all .15s;letter-spacing:0.5px;}
   .history-btn:hover{border-color:var(--accent);color:var(--accent);}
   .history-btn.open{background:var(--accent-dim);border-color:var(--accent);color:var(--accent);}
   .narrative{display:none;margin-top:10px;padding:12px 14px;background:#faf7f3;border:1px solid var(--border);border-radius:8px;font-family:'Cormorant Garamond',Georgia,serif;}
   .narrative.open{display:block;}
-  .narrative-summary{font-size:14px;line-height:1.55;color:var(--text);font-style:italic;margin-bottom:10px;padding-bottom:10px;border-bottom:1px dotted var(--border);}
+  .narrative-summary{font-size:calc(15px * var(--detail-scale));line-height:1.55;color:var(--text);font-style:italic;margin-bottom:10px;padding-bottom:10px;border-bottom:1px dotted var(--border);}
   .narrative-timeline{list-style:none;padding:0;margin:0;}
-  .narrative-entry{display:grid;grid-template-columns:72px 44px 1fr;gap:10px;align-items:baseline;padding:4px 0;font-size:12px;line-height:1.5;}
-  .narrative-date{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.3px;}
-  .narrative-source{font-family:'DM Mono',monospace;font-size:9px;padding:1px 6px;border-radius:8px;letter-spacing:0.3px;text-align:center;white-space:nowrap;}
+  .narrative-entry{display:grid;grid-template-columns:72px 44px 1fr;gap:10px;align-items:baseline;padding:4px 0;font-size:calc(13px * var(--detail-scale));line-height:1.5;}
+  .narrative-date{font-family:'DM Mono',monospace;font-size:calc(11px * var(--detail-scale));color:var(--muted);letter-spacing:0.3px;}
+  .narrative-source{font-family:'DM Mono',monospace;font-size:calc(10px * var(--detail-scale));padding:1px 6px;border-radius:8px;letter-spacing:0.3px;text-align:center;white-space:nowrap;}
   .narrative-source.gmail-out{background:var(--gold-dim);color:var(--gold);}
   .narrative-source.gmail-in{background:var(--green-dim);color:var(--green);}
   .narrative-source.zapier{background:var(--purple-dim);color:var(--purple);}
   .narrative-source.calendar{background:#eef2fa;color:var(--blue);}
   .narrative-source.note{background:#f0ede8;color:var(--muted);}
-  .narrative-text{color:var(--text);font-size:13px;}
+  .narrative-text{color:var(--text);font-size:calc(14px * var(--detail-scale));}
 
   .empty{text-align:center;padding:60px 20px;color:var(--muted);}
   ::-webkit-scrollbar{width:3px;height:3px;}
@@ -1357,10 +1358,10 @@ function render(){
       <div class="card-detail" id="d${i}">
         ${r.notes?`<span class="note ${noteClass}">${r.notes}</span>`:''}
         ${r.gmailDate?`<div>Last Gmail: <span>${fmtDate(r.gmailDate)}</span></div>`:''}
-        ${r.gmailEmail?`<div>Email: <a href="https://mail.google.com/mail/u/0/?authuser=boathouseblooms%40gmail.com#search/from%3A${encodeURIComponent(r.gmailEmail)}+OR+to%3A${encodeURIComponent(r.gmailEmail)}" target="_blank" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);text-decoration:none;">${r.gmailEmail} ↗</a></div>`:''}
+        ${r.gmailEmail?`<div>Email: <a href="https://mail.google.com/mail/u/0/?authuser=boathouseblooms%40gmail.com#search/from%3A${encodeURIComponent(r.gmailEmail)}+OR+to%3A${encodeURIComponent(r.gmailEmail)}" target="_blank" style="font-family:'DM Mono',monospace;font-size:calc(12px * var(--detail-scale));color:var(--gold);text-decoration:none;">${r.gmailEmail} ↗</a></div>`:''}
         ${r.date?`<div>Event date: <span>${fmtDate(r.date)}${p?' (past)':s?' (soon!)':''}</span></div>`:''}
         ${r.hbCal?`<div>HB calendar: <span>Inquiry on calendar — no pipeline project</span></div>`:''}
-        ${(hbLink||gmailLink||calLink)?`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px">${hbLink?'<a href="'+hbLink+'" target="_blank" style="color:var(--blue);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ HoneyBook</a>':''}${gmailLink?' <a href="'+gmailLink+'" target="_blank" style="color:var(--gold);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Gmail</a>':''}${calLink?' <a href="'+calLink+'" target="_blank" style="color:var(--green);font-family:DM Mono,monospace;font-size:10px;text-decoration:none;">↗ Calendar</a>':''}</div>`:''}
+        ${(hbLink||gmailLink||calLink)?`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px">${hbLink?'<a href="'+hbLink+'" target="_blank" style="color:var(--blue);font-family:DM Mono,monospace;font-size:calc(11px * var(--detail-scale));text-decoration:none;">↗ HoneyBook</a>':''}${gmailLink?' <a href="'+gmailLink+'" target="_blank" style="color:var(--gold);font-family:DM Mono,monospace;font-size:calc(11px * var(--detail-scale));text-decoration:none;">↗ Gmail</a>':''}${calLink?' <a href="'+calLink+'" target="_blank" style="color:var(--green);font-family:DM Mono,monospace;font-size:calc(11px * var(--detail-scale));text-decoration:none;">↗ Calendar</a>':''}</div>`:''}
         <div>Source: <span>${r.type==='accepted'?'Gmail — accepted, not in HB':r.type==='gmail-only'?'Gmail only — not in HB pipeline':r.type==='cal'?'HB calendar only — no pipeline project':'HoneyBook pipeline'}</span></div>
         ${r.narrative?`<button class="history-btn" id="hb${i}" onclick="event.stopPropagation();toggleNarrative(${i})">📖 Full History</button><div class="narrative" id="n${i}"><div class="narrative-summary">${escapeHtml(r.narrative.summary)}</div><ul class="narrative-timeline">${(r.narrative.timeline||[]).map(t=>`<li class="narrative-entry"><span class="narrative-date">${fmtDate(t.date)}</span><span class="narrative-source ${t.source}">${sourceLabel(t.source)}</span><span class="narrative-text">${escapeHtml(t.text)}</span></li>`).join('')}</ul></div>`:''}
       </div>
@@ -1485,10 +1486,10 @@ async function commitToGithub(htmlContent){
 #cl-box h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--accent);margin:0 0 18px 0;}
 .cl-entry{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border);}
 .cl-entry:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
-.cl-label{font-size:11px;font-family:'DM Mono',monospace;color:var(--accent);font-weight:600;margin-bottom:2px;}
-.cl-date{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);margin-bottom:8px;}
+.cl-label{font-size:calc(12px * var(--detail-scale));font-family:'DM Mono',monospace;color:var(--accent);font-weight:600;margin-bottom:2px;}
+.cl-date{font-size:calc(11px * var(--detail-scale));font-family:'DM Mono',monospace;color:var(--muted);margin-bottom:8px;}
 .cl-entry ul{margin:0;padding-left:16px;}
-.cl-entry li{font-size:12px;color:var(--text);line-height:1.65;margin-bottom:3px;}
+.cl-entry li{font-size:calc(13px * var(--detail-scale));color:var(--text);line-height:1.65;margin-bottom:3px;}
 #cl-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:4px;}
 #cl-close:hover{color:var(--text);}
 </style>
@@ -1498,7 +1499,56 @@ async function commitToGithub(htmlContent){
   <div id="cl-entries"></div></div>
 </div>
 
-</div><!-- end .main-col -->
-</div><!-- end .app-shell -->
+</div>
+</div>
+
+<style>
+/* Font-size control — mobile only. Hidden on desktop. */
+#fs-control{position:fixed;bottom:18px;right:14px;z-index:8500;display:flex;align-items:center;gap:0;background:var(--surface);border:1px solid var(--border-bright);border-radius:24px;box-shadow:0 4px 16px rgba(0,0,0,0.15);padding:4px;font-family:'DM Mono',monospace;}
+#fs-control button{background:transparent;border:none;color:var(--text);width:36px;height:36px;border-radius:20px;cursor:pointer;font-weight:600;display:flex;align-items:center;justify-content:center;transition:background .15s;padding:0;}
+#fs-control button:hover{background:var(--accent-dim);}
+#fs-control button:active{background:var(--accent);color:var(--bg);}
+#fs-control .fs-minus{font-size:14px;}
+#fs-control .fs-reset{font-size:12px;color:var(--muted);width:28px;}
+#fs-control .fs-plus{font-size:18px;}
+#fs-control .fs-label{font-size:9px;color:var(--muted);padding:0 6px;letter-spacing:0.5px;text-transform:uppercase;border-right:1px solid var(--border);margin-right:2px;height:24px;display:flex;align-items:center;}
+@media(min-width:900px){
+  #fs-control{display:none;}
+}
+</style>
+<div id="fs-control" role="group" aria-label="Text size controls">
+  <span class="fs-label">A</span>
+  <button class="fs-minus" onclick="adjustFontSize(-1)" aria-label="Decrease text size">A−</button>
+  <button class="fs-reset" onclick="adjustFontSize(0)" aria-label="Reset text size" title="Reset">↺</button>
+  <button class="fs-plus" onclick="adjustFontSize(1)" aria-label="Increase text size">A+</button>
+</div>
+<script>
+(function(){
+  var FS_KEY='bbFontScale';
+  // Discrete steps: 1.0 (default), 1.15, 1.3, 1.5, 1.7
+  var STEPS=[1,1.15,1.3,1.5,1.7];
+  function getIdx(){
+    try{
+      var v=parseFloat(localStorage.getItem(FS_KEY));
+      var i=STEPS.indexOf(v);
+      return i>=0?i:0;
+    }catch(e){return 0;}
+  }
+  function apply(idx){
+    var s=STEPS[idx];
+    document.documentElement.style.setProperty('--detail-scale',s);
+    try{localStorage.setItem(FS_KEY,String(s));}catch(e){}
+  }
+  window.adjustFontSize=function(dir){
+    var idx=getIdx();
+    if(dir===0){idx=0;}
+    else{idx=Math.max(0,Math.min(STEPS.length-1,idx+dir));}
+    apply(idx);
+  };
+  // Initialize on load
+  apply(getIdx());
+})();
+</script>
+
 </body>
 </html>
