@@ -642,11 +642,16 @@ const HB_ARCHIVED = [
 ];
 
 const TODAY=new Date();
-function isPast(d){return d&&new Date(d)<TODAY;}
-function isSoon(d){if(!d)return false;const diff=(new Date(d)-TODAY)/86400000;return diff>=0&&diff<=60;}
+// TODAY_STR = today's date in local time as "YYYY-MM-DD". String-compare against
+// event date strings to avoid the UTC-midnight gotcha (new Date("2026-05-16")
+// parses as 8pm ET the previous day, which previously made today's events read
+// as past starting at 8pm the night before).
+const TODAY_STR=`${TODAY.getFullYear()}-${String(TODAY.getMonth()+1).padStart(2,'0')}-${String(TODAY.getDate()).padStart(2,'0')}`;
+function isPast(d){return d&&d<TODAY_STR;}                                  // strictly before today
+function isSoon(d){if(!d)return false;const diff=(new Date(d+'T00:00:00')-new Date(TODAY_STR+'T00:00:00'))/86400000;return diff>=0&&diff<=60;}
 function fmtDate(d){if(!d)return null;const[y,mo,day]=d.split("-");return`${mo}/${day}/${y.slice(2)}`;}
 function getYear(d){return d?parseInt(d.split("-")[0]):null;}
-function isFuture(d){return d&&new Date(d)>=TODAY;}
+function isFuture(d){return d&&d>=TODAY_STR;}                               // today counts as future
 
 const HB_LINKS = {
   "Erin Woods":"https://www.honeybook.com/app/event/69d90bfa0cf0f600066a58e4",
@@ -781,6 +786,9 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"May 16, 2026",label:"Hotfix (post-#57)",changes:[
+    "Bug: today's events were being filtered out of the year view. Caroline Barrett's May 16 wedding only appeared when the [Past] year-button was enabled. Root cause: `isPast` used `new Date(\"YYYY-MM-DD\") < TODAY` which parses the date string as UTC midnight (8pm ET the previous day), so any same-day event read as past starting at 8pm the night before. Fix: switched `isPast`/`isFuture` to string-compare against a local-time `TODAY_STR` (\"YYYY-MM-DD\"), and made `isSoon` compute its day-diff using parsed local-time boundaries. Today's events now correctly appear under their year and render as normal (not grayed-out) cards. No data changes; counts unchanged."
+  ]},
   {date:"May 15, 2026",label:"Refresh #57",changes:[
     "Jean Soucy added as NEW GMAIL_ONLY entry per Jean/Soucy third-party-via-client pattern. May 14 Susan sent Jean's preliminary Rehearsal Dinner + Welcome Drinks proposal (vase-of-roses pattern, two open Tibet roses cut down) to Paige + Jean for 9/18/26 at The Old Casino / Wharf Falmouth. Jean ('Bean', jkpjsoucy@yahoo.com) accepted same day: 'All looks great to me. Sounds like it will be so beautiful! Please let me know if you would like a deposit.' Paige forwarded terms: $250 deposit due with acceptance, balance due 9/18/26, checks payable to Boathouse Blooms. 7-entry narrative built spanning Aug 2025 intro → May 14 proposal. GMAIL_THREADS link added. Tracks separately from Paige's wedding entry per skill.",
     "Cindy & Amanda Chase added as NEW GMAIL_ONLY entry. May 14 Susan sent preliminary floral proposal to two recipients (cindychase44@gmail.com, amanda.chase4@gmail.com) — likely mother-daughter pair. Phone-led intro the prior week (referenced in May 14 outbound). No date or venue in Gmail history. No narrative yet — insufficient signal. GMAIL_THREADS link added.",
@@ -1436,7 +1444,7 @@ setFilter('hb', document.getElementById('f-hb'));
 
 <script>
 (function(){
-  const built = new Date('2026-05-15T22:30:00Z'); // 6:30 PM ET, May 15
+  const built = new Date('2026-05-16T12:00:00Z'); // 8:00 AM ET, May 16 (hotfix)
   const opts = {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'};
   document.getElementById('data-timestamp').textContent = built.toLocaleString('en-US', opts);
 })();
