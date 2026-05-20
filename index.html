@@ -1,6 +1,6 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
      Version: Refresh #59
-     Last updated: May 19, 2026
+     Last updated: May 20, 2026 · 8:46 AM EDT
      Changes: Refresh #59 (May 19) — NEW GMAIL_ONLY: Joanne Doherty (Meaghan Keefe's rehearsal dinner host, 6/12/26 inferred; proposal sent May 18 reusing Meaghan's cocktail arrangements for the wedding the next day — third-party-via-client pattern like Jean/Soucy). Substantive Lindsey DeRensis activity May 18: budget-cut iteration (over $14k, Susan offered head-table garland replacement + smaller bar arrangements). Alexa Paiva May 15 CC link sent + David all-set; May 18 Alexa asked to finalize updated proposal first (add 1 small low arrangement to Andrew's parents' table) before paying $5k. Erin Goldberg Bilden order locked May 17-18 (3 small spring arrangements, Lowell Room, 5/27 6pm). Laura McNulty/Bryant 5/21 podium order locked ($275, colorful and cheerful). Olivia Hardy preliminary shower proposal sent May 18. Sasha Rockwell consultation-call scheduling May 18. Mary (Rehearsal) deposit check received May 18. Caroline Barrett wedding EXECUTED May 16 (Barrett-Mackin, Ocean Edge); narrative +1 wedding-day entry. Katie Escano May 18 Susan reactivated. Soucy/Jean pipeline: May 14 Susan confirmed 3:30pm with Aja, May 15 Jean's rehearsal-dinner proposal sent, Jean accepted same day with deposit terms ($250 deposit + balance due 9/18/26), May 18 Paige confirmed and welcome drinks Q. Zapier 4/25 (2 NEW declines Julia Derry + Elizabeth Kervick → Susan sent "Regretfully Unavailable" same day, skip per Melanie Guerra pattern; 2 already processed). Outbound 25/25 tripwire fired AGAIN at NEW baseline (4th consecutive refresh binding cap) — re-ran at 50, 31 unique. Inbound 30/30 → re-ran 50 with expanded blocklist, 38 unique. Forward diff: 2 IDs both already-declined (Elizabeth Kervick + Julia Derry, skip). Reverse diff: 33 IDs — 30 already-archived no-ops + 3 pre-existing stale HB_LINKS (Cara/Molly/Jamie unchanged) + Christina Maheras (pre-existing both). 0 actionable archives this refresh.
      Cal Only: 30 · Gmail Only: 22 · HB Pipeline: 45 · HB Archived: 32 · Narratives: 55
 -->
@@ -1257,7 +1257,7 @@ function sortByDate(rows){
 }
 
 const ALL_ROWS=buildAllRows();
-let currentFilter='hb',currentYears=new Set([2026]),currentStage='all',currentSearch='',openCard=null;
+let currentFilter='all',currentYears=new Set([2026]),currentStage='all',currentSearch='',openCard=null;
 
 function onSearch(val){
   currentSearch=val.trim().toLowerCase();
@@ -1482,7 +1482,7 @@ function toggleNarrative(i){
 }
 
 render();
-setFilter('hb', document.getElementById('f-hb'));
+setFilter('all', document.getElementById('f-all'));
 </script>
 
 <script>
