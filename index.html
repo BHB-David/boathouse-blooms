@@ -1,8 +1,9 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
-     Version: Refresh #60
-     Last updated: May 24, 2026 · 2:30 PM EDT
+     Version: Refresh #60 + Feature (No Cal filter)
+     Last updated: May 26, 2026
+     Feature (May 26) — Added "No Cal" filter: surfaces HB Pipeline + Gmail Only clients with no calendar entry (no CAL_LINKS key). 33 flagged (14 HB Pipeline + 19 Gmail Only). Each No Cal card gets a "+ Add to Calendar" button that opens Google Calendar prefilled (deep link, no API/proxy) — user must pick the Boathouse Blooms calendar before saving. New gcal links still get captured into CAL_LINKS at the next refresh.
      Changes: Refresh #60 (May 24) — NEW GMAIL_ONLY: Elizabeth Hagele & Ben McQuaid (planner-mediated, Aug 8 2027, Lion Rock Farm Sharon CT; planner Eileen Smith requested COI + vendor form May 22, David forwarded to insurance agent May 24 — Abby Greene-style planner-side booking, no HB signal). Sasha Rockwell consultation call HELD May 20 5:30pm. Olivia Hardy shower proposal advancing — May 21 deposit-incoming confirmation. Kate Dwyer RESOLVED: #59 phone-consult pending note was a misread, the only scheduled item was the May 14 studio visit (now passed). Laura McNulty/Bryant 5/21 podium delivered. Meaghan and Matthew: May 18 questions re-forward, Susan still owes updated quote + drop-off date (carry-forward). Zapier 4 hits all no-ops (net pipeline change 0). Forward diff EMPTY. Reverse diff 34 IDs — 31 already-archived no-ops + 3 pre-existing stale HB_LINKS (Cara/Molly/Jamie) + Samantha Sieger flagged for David (CAL_ONLY past-date roll-off). 0 auto-archives. Inbound tripwire fired 30/30 → re-ran 50, 40 unique. Outbound 24/25 — did NOT bind (first time in 5 refreshes). Flagged for David: Samantha Sieger archival call, Krista Fullum new 10/17/26 lead (no proposal yet, not added), Abby Greene contract resend 9 days stalled.
-     Cal Only: 30 · Gmail Only: 23 · HB Pipeline: 45 · HB Archived: 32 · Narratives: 56
+     Cal Only: 30 · Gmail Only: 23 · HB Pipeline: 45 · HB Archived: 32 · Narratives: 56 · No Cal: 33
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -123,6 +124,10 @@
   .history-btn{display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:4px 10px;border-radius:14px;border:1px solid var(--border-bright);background:transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:calc(11px * var(--detail-scale));cursor:pointer;transition:all .15s;letter-spacing:0.5px;}
   .history-btn:hover{border-color:var(--accent);color:var(--accent);}
   .history-btn.open{background:var(--accent-dim);border-color:var(--accent);color:var(--accent);}
+  /* "+ Add to Calendar" pill — shown on No Cal cards */
+  .addcal-btn{display:inline-flex;align-items:center;gap:5px;margin-top:6px;padding:5px 12px;border-radius:14px;border:1px solid var(--green);background:var(--green-dim);color:var(--green);font-family:'DM Mono',monospace;font-size:calc(11px * var(--detail-scale));cursor:pointer;transition:all .15s;letter-spacing:0.5px;text-decoration:none;}
+  .addcal-btn:hover{background:#dff0e8;}
+  .addcal-note{display:block;margin-top:4px;font-family:'DM Mono',monospace;font-size:calc(10px * var(--detail-scale));color:var(--muted);line-height:1.5;}
   .narrative{display:none;margin-top:10px;padding:12px 14px;background:#faf7f3;border:1px solid var(--border);border-radius:8px;font-family:'Cormorant Garamond',Georgia,serif;}
   .narrative.open{display:block;}
   .narrative-summary{font-size:calc(15px * var(--detail-scale));line-height:1.55;color:var(--text);font-style:italic;margin-bottom:10px;padding-bottom:10px;border-bottom:1px dotted var(--border);}
@@ -438,6 +443,7 @@ async function tryFaceId(){
 <div class="filters">
   <button class="filter-btn" id="f-gmail" onclick="setFilter('gmail',this)">📧 Gmail Only</button>
   <button class="filter-btn" id="f-cal" onclick="setFilter('cal',this)">📅 Cal Only</button>
+  <button class="filter-btn" id="f-nocal" onclick="setFilter('nocal',this)">🗓️ No Cal</button>
   <button class="filter-btn" id="f-hb" onclick="setFilter('hb',this)">HoneyBook</button>
   <button class="filter-btn" id="f-archived" onclick="setFilter('archived',this)">📦 HB Archived</button>
   <button class="filter-btn" id="f-all" onclick="setFilter('all',this)" style="display:flex;align-items:center;"><span>All</span><span id="f-all-sub" style="margin-left:auto;font-size:11px;opacity:0.75;"></span></button>
@@ -655,6 +661,38 @@ function fmtDate(d){if(!d)return null;const[y,mo,day]=d.split("-");return`${mo}/
 function getYear(d){return d?parseInt(d.split("-")[0]):null;}
 function isFuture(d){return d&&d>=TODAY_STR;}                               // today counts as future
 
+// Build a Google Calendar "create event" URL with client name + date prefilled.
+// Used by the No Cal filter's "+ Add to Calendar" button. This opens Google
+// Calendar's own event form — it does NOT call any API or proxy. The user must
+// pick the "Boathouse Blooms" calendar in the form's dropdown before saving
+// (a render?action=TEMPLATE URL cannot force a target calendar). After the
+// event is created, its gcal link still needs to be captured into CAL_LINKS
+// at the next refresh, same as any Cal Only → Pipeline promotion.
+function buildGCalAddUrl(row){
+  const params=['action=TEMPLATE'];
+  params.push('text='+encodeURIComponent(row.client));
+  if(row.date){
+    const d=row.date.replace(/-/g,'');           // YYYYMMDD
+    params.push('dates='+d+'/'+d);                 // all-day, single day
+  }
+  // Pull a venue hint out of the notes for the location field, if present.
+  const venue=extractVenue(row.notes);
+  if(venue) params.push('location='+encodeURIComponent(venue));
+  const detail='Boathouse Blooms — created from the No Cal reconciliation filter.'
+    +(row.hbStage?' HB stage: '+row.hbStage+'.':'')
+    +' Remember to select the Boathouse Blooms calendar before saving.';
+  params.push('details='+encodeURIComponent(detail));
+  return 'https://calendar.google.com/calendar/render?'+params.join('&');
+}
+// Best-effort venue extraction: many notes lead with "Venue Name · ..." — grab
+// the first segment if it looks like a place rather than a sentence.
+function extractVenue(notes){
+  if(!notes) return '';
+  const first=notes.split('·')[0].trim();
+  if(first && first.length<=60 && !/[.!?]$/.test(first) && /\s/.test(first)) return first;
+  return '';
+}
+
 const HB_LINKS = {
   "Erin Woods":"https://www.honeybook.com/app/event/69d90bfa0cf0f600066a58e4",
   "Alicia Herlihy":"https://www.honeybook.com/app/event/695af50c0c5e580008596961",
@@ -793,6 +831,11 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"May 26, 2026",label:"Feature — No Cal filter",changes:[
+    "NEW FILTER: \"🗓️ No Cal\" — surfaces every HB Pipeline or Gmail Only client with no calendar entry (no key in CAL_LINKS). 33 projects flagged at launch (14 HB Pipeline + 19 Gmail Only). Cal Only and HB Archived entries are excluded by definition. Computed via a per-row noCal flag in buildAllRows.",
+    "NEW ACTION: each No Cal card has a \"+ Add to Calendar\" button that opens Google Calendar's event form prefilled with the client name, event date, and a venue hint pulled from the notes. It does NOT call any API or the Cloudflare proxy — it is a deep link, like the existing HoneyBook/Gmail buttons. The user must select the Boathouse Blooms calendar in the form's dropdown before saving (a render?action=TEMPLATE URL cannot force a target calendar). Undated clients get the button too, with a note to set a date in the form.",
+    "NOTE: creating the event in Google Calendar does NOT auto-populate CAL_LINKS — the new gcal link still needs to be captured at the next refresh, same as any Cal Only → Pipeline promotion.",
+  ]},
   {date:"May 24, 2026",label:"Refresh #60",changes:[
     "NEW GMAIL_ONLY: Elizabeth Hagele & Ben McQuaid (eileen@eileensmithevents.com) — planner-mediated booking, Aug 8 2027 wedding at Lion Rock Farm, Sharon CT. Boathouse confirmed as a floral vendor; planner Eileen Smith (Eileen Smith Events) introduced herself May 22 and requested a Certificate of Insurance + signed Lion Rock Farm vendor form before June. May 24 David/Susan forwarded the COI request to insurance agent Lisa Daggett (Eames Insurance). Planner-side project — no HB Zapier signal expected (Abby Greene pattern). 2-entry narrative built. Contact email is the planner's; no couple email available.",
     "Sasha Rockwell (Roger Williams Botanical Garden RI, 3/20/27) — consultation call HELD May 20 at 5:30pm. May 18 scheduling thread closed via short slot exchange (Susan offered 12:30/5:30 → Sasha picked 5:30). +2 timeline entries (slot offer + call held); replaced the open 'awaits slot' entry. Drops from active pending.",
@@ -1240,7 +1283,8 @@ function buildAllRows(){
     rows.push({type:"accepted",client:r.client,date:r.eventDate||null,hbStage:null,gmailDate:r.gmailDate,gmailEmail:r.email,notes:r.notes,hbCal:false,hbEventId:null,narrative:r.narrative||null});
   });
   GMAIL_ONLY.forEach(g=>{
-    rows.push({type:"gmail-only",client:g.client,date:g.eventDate||null,hbStage:null,gmailDate:g.gmailDate,gmailEmail:g.email,notes:g.notes,hbCal:g.hbCal,hbEventId:null,narrative:g.narrative||null});
+    rows.push({type:"gmail-only",client:g.client,date:g.eventDate||null,hbStage:null,gmailDate:g.gmailDate,gmailEmail:g.email,notes:g.notes,hbCal:g.hbCal,hbEventId:null,narrative:g.narrative||null,
+      noCal:!CAL_LINKS[g.client]});
   });
   CAL_ONLY.forEach(c=>{
     rows.push({type:"cal",client:c.name,date:c.date,hbStage:null,gmailDate:null,gmailEmail:null,
@@ -1249,7 +1293,8 @@ function buildAllRows(){
   });
   HB_PIPELINE.forEach(h=>{
     rows.push({type:"hb",client:h.name,date:h.date,hbStage:h.stage,
-      gmailDate:null,gmailEmail:null,notes:h.notes||null,hbCal:false,hbEventId:null,narrative:h.narrative||null});
+      gmailDate:null,gmailEmail:null,notes:h.notes||null,hbCal:false,hbEventId:null,narrative:h.narrative||null,
+      noCal:!CAL_LINKS[h.name]});
   });
   HB_ARCHIVED.forEach(a=>{
     rows.push({type:"archived",client:a.name,date:a.date,hbStage:null,
@@ -1313,6 +1358,7 @@ function getDisplayRows(){
 
   if(currentFilter==='gmail') rows=rows.filter(r=>r.type==='accepted'||r.type==='gmail-only');
   else if(currentFilter==='cal') rows=rows.filter(r=>r.type==='cal');
+  else if(currentFilter==='nocal') rows=rows.filter(r=>r.noCal);
   else if(currentFilter==='archived') rows=rows.filter(r=>r.type==='archived');
   else if(currentFilter==='hb'){
     rows=rows.filter(r=>r.hbStage);
@@ -1401,11 +1447,13 @@ function render(){
   const gmailOnlyCount=activeRows.filter(r=>r.type==='accepted'||r.type==='gmail-only').length;
   const hbCount=activeRows.filter(r=>r.hbStage).length;
   const calCount=activeRows.filter(r=>r.type==='cal').length;
+  const noCalCount=activeRows.filter(r=>r.noCal).length;
   const archivedCount=yearRows.filter(r=>r.type==='archived').length;
   const displayed=getDisplayRows();
 
   document.getElementById('f-gmail').textContent=`📧 Gmail Only (${gmailOnlyCount})`;
   document.getElementById('f-cal').textContent=`📅 Cal Only (${calCount})`;
+  document.getElementById('f-nocal').textContent=`🗓️ No Cal (${noCalCount})`;
   document.getElementById('f-hb').textContent=`HoneyBook (${hbCount})`;
   document.getElementById('f-archived').textContent=`📦 HB Archived (${archivedCount})`;
   const allSub=document.getElementById('f-all-sub');
@@ -1475,6 +1523,7 @@ function render(){
         ${r.date?`<div>Event date: <span>${fmtDate(r.date)}${p?' (past)':s?' (soon!)':''}</span></div>`:''}
         ${r.hbCal?`<div>HB calendar: <span>Inquiry on calendar — no pipeline project</span></div>`:''}
         ${(hbLink||gmailLink||calLink)?`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px">${hbLink?'<a href="'+hbLink+'" target="_blank" style="color:var(--blue);font-family:DM Mono,monospace;font-size:calc(11px * var(--detail-scale));text-decoration:none;">↗ HoneyBook</a>':''}${gmailLink?' <a href="'+gmailLink+'" target="_blank" style="color:var(--gold);font-family:DM Mono,monospace;font-size:calc(11px * var(--detail-scale));text-decoration:none;">↗ Gmail</a>':''}${calLink?' <a href="'+calLink+'" target="_blank" style="color:var(--green);font-family:DM Mono,monospace;font-size:calc(11px * var(--detail-scale));text-decoration:none;">↗ Calendar</a>':''}</div>`:''}
+        ${r.noCal?`<a class="addcal-btn" href="${buildGCalAddUrl(r)}" target="_blank" rel="noopener" onclick="event.stopPropagation();">🗓️ + Add to Calendar</a><span class="addcal-note">Opens Google Calendar prefilled${r.date?'':' — no event date on file, set one in the form'}. Pick the <b>Boathouse Blooms</b> calendar before saving.</span>`:''}
         <div>Source: <span>${r.type==='accepted'?'Gmail — accepted, not in HB':r.type==='gmail-only'?'Gmail only — not in HB pipeline':r.type==='cal'?'HB calendar only — no pipeline project':'HoneyBook pipeline'}</span></div>
         ${r.narrative?`<button class="history-btn" id="hb${i}" onclick="event.stopPropagation();toggleNarrative(${i})">📖 Full History</button><div class="narrative" id="n${i}"><div class="narrative-summary">${escapeHtml(r.narrative.summary)}</div><ul class="narrative-timeline">${(r.narrative.timeline||[]).map(t=>`<li class="narrative-entry"><span class="narrative-date">${fmtDate(t.date)}</span><span class="narrative-source ${t.source}">${sourceLabel(t.source)}</span><span class="narrative-text">${escapeHtml(t.text)}</span></li>`).join('')}</ul></div>`:''}
       </div>
