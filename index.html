@@ -1,6 +1,7 @@
 <!-- Boathouse Blooms · Proposal Reconciliation
      Version: Refresh #67
      Last updated: July 17, 2026
+     Feature (Jul 17, 2026): Global Search — search bypasses all filters; hidden matches render below a divider with reason badges (UI + render only, no data change).
      Refresh #67 (Jul 17) — Courtney Cronin PROMOTED Cal Only → Pipeline at Proposal Sent (call held Jul 13 10am; Zapier Follow-up Jul 6 → Proposal Sent Jul 13; gcal link migrated, narrative built). Sidney Smith REMOVED from Cal Only — Zapier Follow-up masked Susan's same-day decline Jul 13 (pattern #8). 3 more declines, none added: Julia Wholey (9/17/27, Zapier+Regretfully same minute), Meghan Kean (6/26/27 — first said available, then calendar-mixup decline; resolves triple-collision), Amanda Donohue (5/1/27, direct email, no Zapier). Leigh A Keefe Zapier Proposal Sent = post-hoc invoice on Meaghan & Matthew's executed 6/13 wedding (Doherty pattern, no entry). Elizabeth Hagele ACTIVE (finalize proposal by Fri 7/24; planner logistics call Mon/Tue). ⚠ JESHA: wedding 7/18 TOMORROW, still silent. Julia Stell Trash email NOT restored, reply owed; Barmore owed 15d. Forward diff 7 = all known declines (now 8 to archive incl. Sidney). Reverse diff 42 all no-ops. New noise-labeled Knot lead: Ava Kahn-McQueen (6/19/27) — regression #4.
      Refresh #66 (Jul 13) — Shelby and Timothy PAID IN FULL Jul 9 (2 of 2, invoice #000132-002) → Planning (wedding 7/24). Caitlin Ferreira wedding 7/10 EXECUTED → Completed (past-event rule). 2 NEW CAL_ONLY: Andrew Sulkala (8/22/26 — near-term; partner Catie Rutley, Knot lead arrived labeled bhb/noise) + Sidney Smith (9/25/27, HB inquiry 7/12). Jan Koss REPLIED 7/8 (proposal looks good; Scotland until 7/16) — stays Active. NEW FLAG: Julia Stell Jun 19 change-request email in Gmail TRASH + Jul 10 nudge — Susan owes reply. ESCALATE: Jesha (7/18 wedding, 5 days, silent), Barmore (11-day owed reply), Abby Greene (~59-day stall). New leads no-entry: Meghan Kean (6/26/27 St Leonard's — date collision w/ Courtney Cronin + Nicole Carroll), Lauren Flynn (Knot 8/21/26, noise-labeled). 6 known declines still unarchived in HB (incl. Tisha Alie) — David to archive. #65 stale version-comment counts corrected.
      Refresh #65 (Jul 8) — Weddings EXECUTED + auto-promoted to Completed: Alicia Herlihy (6/27, URGENT flag resolved — the 8-to-6-tables thread WAS hers; final invoice 6/29) and Kate Dwyer (6/26 Wychmere, planner final-details blast 6/23). Joe Carrara executed 6/27 (Gmail Only terminal). NEW GMAIL_ONLY: Nicole & Joe Moreshead (12/11/26 Terrain Gardens Wayland — repeat-family via mother Jules Hindman, proposal 6/30). 3 NEW CAL_ONLY: Emily Cullett (7/30/27 Ocean Edge), Mackenzie Howe (6/11/27 Granite Links), Courtney Cronin (6/26/27 — Kellie Cronin's sister, double referral). Elizabeth Hagele & Ben proposal SENT 6/29 (above budget, adjusting). Pauline & Dwaine date RESOLVED 9/26/26 via David's manual calendar event (PDF attached) — CAL_LINKS migrated, MANUAL_CAL. Joanne Doherty post-hoc invoice PAID 6/25. Kellie Cronin studio visit + payment 6/29. Declines x3 NEW (Melanie-Guerra pattern #5-7): Olivia Powers (9/12/26), Grace Hickey (9/18/27), Victoria McManmon (8/28/27, direct email). Shelby & Timothy FINAL PAYMENT in flight (2nd email shelby.richards@verizon.net). Jack & Paige check-in call Aug 17. FLAGS: Abby Greene ~54d + Susan CANCELED the 9/5/26 Stradley Davidson linen order (ask Susan); Jesha Stevens wedding 7/18 in 10 days, updated proposal still unsent; Samantha Barmore owed reply since 7/2; Knot lead Alyssa Greenspan arriving labeled bhb/noise.
@@ -148,6 +149,11 @@
   .narrative-text{color:var(--text);font-size:calc(14px * var(--detail-scale));}
 
   .empty{text-align:center;padding:60px 20px;color:var(--muted);}
+  .hidden-divider{display:flex;align-items:center;gap:10px;margin:18px 0 10px;color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;}
+  .hidden-divider::before,.hidden-divider::after{content:"";flex:1;border-top:1px dashed var(--border-bright);}
+  .card.is-hidden-match{opacity:.55;}
+  .card.is-hidden-match:hover{opacity:1;}
+  .tag-hidden-reason{color:#8a7a5c;background:#f3eee2;border-color:#8a7a5c66;}
   ::-webkit-scrollbar{width:3px;height:3px;}
   ::-webkit-scrollbar-thumb{background:var(--border-bright);border-radius:2px;}
 
@@ -859,6 +865,9 @@ const CAL_LINKS = {
 };
 
 const CHANGELOG = [
+  {date:"Jul 17, 2026 · 12:30 PM",label:"Global Search",changes:[
+    "Search now matches every entry regardless of active filters. Matches hidden by the year / type / stage filters or the default Completed/Archived hiding render below a divider, dimmed, with a badge explaining why (e.g. Completed — hidden by default). Fail-loud: search never silently drops a client. UI + render only — no data change. Motivating case: Meaghan and Matthew (Completed 6/13/26) was invisible to search from the default view during the July payment reconciliation.",
+  ]},
   {date:"Jul 17, 2026 · 2:30 PM",label:"Refresh #67",changes:[
     "Courtney Cronin PROMOTED Cal Only → HB Pipeline at Proposal Sent: planning call held Mon Jul 13 10am as scheduled; Zapier Follow-up (Jul 6) → Proposal Sent (Jul 13, proposal via HoneyBook). Gcal link migrated CAL_ONLY_GCAL_LINKS → CAL_LINKS; HB + Gmail links added; narrative built (7 entries). HB Pipeline 45 → 46, Cal Only 36 → 35. Date note: 6/26/27 shared with Nicole Carroll (Cal Only).",
     "Sidney Smith REMOVED from Cal Only: the Jul 13 Zapier Follow-up masked Susan's same-day decline ('not available on your wedding date'; referrals to Debra Kraft + Moon Rabbit Floral sent Jul 14). Melanie-Guerra pattern instance #8. Cal Only 35 → 34.",
@@ -1507,6 +1516,31 @@ function filterByYear(rows){
   });
 }
 
+function matchesSearch(r){
+  const name=(r.client||'').toLowerCase();
+  const email=(r.gmailEmail||'').toLowerCase();
+  const notes=(r.notes||'').toLowerCase();
+  return name.includes(currentSearch)||email.includes(currentSearch)||notes.includes(currentSearch);
+}
+
+function hiddenReason(r){
+  const reasons=[];
+  if(currentYears.size===0){
+    reasons.push('no year selected');
+  } else if(r.date){
+    if(isPast(r.date)&&!currentYears.has('past')) reasons.push('Year: Past off');
+    else if(!isPast(r.date)&&!currentYears.has(getYear(r.date))) reasons.push('Year: '+getYear(r.date)+' off');
+  }
+  if(r.type==='archived'&&currentFilter!=='archived') reasons.push('📦 Archived');
+  else if(r.hbStage==='Completed'&&!(currentFilter==='hb'&&currentStage==='Completed')) reasons.push('Completed — hidden by default');
+  else if(currentFilter==='gmail'&&!(r.type==='accepted'||r.type==='gmail-only')) reasons.push('outside Gmail Only');
+  else if(currentFilter==='cal'&&r.type!=='cal') reasons.push('outside Cal Only');
+  else if(currentFilter==='nocal'&&!r.noCal) reasons.push('outside No Cal');
+  else if(currentFilter==='hb'&&!r.hbStage) reasons.push('outside HoneyBook');
+  else if(currentFilter==='hb'&&currentStage!=='all'&&r.hbStage!==currentStage) reasons.push('outside stage: '+currentStage);
+  return reasons.join(' · ')||'hidden by filters';
+}
+
 function getDisplayRows(){
   let rows=filterByYear(ALL_ROWS);
 
@@ -1526,12 +1560,16 @@ function getDisplayRows(){
     if(currentStage!=='all') rows=rows.filter(r=>r.hbStage===currentStage);
   }
   if(currentSearch){
-    rows=rows.filter(r=>{
-      const name=(r.client||'').toLowerCase();
-      const email=(r.gmailEmail||'').toLowerCase();
-      const notes=(r.notes||'').toLowerCase();
-      return name.includes(currentSearch)||email.includes(currentSearch)||notes.includes(currentSearch);
-    });
+    rows=rows.filter(matchesSearch);
+    // Global search (fail-loud): also surface matches hidden by the current
+    // year / type / stage filters or the default Completed/Archived hiding.
+    // Hidden matches render below a divider, dimmed, with a reason badge.
+    // Copies (not the ALL_ROWS objects) carry _hiddenReason so no state leaks
+    // between renders.
+    const visibleSet=new Set(rows);
+    const hidden=ALL_ROWS.filter(r=>matchesSearch(r)&&!visibleSet.has(r))
+      .map(r=>Object.assign({},r,{_hiddenReason:hiddenReason(r)}));
+    rows=rows.concat(hidden);
   }
   return rows;
 }
@@ -1645,6 +1683,7 @@ function render(){
     return;
   }
 
+  const hiddenCount=displayed.filter(x=>x._hiddenReason).length;
   list.innerHTML=displayed.map((r,i)=>{
     const ds=r.date?fmtDate(r.date):null;
     const p=isPast(r.date),s=isSoon(r.date);
@@ -1668,10 +1707,12 @@ function render(){
     const gmailLink=GMAIL_THREADS[r.client];
     const calLink=CAL_LINKS[r.client]||(r.type==='cal'?CAL_ONLY_GCAL_LINKS[r.client]:null);
 
-    return`<div class="card type-${r.type}${p?' is-past':''}" onclick="toggleCard(${i})">
+    const divider=(r._hiddenReason&&(i===0||!displayed[i-1]._hiddenReason))?`<div class="hidden-divider">${hiddenCount} match${hiddenCount===1?'':'es'} hidden by current filters</div>`:'';
+    return divider+`<div class="card type-${r.type}${p?' is-past':''}${r._hiddenReason?' is-hidden-match':''}" onclick="toggleCard(${i})">
       <div class="card-top"><div class="card-name">${r.client}</div><div class="card-flag">${flag(r)}</div></div>
       <div class="card-tags">
         ${primaryTag}
+        ${r._hiddenReason?`<span class="tag tag-hidden-reason">🙈 ${r._hiddenReason}</span>`:''}
         ${ds?`<span class="tag ${dc}">${ds}${dsuf}</span>`:''}
         ${r.gmailDate?`<span class="tag tag-gmail">📧 ${fmtDate(r.gmailDate)}</span>`:''}
         ${r.hbCal?`<span class="tag tag-hb-cal">📆 HB calendar</span>`:''}

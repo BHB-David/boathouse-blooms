@@ -30,7 +30,7 @@ Single `index.html` file. All data is hardcoded JS arrays. No server, no build s
 |---|---|
 | Last refresh | #67 — July 17, 2026, 2:30 PM ET |
 | Last refresh date | `2026-07-17` (use for SCAN_AFTER computation — see Step 1) |
-| Last feature change | No Cal filter — May 26, 2026 (UI + render only, no data change) |
+| Last feature change | Global Search — Jul 17, 2026 (search bypasses all filters; hidden matches below divider with reason badges; UI + render only, no data change) |
 | Counts | HB Pipeline: 46 · Gmail Only: 27 · Cal Only: 34 · HB Archived: 32 |
 | Narratives | 62 |
 | No Cal | 27 (unchanged — Courtney Cronin promoted WITH her gcal link migrated, so she never enters No Cal) |
