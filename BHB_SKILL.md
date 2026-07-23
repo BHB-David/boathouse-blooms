@@ -28,15 +28,15 @@ Single `index.html` file. All data is hardcoded JS arrays. No server, no build s
 
 | Item | Value |
 |---|---|
-| Last refresh | #67 — July 17, 2026, 2:30 PM ET |
-| Last refresh date | `2026-07-17` (use for SCAN_AFTER computation — see Step 1) |
-| Last feature change | Global Search — Jul 17, 2026 (search bypasses all filters; hidden matches below divider with reason badges; UI + render only, no data change) |
-| Counts | HB Pipeline: 46 · Gmail Only: 27 · Cal Only: 34 · HB Archived: 32 |
-| Narratives | 62 |
-| No Cal | 27 (unchanged — Courtney Cronin promoted WITH her gcal link migrated, so she never enters No Cal) |
-| Scan cutoff (#67) | `2026/07/03` (SCAN_AFTER — 4-day gap, 14-day floor, ≤14d tier: Outbound 30 / Inbound 40 / Zapier 25) |
+| Last refresh | #71 — July 23, 2026, 5:25 AM ET (first autonomous scheduled Cowork run) |
+| Last refresh date | `2026-07-23` (use for SCAN_AFTER computation — see Step 1) |
+| Last feature change | Year Buttons — Jul 19, 2026 (CSS only); Global Search — Jul 17, 2026 (UI + render only) |
+| Counts | HB Pipeline: 46 · Gmail Only: 28 · Cal Only: 36 · HB Archived: 32 |
+| Narratives | 63 |
+| No Cal | 28 (14 HB Pipeline + 14 Gmail Only — Payton Donato added #69) |
+| Scan cutoff (#71) | SCAN_AFTER `2026/07/09` (1-day gap, 14-day floor); inbound paginated to Jul 20 overlapping #70. Zapier 8/25 · Outbound 23/30 · no binds |
 
-**Numbering note (#67):** Clean run against the committed #66 base. ⚠ Base-file note: the project-knowledge `index.html` snapshot was STALE (#65) this session; the true #66 base was obtained by mounting `~/Desktop/github-boathouse` in Cowork (GitHub raw fetch truncates at ~88KB; curl is proxy-blocked in the Cowork sandbox). HB Pipeline 45→46 (Courtney Cronin promoted in). Cal Only 36→34 (Courtney promoted out, Sidney Smith decline-removed).
+**Numbering note (#69):** Refreshes #67 (Jul 17 — Courtney Cronin promoted, Sidney Smith decline) and #68 (Jul 19 — quiet) were committed in other sessions, but the project-knowledge copy of this skill stayed at #66 — the skill-runs-BEHIND-file variant. #69 ran in Cowork against the committed #68 base read from the local git clone (`~/Desktop/github-boathouse`) after GitHub became unreachable from the sandbox (see #69 learnings). File-wins rule applied; David confirmed "current state is refresh 68" mid-run.
 
 **Pending items** (check at next refresh).
 
@@ -44,26 +44,30 @@ Split into two tiers. **Active** = something specific is expected to happen next
 
 ### Active (Step 1a covers these)
 
-- **Jesha Stevens** (`partnerships@jeshastevens.com`, 7/18/26 Wellfleet) — ⚠ **CRITICAL: wedding was 7/18 — the day after #67 — and Jesha stayed SILENT through Jul 17** (nothing since Jun 11; no evidence the updated proposal was ever sent). At #68 the date has passed: **confirm executed / lapsed / phone-resolved.**
-- **Shelby and Timothy** (`sem273@gmail.com` + `shelby.richards@verizon.net`, Planning, PAID IN FULL, 7/24/26 John Carver Inn) — wedding 7/24: expect **past-event auto-complete at #68**. Napkin note: Susan is having "P"-monogram napkins made by Stitched Needham (Merri) — vendor thread active Jul 9-17, quote pending (client attribution unconfirmed).
-- **Julia Stell** (`juliaastell4@gmail.com`, Proposal Sent, 9/26/26 Hyannis) — ⚠ **ESCALATED at #67**: Jun 19 change-request email **STILL IN TRASH** (not restored); Jul 10 follow-up still unanswered (~4 weeks since original ask). **David: restore the email; Susan owes the reply.**
-- **Samantha Barmore** (`sbarmore26@gmail.com`, Retainer Paid, 8/20/27 Wychmere) — ⚠ owed reply **15 days** (Jul 2 alternate-in-person-day ask, second unanswered scheduling ask). Timeline updated at #67.
-- **Abby Greene & Alex Perry** (`almanoukian@aol.com`; personal `aegreene34@gmail.com`, 9/5/26) — ⚠ contract stall **~63 days**; #67 window showed only vendor-on-chain (Soulyco stationer Jul 14 wedding-day-paper outreach). **David: ask Susan whether the engagement is reduced or lost** before contacting planner Andria.
-- **Courtney Cronin** (`courtneycronin2017@gmail.com`, **HB Pipeline — Proposal Sent**, 6/26/27; HB `6a4564723d687cf5e3d7c302`) — PROMOTED at #67: call held Mon Jul 13 10am, proposal sent same day via HB. Watch: acceptance / retainer. Date shared with Nicole Carroll (Cal Only).
-- **Elizabeth Hagele & Ben McQuaid** (couple `elizabethandben26@gmail.com`; planner `eileen@eileensmithevents.com`, 8/8/27 Lion Rock Farm) — **ACTIVE (promoted from Watchlist #67)**: Jul 16 Elizabeth wants the proposal **finalized by Friday 7/24**, then a logistics call with her planner (free Mon/Tue). **Susan owes the revised proposal this week.**
-- **Andrew Sulkala** (`rutleysulkalawedding@gmail.com`, Cal Only, **8/22/26 — near-term ~5 weeks**; HB `6a4e7f690bbbf2ccb067a1db`) — Susan asked for details Jul 9; **no client reply through Jul 17**. Watch: details / proposal; nudge-worthy given the date.
-- **Lauren Flynn** (Knot lead Jul 13, wedding **8/21/26 — near-term**) — noise-labeled (regression); **Susan still not engaged at #67**. Urgent given ~5 weeks to date.
-- **Ava Kahn-McQueen** (Knot lead Jul 16, 6/19/27) — ⚠ NEW, arrived labeled bhb/noise (**regression instance #4**). Susan not engaged; no entry (lead → entry rule). Note: same date as the new Emily Mauck HB inquiry (6/19/27, The Bohlin) — different couple.
-- **Jan Koss & Kenzie** (`jankoss@comcast.net`, 11/14/26 Granite Links) — back from Scotland 7/16. Watch: deposit / next step now that they're home.
-- **Sarah Clark** (`saraheclark21@gmail.com`, 9/10/27 Wychmere) — Susan re-offered a call Jul 7 (after Sarah's follow-up); no reply since. Watch: call / proposal.
-- **Emily Cullett** (`emcullett@gmail.com`, Cal Only, 7/30/27 Ocean Edge) — call held Jul 3; **proposal owed ~2 weeks**. Watch.
-- **Mackenzie Howe** (`kenziehow3@gmail.com`, Cal Only, 6/11/27 Granite Links) — call held ~Jul 1; **proposal owed ~2.5 weeks**. Watch.
-- **Payton Donato** (`paytondonato98@gmail.com`, 9/18/27 Eastward Ho) — call held ~Jun 29; no proposal → no entry. Watch: proposal.
-- **Nicole & Joe Moreshead** (`weddingmoreshead@gmail.com`, Gmail Only, 12/11/26 Terrain Gardens) — Jun 30 Q&A; no movement since. Watch: table sizes / deposit; demote to Watchlist at #68 if still quiet.
-- **Jack & Paige Soucy** (`jackpaigesoucy@gmail.com`, Retainer Paid, 10/3/26) — check-in call **Mon Aug 17, 12pm** (Google Meet w/ planner Olivia Brent) — self-closing.
-- **Kasey Lombardo** — Susan reply STILL pending (**~72 days** since May 6 HB inquiry; Hull MA, 9/11/26). *(Cal Only — search by name.)*
+- **Jesha Stevens** (`partnerships@jeshastevens.com`, 7/18/26 Wellfleet) — ⚠ **WEDDING DATE PASSED with ZERO contact ever** — still nothing either way at #71 (5 days post-wedding). **Phone contact is the standing recommendation**; outcome unknown.
+- **Shelby and Timothy** (`sem273@gmail.com` + `shelby.richards@verizon.net`, Planning, PAID IN FULL, **7/24/26 John Carver Inn — TOMORROW at #71**) — expect past-event auto-complete at #72. Susan offered boutonnière + flat-lay drop-off to the venue.
+- **Grace Cioffi** (`quinnwedding2028@gmail.com`, 518-495-7575, Cal Only NEW #71, **6/19/27 Wychmere Beach Club, Harwich Port**; HB `6a610dfe35aea342b75ec9ce`) — vendor referral, Webster NY address, beach ceremony + Ocean Room reception, Pinterest shared, wants a quote. ⚠ **6/19/27 DATE CLUSTER** with Emily Mauck (HB inquiry, The Bohlin) + Ava Kahn-McQueen (Knot lead); HB flagged the conflict. Susan has not replied (inquiry Jul 22 2:37 PM). Watch: reply / call.
+- **Krista Fullum / Margaret Grace** (`kristafullum@yahoo.com`, Gmail Only, 10/17/26 — **Watchlist → Active #71**) — Jul 22 personal inbound: can she still use Susan's space the week of her wedding (same week as Susan's daughter's wedding)? Fallback: the market + parents' house. Logistics ask, awaiting Susan's reply.
+- **Eve Loftus** (`eelloftus@gmail.com`, 508-404-5915, Cal Only, **6/30/28 Chatham Bars Inn**, ~150 guests, via Instagram; HB `6a5f7532007aefeeb1df3351`) — **Susan REPLIED Jul 22** (date available, offered a call to discuss her vision). Awaiting Eve's response. Watch: call scheduling.
+- **Payton Donato** (`paytondonato98@gmail.com`, Gmail Only NEW #69, 9/18/27 Eastward Ho! Chatham) — preliminary proposal sent Jul 20 (call held ~Jun 29). Watch: feedback / deposit.
+- **Samantha Barmore** (`sbarmore26@gmail.com`, Retainer Paid, 8/20/27 Wychmere) — Jul 20 revision loop: client wants orchids in bouquet, no blue delphinium, blush-hydrangea garland clarification (Susan said "I will clarify"). No movement since Jul 20 at #71. Watch: Susan's clarified outline.
+- **Elizabeth Hagele & Ben** (couple `elizabethandben26@gmail.com`; planner `eileen@eileensmithevents.com`, 8/8/27 Lion Rock Farm) — **PROPOSAL FINAL #71**: Jul 22 outline approved; Elizabeth formally introduced Susan to Eileen with the final proposal; final floor plan in; **credit-card payment authorized for this week**. Eileen's Zoom review call **Thu 7/23 5:00 PM ET**. Watch at #72: call outcome + payment received.
+- **Julia Stell** (`juliaastell4@gmail.com`, Proposal Sent, 9/26/26 Hyannis) — **OWED-REPLY RESOLVED #71**: Susan replied Jul 10 (same day as Julia's circle-back; missed by keyword-filtered scans #66-#70) — could not open the photos, asked for a re-send. Awaiting Julia's re-sent photos (~2 weeks). Jun 19 Trash email still unrestored (restore still useful for the change details).
+- **Abby Greene & Alex Perry** (`almanoukian@aol.com`; personal `aegreene34@gmail.com`) — ⚠ contract stall **~67 days**; only vendor-on-chain activity (Soulyco Jul 14). **David: ask Susan whether the engagement is reduced or lost.**
+- **Courtney Cronin** (`courtneycronin2017@gmail.com`, Proposal Sent #67, 6/26/27; HB `6a4564723d687cf5e3d7c302`) — proposal delivered via HoneyBook Jul 13; **no client response yet (10 days at #71)**. Watch: acceptance / deposit; nudge-worthy at ~2 weeks.
+- **Andrew Sulkala** (`rutleysulkalawedding@gmail.com`, Cal Only, **8/22/26 — ~4.5 weeks out**; HB `6a4e7f690bbbf2ccb067a1db`) — still no reply to Susan's Jul 9 details ask. Near-term urgency rising; partner Catie Rutley's Knot lead was noise-labeled.
+- **Jan Koss & Kenzie** (`jankoss@comcast.net`, 11/14/26 Granite Links) — back from Scotland Jul 16; no contact since. Watch: deposit / next step.
+- **Sarah Clark** (`saraheclark21@gmail.com`, 9/10/27 Wychmere) — Susan replied Jul 7 offering a call; no response in 2 weeks. Watch: call / proposal.
+- **Emily Cullett** (`emcullett@gmail.com`, Cal Only, 7/30/27 Ocean Edge) — call held Jul 3; proposal pending.
+- **Mackenzie Howe** (`kenziehow3@gmail.com`, Cal Only, 6/11/27 Granite Links) — call held ~Jul 1; proposal pending.
+- **Nicole & Joe Moreshead** (`weddingmoreshead@gmail.com`, Gmail Only, 12/11/26 Terrain Gardens) — MOVING FORWARD. Jul 22: Susan proposed a call/visit for the numbers; **Nicole requested Susan's COI (venue requires vendor COIs)** — Susan flagged "need COI" to David. Watch: COI sent + call/visit + updated proposal + $500 deposit.
+- **Jean Soucy** (`jkpjsoucy@yahoo.com`, Gmail Only, 9/18/26 The Old Casino) — $250 deposit pending since May 14 acceptance.
+- **Pauline & Dwaine** (`pleblanc14@gmail.com`, Gmail Only, 9/26/26 Peabody Pavilion) — table confirmation / deposit / HB project pending.
+- **Jack & Paige Soucy** (`jackpaigesoucy@gmail.com`, Retainer Paid, 10/3/26) — check-in call **Mon Aug 17, 12pm** (Google Meet, planner Olivia Brent) — self-closing.
+- **Kasey Lombardo** — Susan reply STILL pending (~76 days since May 6 HB inquiry; Hull MA, 9/11/26). *(Cal Only — search by name.)*
+- **Knot pre-engagement (all bhb/noise-labeled — regression instances #1-5):** **Lauren Flynn** (Jul 13 lead, **8/21/26 — near-term**, Susan unengaged), **Ava Kahn-McQueen** (Jul 16 lead, 6/19/27 — now shares the date with Grace Cioffi's live HB inquiry), **Madison Kadra** (Jul 20 lead — church + backyard-tent reception, Cohasset MA, date TBD). Single batched search per refresh.
 
-**David to-do (out-of-band, from #67):** (1) **Archive in HoneyBook** the **8** declined projects still on/entering the HB calendar — Tisha Alie, Olivia Powers, Jessica Sorcher, Kathryn Wickham, Sarah Dwyer, Grace Hickey, **Sidney Smith (new #67)**, **Julia Wholey (new #67)** — they re-surface in every forward diff until archived. (2) **Fix the `NOISE_SENDERS` token** mislabeling `member.theknot.com` leads — **URGENT, 4th instance (Ava Kahn-McQueen Jul 16)**. (3) **Restore Julia Stell's Jun 19 email from Gmail Trash — still not done at #67.** (4) Apply the #67 unlabeled-noise advisory batch: pvolve.com family (newsletter@/help@/welcome@ + email.pvolve.com), do_not_reply@appcenter.intuit.com, Intuit@mkt.intuit.com, panera@m2.panerabread.com (advised #63, still unlabeled), info@stradleydavidson.com, DoNotReply@dvfloralgroup.com, content@mp1.tripadvisor.com, hello@tnuck.com (high volume).
+**David to-do (out-of-band, as of #71):** (1) **Archive in HoneyBook** the **10** declined projects still on the HB calendar — Tisha Alie, Olivia Powers, Jessica Sorcher, Kathryn Wickham, Sarah Dwyer, Grace Hickey, Julia Wholey, Sidney Smith, Emma Izydorczak & Mitchell McDonald, **Nicole Zarembovicz (new #71)** — they re-surface in every forward diff until archived. (2) **Noise-filter fix HALF-VERIFIED at #71**: Grace Cioffi's `mailman@honeybook.com` New Inquiry (Jul 22 2:37 PM, first lead-channel arrival after the Jul 22 AM rebuild) landed **WITHOUT** `Label_4` — honeybook channel confirmed clean. `member.theknot.com` still unverified (no new Knot lead since the rebuild); client-side exemption check on that channel stays MANDATORY until one arrives clean. (3) **Restore Julia Stell's Jun 19 email from Gmail Trash** (softened: Susan has since engaged — Jul 10 reply found #71 — but the Trash email holds the change details). (4) Ask Susan: Abby Greene reduced vs lost (~68 days). (5) **Phone Jesha Stevens** for the 7/18 outcome. (6) **Send Susan's COI to the Moreshead venue** (Susan forwarded "need COI" Jul 22). (7) Noise senders still unlabeled (advisory): `DoNotReply@dvfloralgroup.com` (3rd consecutive advisory), `info@stradleydavidson.com`, `email@letschat.oliveandpiper.com`, `info@oliveandpiper.com`, `newsletter@pvolve.com`, `Intuit@mkt.intuit.com` (distinct from the labeled intuit senders). Caution: leave `paycargo.com` senders unblocked — operational freight/import mail. (8) **Revert the scheduled-task gate** from the 12-hour TEST setting to 4 calendar days — the first autonomous run (#71) succeeded.
 
 ### Watchlist (not searched per refresh; recheck monthly or when broad scan surfaces)
 
@@ -71,10 +75,8 @@ Split into two tiers. **Active** = something specific is expected to happen next
 - **Lindsey DeRensis**, **Meaghan and Matthew**, **Joanne Doherty**, **Joe & James Carrara**, **Kate Dwyer**, **Alicia Herlihy** — executed/terminal (see #64-#65 notes).
 - **Alexa Paiva** (`alexa.j.paiva@gmail.com`, Planning, paid in full, 10/17/26) — healthy.
 - **Sasha Rockwell** (`sashavrockwell@gmail.com`, Follow-up, 3/20/27) — silent since May 31.
-- **Krista Fullum / Margaret Grace** (`kristafullum@yahoo.com`, Gmail Only, 10/17/26) — no movement since May 25 proposal.
-- **Jean Soucy** (`jkpjsoucy@yahoo.com`, Gmail Only, 9/18/26 The Old Casino) — demoted #67: proposal accepted May 14, $250 deposit still due, no movement #65-#67. Recheck monthly; deposit may arrive by check via Paige.
-- **Pauline & Dwaine** (`pleblanc14@gmail.com`, Gmail Only, 9/26/26 Peabody Pavilion) — demoted #67: no movement since the Jun 22 calendar enrichment. Watch via broad scans.
 - **Kellie Cronin** — healthy (deposit Jun 29, green hydrangeas). Sister Courtney inbound.
+- **Elizabeth Hagele & Ben McQuaid** (couple `elizabethandben26@gmail.com`; planner `eileen@eileensmithevents.com`, 8/8/27 Lion Rock Farm) — preliminary proposal Jun 29, above budget, Susan adjusting. Watch: revised proposal / acceptance.
 - **Alyssa Greenspan** — Knot lead Jun 23-24, noise-labeled; not yet engaged by Susan. Recheck.
 - **MGB corporate order** — vendor packet Jun 26 (`mramos8@mgb.org`), forwarded to David Jun 29. Watch: actual order.
 - **Sabine Leder** — Susan's Jun 30 re-send to `sabine.leder@tuftsmedicalcenter.org` BOUNCED again. David/Susan: correct address.
@@ -96,9 +98,13 @@ Split into two tiers. **Active** = something specific is expected to happen next
 - **Watchlist → Active** when a broad scan surfaces fresh activity, or a calendar event puts something on a near-horizon.
 - **Drop entirely** when a scheduled-action date has passed without follow-up and no further action is expected.
 
-*Resolved this refresh (#67): Courtney Cronin call held + promoted to Pipeline (Proposal Sent); Sidney Smith → decline, removed; Meghan Kean → decline (calendar-mixup, resolves the 6/26/27 triple-collision flag); Victoria McManmon re-decline Jul 6 (final); Leigh A Keefe Zapier = post-hoc invoice artifact on Meaghan & Matthew (no entry).*
+*Resolved this refresh (#71): Nicole Zarembovicz (Susan declined Jul 22 — Regretfully Unavailable; removed from Cal Only; Zapier Follow-up masked it, instance #11); Julia Stell owed-reply (Susan's Jul 10 reply found); Eve Loftus awaiting-Susan (replied Jul 22); Hagele finalize-by-Friday (final proposal delivered Jul 22). New this refresh (#71): Grace Cioffi (Cal Only, 6/19/27 date cluster); Moreshead COI request; Krista Fullum space-use ask (Watchlist → Active).*
 
-*New this refresh (#67): declines Julia Wholey (9/17/27) + Amanda Donohue & Paul (5/1/27, direct email, referred by bridesmaid Elizabeth Shea) — none added. New noise-labeled Knot lead Ava Kahn-McQueen (6/19/27). Demoted to Watchlist: Jean Soucy (no movement #65-#67, deposit still due), Pauline & Dwaine (no movement since Jun 22 enrichment). Elizabeth Hagele promoted Watchlist → Active.*
+*Resolved at refresh (#70): Moreshead details wait (beam dimensions in — now Susan owes the proposal). New at refresh (#70): Nicole Zarembovicz (Cal Only, 4-way 6/26/27 collision); noise-filter rebuild completed Jul 22 AM — both Jul 21 labeled inquiries predate it.*
+
+*Resolved at refresh (#69): Samantha Barmore owed reply (visit held Jul 16); Elizabeth Hagele scheduling (Thu 7/23 planner call proposed). New this refresh (#69): Eve Loftus (Cal Only), Payton Donato (Gmail Only), Emma Izydorczak & Mitchell McDonald decline #10, Madison Kadra Knot lead (regression #5), mailman@honeybook.com noise-labeling variant.*
+
+*Resolved at refresh (#66): Shelby final payment (PAID IN FULL Jul 9 → Planning); Caitlin Ferreira wedding executed 7/10 (→ Completed); Jan Koss silence (Jul 8 reply, proposal accepted verbally — Watchlist demotion cancelled); Tisha Alie forward-diff hit (known double-decline, skip).*
 
 *New this refresh (#66): two new CAL_ONLY — Andrew Sulkala (8/22/26, near-term; partner Catie Rutley) and Sidney Smith (9/25/27). New flags: Julia Stell change-request email in Gmail TRASH + owed reply; Meghan Kean lead (6/26/27 — date collision with Courtney Cronin AND Nicole Carroll); Lauren Flynn Knot lead (8/21/26, noise-labeled); Barmore escalation (11-day owed reply). Persistent flags carried: Abby Greene (~59d), Jilly & Billy, Samantha Sieger, Samantha Zaino, Caroline Barrett, Cindy & Amanda Chase, Katie Escano.*
 
@@ -154,15 +160,22 @@ that is a large part of the list.
 - Canonical list: `NOISE_SENDERS` in `bhb_noise_filter.gs` (Apps Script "BHB noise filter" + repo copy). 86 tokens / 3 filters at migration.
 - The refresh stays **read-only against Gmail** — it never creates or edits filters; slipped senders are surfaced as advisory output (Step 1b/C) for David to apply out of band.
 
-### New learnings from Refresh #67
+### New learnings from Refresh #71
 
-- **Cowork base-file rule: mount the repo folder.** The project-knowledge `index.html` was a stale #65 snapshot while `BHB_SKILL.md` said #66 — and neither GitHub raw (`web_fetch` truncates ~88KB) nor curl (Cowork sandbox proxy-blocks raw.githubusercontent.com/api.github.com) could deliver the 370KB live file. Fix: `request_cowork_directory` on `~/Desktop/github-boathouse` — the committed working copy IS the live base (verify `git log` matches the expected refresh commit). Bonus: the refreshed `index.html` can be staged directly into the repo folder, eliminating the cp step in the deploy command.
-- **The Cowork outputs mount can go read-only for bash mid-session** (after a folder connect). Work in the sandbox home (`~/bhb/`) and deliver via the repo-folder mount or host-side file tools.
-- **Availability confirmations can flip to declines within hours (Meghan Kean).** Susan told Kean "I do have your wedding date available" at 9:17am Jul 13 and declined at 12:28pm the same day citing a calendar mixup (the date was the Courtney Cronin / Nicole Carroll 6/26/27 collision). Rule: never record an availability-confirmed status without reading to the end of the thread; a same-day tail can reverse it.
-- **Post-hoc invoice artifacts can arrive as a NEW HB project under a relative's name (Leigh A Keefe).** The Jul 16 Proposal Sent Zapier carried event date 6/13/26 — Meaghan and Matthew's executed wedding — under a new project for mom Leigh Keefe (a prior Leigh A Keefe project is already in HB_ARCHIVED). Match Zapier event dates against executed weddings before treating any new project as a lead (Joanne Doherty pattern, new-project variant).
-- **Follow-up-masks-decline instances #8 and #9 in one window** (Sidney Smith Jul 13, Julia Wholey Jul 15 — the Wholey decline email and Zapier stage advance landed the same minute), while Courtney Cronin's Jul 6 Follow-up was genuine and became a Jul 13 Proposal Sent. The outbound cross-check remains the only reliable disambiguator.
-- **Outbound 16/30 — the stepped-down small-tier cap (35 → 30 at #66) is comfortable.** Hold 30.
-- **Known-decline skip list works.** #67's forward diff was 7 wide and cost zero investigation — all 7 were on the list (or new declines caught same-window). Keep maintaining it; it converts the noisiest diff into a checklist.
+- **#71 was the first successful autonomous scheduled run** (Cowork safety-net task, no user present): folder access, gate check (CHANGELOG date+time vs 12-hour test gate), full protocol, and clone write-back all worked. The TEST gate should now revert to 4 calendar days.
+- **Keyword-filtered outbound scans can miss same-thread Susan replies for multiple refreshes.** Susan's Jul 10 reply to Julia Stell sat undetected through #66-#70 because it matched none of the outbound keywords (proposal/pricing/floral/flowers/invoice) — the owed-reply flag kept escalating against a reply that existed. The #71 keyword-free Step 1a cluster read surfaced it instantly. **Rule (extends the #69 offline-resolution learning): before escalating any owed-reply flag, run a keyword-free `to:X OR from:X` thread read for that client.**
+- **Noise-filter verification is per-channel.** The Jul 22 rebuild was verified clean on `mailman@honeybook.com` (Grace Cioffi #71) but `member.theknot.com` remains unverified until a post-rebuild Knot lead arrives. Track each lead channel separately.
+- **Outbound small-tier 30 held again (23/30, no bind)** — third consecutive comfortable run (#67 16/30, #69 21/30, #71 23/30). Baseline stable.
+
+### New learnings from Refreshes #67-#69
+
+- **#67:** Courtney Cronin promoted Cal Only → Proposal Sent (call held as scheduled); Sidney Smith Zapier-Follow-up-masks-decline pattern #8; Julia Wholey pattern #9; Meghan Kean available-then-calendar-mixup decline resolved the 6/26/27 triple-collision; Amanda Donohue direct-email decline (no Zapier); Leigh A Keefe post-hoc invoice artifact on Meaghan & Matthew (Doherty pattern).
+- **#68:** quiet 2-day refresh, zero array changes — the protocol handles short gaps cheaply. Kellie Cronin tasting + fire-marshal open-flame issue (LED alternatives offered; floor plan pending from planner Michael Boivon).
+- **#69 — the noise filter is now mislabeling BOTH lead channels.** `member.theknot.com` (instances #1-5) and now `mailman@honeybook.com` New Inquiry notifications (Eve Loftus Jul 21, Emma Izydorczak Jul 20) arrive carrying `Label_4`. The client-side drop must exempt both senders, and every inbound scan must eyeball Label_4-carrying mail from these two domains. Without that manual check, Eve Loftus (a real 2028 Chatham Bars Inn lead) would have been silently dropped — exactly the fail-loud scenario the denylist design exists to prevent.
+- **#69 — owed-reply stalls can resolve offline.** Barmore's Jul 2 "another day?" ask was never answered by email, but the visit happened anyway on the originally-offered Jul 16 date. Before escalating an owed-reply flag, check outbound mail for held-meeting evidence ("so nice to visit with you Thursday") — phone/text scheduling is invisible to Gmail.
+- **#69 — Cowork base-file access changed.** `raw.githubusercontent.com`, `api.github.com`, and CDN mirrors are blocked by the sandbox proxy (403), `web_fetch` truncates large files (~88KB), and GitHub HTML pages render empty (client-side JS). The reliable path: **request folder access to `~/Desktop/github-boathouse`** and read/write the clone directly — Claude places the updated `index.html` straight into the working tree, reducing the deploy to `git add/commit/push`. Codify as the standard Cowork opening move.
+- **#70 — sandbox git leaves undeletable locks on the mounted clone.** Running `git status`/`git log` from the Cowork sandbox against `~/Desktop/github-boathouse` can create `.git/index.lock` that the sandbox cannot unlink (mount permissions) — David's next commit then fails with 'index.lock: File exists' and he must `rm ~/Desktop/github-boathouse/.git/index.lock` manually. Rule: from the sandbox use **`git --no-optional-locks log/status`** (or read files directly) and never run index-writing git commands; commits/pushes are David's, on the host.
+- **#69 — skill-runs-BEHIND-file (3 refreshes).** The project-knowledge skill was stale at #66 while the repo was at #68. `git log --oneline -5` on the mounted clone is the fastest Step 0 truth check.
 
 ### New learnings from Refresh #66
 
@@ -337,7 +350,17 @@ Added May 26, 2026. A cross-cutting filter — **not** a fifth array.
 
 ## Deploy command (never the in-app Redeploy button)
 
-**Cowork sessions with the repo folder mounted (preferred as of #67):** Claude stages `index.html` (and `BHB_SKILL.md`) directly into `~/Desktop/github-boathouse` via the folder mount — NO cp step; David reviews `git diff` and runs only the git commands. Fallback — outputs-folder copy (confirmed by David at #66): copy straight from the session outputs folder — David has no way to place the file in Downloads. The outputs path is session-specific; Claude must substitute the CURRENT session's outputs path (visible in its file-handling context) when emitting the closing deploy command. Example from the #66 session:
+**Cowork sessions (updated #69 — preferred):** request folder access to `~/Desktop/github-boathouse` at the start of the refresh. Claude reads the committed base from the clone AND writes the updated `index.html` directly into it — no cp step needed; David only runs the git commands. (The session-outputs mount proved read-only from the sandbox at #69.)
+
+**Git-lock check (mandatory before emitting the deploy command, added #70):** run `ls .git/index.lock` on the clone. If it exists, a sandbox git command created it and the sandbox cannot delete it — David's commit would fail with 'index.lock: File exists'. Prepend this line to the deploy block so David clears it first:
+
+```bash
+rm -f ~/Desktop/github-boathouse/.git/index.lock
+```
+
+(Prevention: from the sandbox use only `git --no-optional-locks log/status` — never index-writing git commands.)
+
+Fallback if the folder is not connectable — legacy outputs-folder pattern:
 
 ```bash
 cp "/Users/davidrhellman/Library/Application Support/Claude/local-agent-mode-sessions/1931585c-e968-454f-a7bd-7170877864a8/ebb88579-c208-413c-8487-1aa0ae2e2bf5/local_d12a190e-a2f3-4543-91b6-d5278143cf52/outputs/index.html" ~/Desktop/github-boathouse/index.html
@@ -412,7 +435,7 @@ cp [uploaded_file_or_github_fetch] /home/claude/index.html
 
 ```python
 from datetime import date, timedelta
-LAST_REFRESH = date(2026, 7, 17)            # ← read from "Last refresh date" in current-state table
+LAST_REFRESH = date(2026, 7, 8)             # ← read from "Last refresh date" in current-state table
 TODAY = date.today()
 gap_days = (TODAY - LAST_REFRESH).days
 window_days = max(gap_days, 14)             # 14-day floor catches lagging inbound replies
@@ -430,8 +453,8 @@ print(f"gap={gap_days}d  window={window_days}d  SCAN_AFTER={SCAN_AFTER}")
 | 15–30 | 40 | 50 | 50 |
 | > 30 | 60 | 75 | 100 |
 
-**Baseline state for Refresh #68:**
-- **Outbound: small-tier baseline 30** (held — #67 ran 16/30, no bind). Tripwire/doubled re-run unchanged.
+**Baseline state for Refresh #72:**
+- **Outbound: small-tier baseline 30** (held: #67 16/30, #69 21/30, #71 23/30 — no binds). Tripwire/doubled re-run unchanged.
 - **Inbound 40** (nominal). ⚠ The `-label:bhb/noise` subtraction CANNOT be expressed in the scan query — the Gmail MCP search tool does not honor `-label:` negation (see #63 learning). Run the inbound query without the label term, paginate until the SCAN_AFTER window is covered, and drop results carrying `Label_4` (bhb/noise) client-side. Judge truncation by whether the window is covered, not by the count. (#64: stream ~92% noise; paginated to ~Jun 14, zero new direct leads — partial depth is the expected steady state, flag it honestly.)
 
 **Truncation tripwire:** if any scan returns *exactly* `maxResults` items, re-run that scan with double the cap. The first hit is the warning that you're at the edge of the window.
@@ -677,7 +700,7 @@ cp /home/claude/index.html /mnt/user-data/outputs/index.html
 
 Also output an updated BHB_SKILL.md to `/mnt/user-data/outputs/` with current state (last refresh number/date, counts, scan cutoff, pending items) updated and any new learnings incorporated. Present both files together.
 
-Then provide: summary table of changes, archival decisions made, updated pending-items list, and the deploy command with refresh number — built from the CURRENT session's outputs path (see Deploy command section), never `~/Downloads`.
+Then provide: summary table of changes, archival decisions made, updated pending-items list, and the deploy command with refresh number — after running the git-lock check (see Deploy command section: if `.git/index.lock` exists on the clone, prepend `rm -f ~/Desktop/github-boathouse/.git/index.lock` to the deploy block) — built from the CURRENT session's outputs path (see Deploy command section), never `~/Downloads`.
 
 ---
 
