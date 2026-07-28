@@ -28,13 +28,13 @@ Single `index.html` file. All data is hardcoded JS arrays. No server, no build s
 
 | Item | Value |
 |---|---|
-| Last refresh | #71 — July 23, 2026, 5:25 AM ET (first autonomous scheduled Cowork run) |
-| Last refresh date | `2026-07-23` (use for SCAN_AFTER computation — see Step 1) |
+| Last refresh | #72 — July 28, 2026, 5:55 AM ET (second autonomous scheduled Cowork run; 4-day gate passed at gap 5) |
+| Last refresh date | `2026-07-28` (use for SCAN_AFTER computation — see Step 1) |
 | Last feature change | Year Buttons — Jul 19, 2026 (CSS only); Global Search — Jul 17, 2026 (UI + render only) |
-| Counts | HB Pipeline: 46 · Gmail Only: 28 · Cal Only: 36 · HB Archived: 32 |
+| Counts | HB Pipeline: 47 · Gmail Only: 28 · Cal Only: 35 · HB Archived: 32 |
 | Narratives | 63 |
-| No Cal | 28 (14 HB Pipeline + 14 Gmail Only — Payton Donato added #69) |
-| Scan cutoff (#71) | SCAN_AFTER `2026/07/09` (1-day gap, 14-day floor); inbound paginated to Jul 20 overlapping #70. Zapier 8/25 · Outbound 23/30 · no binds |
+| No Cal | 28 (unchanged — Eve Loftus promoted WITH her migrated CAL_LINKS entry) |
+| Scan cutoff (#72) | SCAN_AFTER `2026/07/14` (5-day gap, 14-day floor); inbound paginated Jul 22→28 overlapping #71's coverage. Zapier 5/25 · Outbound 18/30 · no binds |
 
 **Numbering note (#69):** Refreshes #67 (Jul 17 — Courtney Cronin promoted, Sidney Smith decline) and #68 (Jul 19 — quiet) were committed in other sessions, but the project-knowledge copy of this skill stayed at #66 — the skill-runs-BEHIND-file variant. #69 ran in Cowork against the committed #68 base read from the local git clone (`~/Desktop/github-boathouse`) after GitHub became unreachable from the sandbox (see #69 learnings). File-wins rule applied; David confirmed "current state is refresh 68" mid-run.
 
@@ -44,30 +44,28 @@ Split into two tiers. **Active** = something specific is expected to happen next
 
 ### Active (Step 1a covers these)
 
-- **Jesha Stevens** (`partnerships@jeshastevens.com`, 7/18/26 Wellfleet) — ⚠ **WEDDING DATE PASSED with ZERO contact ever** — still nothing either way at #71 (5 days post-wedding). **Phone contact is the standing recommendation**; outcome unknown.
-- **Shelby and Timothy** (`sem273@gmail.com` + `shelby.richards@verizon.net`, Planning, PAID IN FULL, **7/24/26 John Carver Inn — TOMORROW at #71**) — expect past-event auto-complete at #72. Susan offered boutonnière + flat-lay drop-off to the venue.
-- **Grace Cioffi** (`quinnwedding2028@gmail.com`, 518-495-7575, Cal Only NEW #71, **6/19/27 Wychmere Beach Club, Harwich Port**; HB `6a610dfe35aea342b75ec9ce`) — vendor referral, Webster NY address, beach ceremony + Ocean Room reception, Pinterest shared, wants a quote. ⚠ **6/19/27 DATE CLUSTER** with Emily Mauck (HB inquiry, The Bohlin) + Ava Kahn-McQueen (Knot lead); HB flagged the conflict. Susan has not replied (inquiry Jul 22 2:37 PM). Watch: reply / call.
-- **Krista Fullum / Margaret Grace** (`kristafullum@yahoo.com`, Gmail Only, 10/17/26 — **Watchlist → Active #71**) — Jul 22 personal inbound: can she still use Susan's space the week of her wedding (same week as Susan's daughter's wedding)? Fallback: the market + parents' house. Logistics ask, awaiting Susan's reply.
-- **Eve Loftus** (`eelloftus@gmail.com`, 508-404-5915, Cal Only, **6/30/28 Chatham Bars Inn**, ~150 guests, via Instagram; HB `6a5f7532007aefeeb1df3351`) — **Susan REPLIED Jul 22** (date available, offered a call to discuss her vision). Awaiting Eve's response. Watch: call scheduling.
-- **Payton Donato** (`paytondonato98@gmail.com`, Gmail Only NEW #69, 9/18/27 Eastward Ho! Chatham) — preliminary proposal sent Jul 20 (call held ~Jun 29). Watch: feedback / deposit.
-- **Samantha Barmore** (`sbarmore26@gmail.com`, Retainer Paid, 8/20/27 Wychmere) — Jul 20 revision loop: client wants orchids in bouquet, no blue delphinium, blush-hydrangea garland clarification (Susan said "I will clarify"). No movement since Jul 20 at #71. Watch: Susan's clarified outline.
-- **Elizabeth Hagele & Ben** (couple `elizabethandben26@gmail.com`; planner `eileen@eileensmithevents.com`, 8/8/27 Lion Rock Farm) — **PROPOSAL FINAL #71**: Jul 22 outline approved; Elizabeth formally introduced Susan to Eileen with the final proposal; final floor plan in; **credit-card payment authorized for this week**. Eileen's Zoom review call **Thu 7/23 5:00 PM ET**. Watch at #72: call outcome + payment received.
-- **Julia Stell** (`juliaastell4@gmail.com`, Proposal Sent, 9/26/26 Hyannis) — **OWED-REPLY RESOLVED #71**: Susan replied Jul 10 (same day as Julia's circle-back; missed by keyword-filtered scans #66-#70) — could not open the photos, asked for a re-send. Awaiting Julia's re-sent photos (~2 weeks). Jun 19 Trash email still unrestored (restore still useful for the change details).
-- **Abby Greene & Alex Perry** (`almanoukian@aol.com`; personal `aegreene34@gmail.com`) — ⚠ contract stall **~67 days**; only vendor-on-chain activity (Soulyco Jul 14). **David: ask Susan whether the engagement is reduced or lost.**
-- **Courtney Cronin** (`courtneycronin2017@gmail.com`, Proposal Sent #67, 6/26/27; HB `6a4564723d687cf5e3d7c302`) — proposal delivered via HoneyBook Jul 13; **no client response yet (10 days at #71)**. Watch: acceptance / deposit; nudge-worthy at ~2 weeks.
-- **Andrew Sulkala** (`rutleysulkalawedding@gmail.com`, Cal Only, **8/22/26 — ~4.5 weeks out**; HB `6a4e7f690bbbf2ccb067a1db`) — still no reply to Susan's Jul 9 details ask. Near-term urgency rising; partner Catie Rutley's Knot lead was noise-labeled.
-- **Jan Koss & Kenzie** (`jankoss@comcast.net`, 11/14/26 Granite Links) — back from Scotland Jul 16; no contact since. Watch: deposit / next step.
-- **Sarah Clark** (`saraheclark21@gmail.com`, 9/10/27 Wychmere) — Susan replied Jul 7 offering a call; no response in 2 weeks. Watch: call / proposal.
-- **Emily Cullett** (`emcullett@gmail.com`, Cal Only, 7/30/27 Ocean Edge) — call held Jul 3; proposal pending.
-- **Mackenzie Howe** (`kenziehow3@gmail.com`, Cal Only, 6/11/27 Granite Links) — call held ~Jul 1; proposal pending.
-- **Nicole & Joe Moreshead** (`weddingmoreshead@gmail.com`, Gmail Only, 12/11/26 Terrain Gardens) — MOVING FORWARD. Jul 22: Susan proposed a call/visit for the numbers; **Nicole requested Susan's COI (venue requires vendor COIs)** — Susan flagged "need COI" to David. Watch: COI sent + call/visit + updated proposal + $500 deposit.
-- **Jean Soucy** (`jkpjsoucy@yahoo.com`, Gmail Only, 9/18/26 The Old Casino) — $250 deposit pending since May 14 acceptance.
+- **⚠⚠ Eve Loftus** (`eelloftus@gmail.com`, 508-404-5915, **promoted Cal Only → HB Pipeline Follow-up #72**, 6/30/28 Chatham Bars Inn, ~150 guests; HB `6a5f7532007aefeeb1df3351`) — **her Jul 24 reply is UNREAD in Gmail TRASH** (msg `19f95753f754e6da`): yes to the call, mom joining, asked for **Wednesday 7/29 AFTERNOON** availability. Second client-reply-in-Trash incident (after Julia Stell). **RESTORE + Susan reply immediately — the requested call slot is tomorrow at #72.**
+- **Jesha Stevens** (`partnerships@jeshastevens.com`, 7/18/26 Wellfleet) — ⚠ **WEDDING DATE PASSED with ZERO contact ever** — still nothing at #72 (10 days post-wedding). **Phone contact is the standing recommendation**; outcome unknown.
+- **Meaghan and Matthew / Keefe payment plan** (`meaganjkeefe@gmail.com` / mother `leighkeefe@gmail.com`, Completed 6/13/26 Wequassett) — **NEW #72: final payment missing.** Susan's Jul 20 bookkeeping chase; Leigh replied Jul 27: oversight, Pat & Leigh will cover it, asked for an extension, installments over the next month. Susan owes a reply on the extension. Watch: installments arriving.
+- **Grace Cioffi** (`quinnwedding2028@gmail.com`, 518-495-7575, Cal Only, **6/19/27 Wychmere Beach Club**; HB `6a610dfe35aea342b75ec9ce`) — Susan STILL has not replied (**6 days at #72**; HB auto-reminder to Susan Jul 24). ⚠ 6/19/27 DATE CLUSTER with Emily Mauck + Ava Kahn-McQueen. Nudge-worthy: reply / availability call.
+- **Payton Donato** (`paytondonato98@gmail.com`, Gmail Only, 9/18/27 Eastward Ho! Chatham) — preliminary proposal sent Jul 20; **no reply in 8 days at #72**. Watch: feedback / deposit.
+- **Samantha Barmore** (`sbarmore26@gmail.com`, Retainer Paid, 8/20/27 Wychmere) — Jul 20 revision loop (orchids in bouquet, no blue delphinium, blush-hydrangea garland "I will clarify"). **No movement Jul 20 → Jul 28.** Watch: Susan's clarified outline.
+- **Elizabeth Hagele & Ben** (couple `elizabethandben26@gmail.com`; planner `eileen@eileensmithevents.com`, 8/8/27 Lion Rock Farm) — planner Zoom (Thu 7/23 5 PM) presumed held, no post-call email; **credit-card payment (authorized Jul 22 "this week") NOT yet confirmed**. Watch at #73: payment received + any call-outcome follow-ups.
+- **Julia Stell** (`juliaastell4@gmail.com`, Proposal Sent, 9/26/26 Hyannis) — awaiting Julia's re-sent photos (Susan asked Jul 10; ~2.5 weeks now). Jun 19 Trash email still unrestored.
+- **Abby Greene & Alex Perry** (`almanoukian@aol.com`; personal `aegreene34@gmail.com`, **9/5/26 — ~5.5 weeks out**) — ⚠ contract stall **~74 days**; only vendor-on-chain activity (Soulyco Jul 14). **David: ask Susan whether the engagement is reduced or lost.**
+- **Courtney Cronin** (`courtneycronin2017@gmail.com`, Proposal Sent, 6/26/27; HB `6a4564723d687cf5e3d7c302`) — proposal delivered Jul 13; **no client response in 15 days at #72 — past the 2-week nudge threshold.** Susan should nudge.
+- **Andrew Sulkala** (`rutleysulkalawedding@gmail.com`, Cal Only, **8/22/26 — ~3.5 weeks out**; HB `6a4e7f690bbbf2ccb067a1db`) — still no reply to Susan's Jul 9 details ask (19 days). Near-term urgency HIGH; consider phone.
+- **Jan Koss & Kenzie** (`jankoss@comcast.net`, 11/14/26 Granite Links) — back from Scotland Jul 16; silent 12 days. Watch: deposit / next step.
+- **Emily Cullett** (`emcullett@gmail.com`, Cal Only, 7/30/27 Ocean Edge) — call held Jul 3; proposal now ~3.5 weeks pending.
+- **Mackenzie Howe** (`kenziehow3@gmail.com`, Cal Only, 6/11/27 Granite Links) — call held ~Jul 1; proposal now ~4 weeks pending.
+- **Nicole & Joe Moreshead** (`weddingmoreshead@gmail.com`, Gmail Only, 12/11/26 Terrain Gardens) — MOVING FORWARD. **COI actioned #72**: Jul 23 Susan asked Nicole for venue named-insured info, then Dave/Susan asked Eames Insurance (Lisa Daggett, `ldaggett@eamesinsurance.com`) to issue the COI for Terrain (Nicole cc). Watch: COI delivered + call/visit for numbers + updated proposal + $500 deposit.
+- **Jean Soucy** (`jkpjsoucy@yahoo.com`, Gmail Only, 9/18/26 The Old Casino) — $250 deposit pending since May 14 acceptance; wedding ~7 weeks out.
 - **Pauline & Dwaine** (`pleblanc14@gmail.com`, Gmail Only, 9/26/26 Peabody Pavilion) — table confirmation / deposit / HB project pending.
 - **Jack & Paige Soucy** (`jackpaigesoucy@gmail.com`, Retainer Paid, 10/3/26) — check-in call **Mon Aug 17, 12pm** (Google Meet, planner Olivia Brent) — self-closing.
-- **Kasey Lombardo** — Susan reply STILL pending (~76 days since May 6 HB inquiry; Hull MA, 9/11/26). *(Cal Only — search by name.)*
-- **Knot pre-engagement (all bhb/noise-labeled — regression instances #1-5):** **Lauren Flynn** (Jul 13 lead, **8/21/26 — near-term**, Susan unengaged), **Ava Kahn-McQueen** (Jul 16 lead, 6/19/27 — now shares the date with Grace Cioffi's live HB inquiry), **Madison Kadra** (Jul 20 lead — church + backyard-tent reception, Cohasset MA, date TBD). Single batched search per refresh.
+- **Kasey Lombardo** — Susan reply STILL pending (~83 days since May 6 HB inquiry; Hull MA, 9/11/26). *(Cal Only — search by name.)*
+- **Knot pre-engagement — SIX open leads, Susan unengaged on all:** NEW #72 (all arrived CLEAN, channel verified): **Rachel McLean** (Jul 28 lead, **9/19/26 Camp Wing, Duxbury — ⚠ NEAR-TERM ~7.5 weeks**, 151-200 guests, `rmclean412@gmail.com`, 781-733-3242), **Donna Evans** (Jul 24 lead + Jul 25 reminder, **Harbor View Hotel, Edgartown — wedding + rehearsal dinner**, date TBD), **Molly Frank** (Jul 26 lead + Jul 27 reminder, 9/3/27 The Lakehouse, Halifax MA, 101-150 guests, $2-2.5K budget, `mandnwedding20@gmail.com`). Carried: **Lauren Flynn** (Jul 13, **8/21/26 — ~3.5 weeks, about to lapse**), **Ava Kahn-McQueen** (6/19/27 date cluster), **Madison Kadra** (Cohasset, date TBD). Single batched search per refresh.
 
-**David to-do (out-of-band, as of #71):** (1) **Archive in HoneyBook** the **10** declined projects still on the HB calendar — Tisha Alie, Olivia Powers, Jessica Sorcher, Kathryn Wickham, Sarah Dwyer, Grace Hickey, Julia Wholey, Sidney Smith, Emma Izydorczak & Mitchell McDonald, **Nicole Zarembovicz (new #71)** — they re-surface in every forward diff until archived. (2) **Noise-filter fix HALF-VERIFIED at #71**: Grace Cioffi's `mailman@honeybook.com` New Inquiry (Jul 22 2:37 PM, first lead-channel arrival after the Jul 22 AM rebuild) landed **WITHOUT** `Label_4` — honeybook channel confirmed clean. `member.theknot.com` still unverified (no new Knot lead since the rebuild); client-side exemption check on that channel stays MANDATORY until one arrives clean. (3) **Restore Julia Stell's Jun 19 email from Gmail Trash** (softened: Susan has since engaged — Jul 10 reply found #71 — but the Trash email holds the change details). (4) Ask Susan: Abby Greene reduced vs lost (~68 days). (5) **Phone Jesha Stevens** for the 7/18 outcome. (6) **Send Susan's COI to the Moreshead venue** (Susan forwarded "need COI" Jul 22). (7) Noise senders still unlabeled (advisory): `DoNotReply@dvfloralgroup.com` (3rd consecutive advisory), `info@stradleydavidson.com`, `email@letschat.oliveandpiper.com`, `info@oliveandpiper.com`, `newsletter@pvolve.com`, `Intuit@mkt.intuit.com` (distinct from the labeled intuit senders). Caution: leave `paycargo.com` senders unblocked — operational freight/import mail. (8) **Revert the scheduled-task gate** from the 12-hour TEST setting to 4 calendar days — the first autonomous run (#71) succeeded.
+**David to-do (out-of-band, as of #72):** (1) **⚠ TODAY: restore Eve Loftus's Jul 24 reply from Gmail Trash** + have Susan reply — Eve asked for a Wednesday **7/29** afternoon call (mom joining). (2) **Archive in HoneyBook** the **9** declined projects still on the HB calendar — Tisha Alie, Olivia Powers, Jessica Sorcher, Kathryn Wickham, Sarah Dwyer, Grace Hickey, Sidney Smith, Emma Izydorczak & Mitchell McDonald, Nicole Zarembovicz — (Julia Wholey archived ✓, detected #72). (3) **HB "Past due payments update" digest (Jul 27)**: 11 outstanding invoices incl. recent big ones — Jun 1 2026 $7,970.06, May 30 2026 $4,807.19, May 1 2026 $2,182.50, Mar 24 2026 $5,938.75 (digest links are flow IDs, no client names — open in HB to map; some may be the known Keefe/other items). Review → remind / mark paid / archive. (4) **Meaghan & Matthew payment plan**: decide + reply on Leigh's extension request. (5) **Restore Julia Stell's Jun 19 email from Gmail Trash** (change details). (6) Ask Susan: Abby Greene reduced vs lost (~74 days; wedding 9/5 is 5.5 weeks out). (7) **Phone Jesha Stevens** for the 7/18 outcome. (8) **Confirm Eames delivered the Moreshead COI** (requested Jul 23). (9) **Noise-filter now VERIFIED on BOTH lead channels** (honeybook #71; theknot #72 via 3 clean leads) — client-side Label_4 exemption checks can relax to spot-checks. (10) Noise senders still unlabeled (advisory): `info@shopmidnightlunch.com` (new #72), `DoNotReply@dvfloralgroup.com`, `info@stradleydavidson.com` (+ its `g.shopifyemail.com`/`t.shopifyemail.com` transactional variants — operational, do NOT block), `email@letschat.oliveandpiper.com`, `info@oliveandpiper.com`, `newsletter@pvolve.com`, `Intuit@mkt.intuit.com`. Caution: leave `paycargo.com` unblocked. (11) ~~Revert scheduled-task gate to 4 days~~ **DONE — #72 ran on the 4-day gate.**
 
 ### Watchlist (not searched per refresh; recheck monthly or when broad scan surfaces)
 
@@ -75,6 +73,7 @@ Split into two tiers. **Active** = something specific is expected to happen next
 - **Lindsey DeRensis**, **Meaghan and Matthew**, **Joanne Doherty**, **Joe & James Carrara**, **Kate Dwyer**, **Alicia Herlihy** — executed/terminal (see #64-#65 notes).
 - **Alexa Paiva** (`alexa.j.paiva@gmail.com`, Planning, paid in full, 10/17/26) — healthy.
 - **Sasha Rockwell** (`sashavrockwell@gmail.com`, Follow-up, 3/20/27) — silent since May 31.
+- **Sarah Clark** (`saraheclark21@gmail.com`, 9/10/27 Wychmere) — demoted Active → Watchlist #72: no response to Susan's Jul 7 call offer in 3 weeks. Recheck on broad-scan activity.
 - **Kellie Cronin** — healthy (deposit Jun 29, green hydrangeas). Sister Courtney inbound.
 - **Elizabeth Hagele & Ben McQuaid** (couple `elizabethandben26@gmail.com`; planner `eileen@eileensmithevents.com`, 8/8/27 Lion Rock Farm) — preliminary proposal Jun 29, above budget, Susan adjusting. Watch: revised proposal / acceptance.
 - **Alyssa Greenspan** — Knot lead Jun 23-24, noise-labeled; not yet engaged by Susan. Recheck.
@@ -98,7 +97,9 @@ Split into two tiers. **Active** = something specific is expected to happen next
 - **Watchlist → Active** when a broad scan surfaces fresh activity, or a calendar event puts something on a near-horizon.
 - **Drop entirely** when a scheduled-action date has passed without follow-up and no further action is expected.
 
-*Resolved this refresh (#71): Nicole Zarembovicz (Susan declined Jul 22 — Regretfully Unavailable; removed from Cal Only; Zapier Follow-up masked it, instance #11); Julia Stell owed-reply (Susan's Jul 10 reply found); Eve Loftus awaiting-Susan (replied Jul 22); Hagele finalize-by-Friday (final proposal delivered Jul 22). New this refresh (#71): Grace Cioffi (Cal Only, 6/19/27 date cluster); Moreshead COI request; Krista Fullum space-use ask (Watchlist → Active).*
+*Resolved this refresh (#72): Shelby and Timothy (7/24 John Carver Inn wedding executed — auto-promoted Planning → Completed); Krista Fullum space-use ask (Susan confirmed Jul 24: house/studio all hers; **Sarah Clark demoted Active → Watchlist** — 3 weeks silent after Susan's Jul 7 call offer, nothing expected next refresh); Julia Wholey HB-archive to-do (Susan archived her — off the calendar). New this refresh (#72): Eve Loftus TRASH reply + promotion; Meaghan/Keefe payment plan; Rachel McLean, Donna Evans, Molly Frank Knot leads (clean — channel verified).*
+
+*Resolved at refresh (#71): Nicole Zarembovicz (Susan declined Jul 22 — Regretfully Unavailable; removed from Cal Only; Zapier Follow-up masked it, instance #11); Julia Stell owed-reply (Susan's Jul 10 reply found); Eve Loftus awaiting-Susan (replied Jul 22); Hagele finalize-by-Friday (final proposal delivered Jul 22). New at refresh (#71): Grace Cioffi (Cal Only, 6/19/27 date cluster); Moreshead COI request; Krista Fullum space-use ask (Watchlist → Active).*
 
 *Resolved at refresh (#70): Moreshead details wait (beam dimensions in — now Susan owes the proposal). New at refresh (#70): Nicole Zarembovicz (Cal Only, 4-way 6/26/27 collision); noise-filter rebuild completed Jul 22 AM — both Jul 21 labeled inquiries predate it.*
 
@@ -159,6 +160,14 @@ that is a large part of the list.
 - Mechanism + how to add senders: see *Inbound noise filtering — Gmail `bhb/noise` filter*.
 - Canonical list: `NOISE_SENDERS` in `bhb_noise_filter.gs` (Apps Script "BHB noise filter" + repo copy). 86 tokens / 3 filters at migration.
 - The refresh stays **read-only against Gmail** — it never creates or edits filters; slipped senders are surfaced as advisory output (Step 1b/C) for David to apply out of band.
+
+### New learnings from Refresh #72
+
+- **Client replies land in Gmail TRASH — now a 2-instance pattern.** Eve Loftus's Jul 24 reply to Susan's HB-inquiry thread sat UNREAD+TRASH (after Julia Stell's Jun 19 Trash email). Both are inbound client mail on active threads that Susan almost certainly never saw. The keyword-free Step 1a cluster reads surface these because `search_threads` returns trash-adjacent thread history — **always check labelIds on inbound messages in cluster results; treat UNREAD+TRASH on a client reply as an accidental deletion emergency.** If a third instance appears, audit Gmail filters/devices for something auto-trashing replies.
+- **Knot lead channel VERIFIED clean post-rebuild.** Three `member.theknot.com` leads (Rachel McLean, Donna Evans, Molly Frank) all arrived without `Label_4` — combined with the honeybook-channel verification at #71, per-channel verification is complete. Client-side exemption checks relax to spot-checks.
+- **Knot "reminder" emails imply an unanswered original.** `*.reminder@member.theknot.com` senders (Donna Evans Jul 25, Molly Frank Jul 27) mean the original lead is 1+ days unanswered — search the name to find the original with full details (date, venue, budget, personal email).
+- **The HB "Past due payments update" digest is a useful cross-check but names no clients** — links are flow IDs, not project IDs. Surface amounts/dates as advisory; mapping requires opening HoneyBook.
+- **Second autonomous run on the production 4-day gate succeeded** (gap 5 → full refresh). Outbound small-tier 30 held a fourth consecutive time (18/30).
 
 ### New learnings from Refresh #71
 
@@ -453,8 +462,8 @@ print(f"gap={gap_days}d  window={window_days}d  SCAN_AFTER={SCAN_AFTER}")
 | 15–30 | 40 | 50 | 50 |
 | > 30 | 60 | 75 | 100 |
 
-**Baseline state for Refresh #72:**
-- **Outbound: small-tier baseline 30** (held: #67 16/30, #69 21/30, #71 23/30 — no binds). Tripwire/doubled re-run unchanged.
+**Baseline state for Refresh #73:**
+- **Outbound: small-tier baseline 30** (held: #67 16/30, #69 21/30, #71 23/30, #72 18/30 — no binds). Tripwire/doubled re-run unchanged.
 - **Inbound 40** (nominal). ⚠ The `-label:bhb/noise` subtraction CANNOT be expressed in the scan query — the Gmail MCP search tool does not honor `-label:` negation (see #63 learning). Run the inbound query without the label term, paginate until the SCAN_AFTER window is covered, and drop results carrying `Label_4` (bhb/noise) client-side. Judge truncation by whether the window is covered, not by the count. (#64: stream ~92% noise; paginated to ~Jun 14, zero new direct leads — partial depth is the expected steady state, flag it honestly.)
 
 **Truncation tripwire:** if any scan returns *exactly* `maxResults` items, re-run that scan with double the cap. The first hit is the warning that you're at the edge of the window.
